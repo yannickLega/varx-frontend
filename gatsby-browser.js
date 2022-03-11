@@ -5,3 +5,7 @@
  */
 
 // You can delete this file if you're not using it
+
+//get the wrapper from theme mui
+import RootWrapper from "./src/components/ui/root-wrapper"
+export const wrapRootElement = RootWrapper
