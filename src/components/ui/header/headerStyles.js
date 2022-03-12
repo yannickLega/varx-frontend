@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   coloredIndicator: {
-    backgroundColor: theme.palette.common.lightRed,
+    backgroundColor: theme.palette.primary.main,
   },
   logoContainer: {
     [theme.breakpoints.down("md")]: {

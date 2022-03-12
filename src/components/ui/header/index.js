@@ -18,10 +18,10 @@ import {
 } from "@material-ui/core/"
 import headerStyles from "./headerStyles"
 
-import menu from "../../images/menu.svg"
-import search from "../../images/search.svg"
-import cart from "../../images/cart.svg"
-import account from "../../images/account-header.svg"
+import menu from "../../../images/menu.svg"
+import search from "../../../images/search.svg"
+import cart from "../../../images/cart.svg"
+import account from "../../../images/account-header.svg"
 
 export default function Header({ categories }) {
   const classes = headerStyles()
@@ -29,7 +29,16 @@ export default function Header({ categories }) {
 
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  
+  //savoir quelle route est active
+  const activeIndex = () => {
+    const found = routes.indexOf(
+      routes.filter(
+        ({ node: { name, link } }) =>
+          (link || `/${name.toLowerCase()}`) === window.location.pathname
+      )[0]
+    )
+    return found === -1 ? false : found
+  }
 
   const routes = [
     ...categories,
@@ -38,7 +47,7 @@ export default function Header({ categories }) {
 
   const tabs = (
     <Tabs
-      value={1}
+      value={activeIndex()}
       classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
     >
       {routes.map(route => (
@@ -61,8 +70,9 @@ export default function Header({ categories }) {
       classes={{ paper: classes.drawer }}
     >
       <List disablePadding>
-        {routes.map(route => (
+        {routes.map((route, i) => (
           <ListItem
+            selected={activeIndex() === i}
             component={Link}
             to={route.node.link || `/${route.node.name.toLowerCase()}`}
             divider
