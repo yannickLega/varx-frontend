@@ -4,11 +4,30 @@ export default makeStyles(theme => ({
   coloredIndicator: {
     backgroundColor: theme.palette.common.lightRed,
   },
+  logoContainer: {
+    [theme.breakpoints.down("md")]: {
+      marginRight: "auto",
+    },
+  },
   logoText: {
     color: theme.palette.common.offBlack,
   },
   tabs: {
     marginLeft: "auto",
     marginRight: "auto",
+  },
+  tab: {
+    ...theme.typography.body1,
+    fontWeight: 600,
+  },
+  icon: {
+    height: "2rem",
+    width: "2rem",
+  },
+  drawer: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  listItemText: {
+    color: theme.palette.common.white,
   },
 }))
