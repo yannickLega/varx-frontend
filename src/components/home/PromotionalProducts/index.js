@@ -58,19 +58,9 @@ export default function PromotionalProducts() {
               />
             </IconButton>
           </Grid>
-          <Grid item>
-            {selectedSlide === i ? (
-              <Typography
-                key={node.name}
-                variant="h1"
-                classes={{ root: classes.productName }}
-              >
-                {node.name.split(" ")[0]}
-              </Typography>
-            ) : null}
-          </Grid>
         </Grid>
       ),
+      name: node.name.split(" ")[0],
       description: node.description,
     })
   )
@@ -86,6 +76,9 @@ export default function PromotionalProducts() {
         <Carousel slides={slides} goToSlide={selectedSlide} />
       </Grid>
       <Grid item classes={{ root: classes.descriptionContainer }}>
+        <Typography variant="h1" classes={{ root: classes.productName }}>
+          {slides[selectedSlide].name}
+        </Typography>
         <Typography variant="h2" paragraph>
           {slides[selectedSlide].description}
         </Typography>

@@ -8,37 +8,38 @@ export default makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "100%",
-    height: "70rem",
+    height: "60rem",
     //haut droit bas gauche
-    padding: "30rem 10rem 10rem 10rem",
+    padding: "35rem 18rem 0rem 18rem",
   },
   productName: {
     color: theme.palette.common.white,
+    marginBottom: "1rem",
+    textAlign: "center",
   },
   iconButton: {
     "&:hover": {
       backgroundColor: "transparent",
     },
   },
+  descriptionContainer: {
+    textAlign: "center",
+  },
   carouselContainer: {
-    marginLeft: "20rem",
+    marginLeft: "15rem",
   },
   carouselImage: {
     height: "30rem",
     width: "25rem",
     backgroundColor: theme.palette.common.white,
     borderRadius: 20,
-    boxShadow: theme.shadows[5],
+    boxShadow: theme.shadows[8],
   },
   space: {
-    margin: "0 15rem",
-    marginBottom: "10rem",
+    margin: "0 10rem",
   },
   explore: {
     textTransform: "none",
     marginRight: "2rem",
-  },
-  descriptionContainer: {
-    textAlign: "right",
   },
 }))

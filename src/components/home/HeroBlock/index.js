@@ -3,9 +3,12 @@ import Lottie from "react-lottie"
 
 import { Grid, Typography } from "@material-ui/core"
 
-import animationData from "../../images/data.json"
+import animationData from "../../../images/data.json"
+import HeroBlockStyles from "./HeroBlockStyles"
 
 export default function HeroBlock() {
+  const classes = HeroBlockStyles()
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
