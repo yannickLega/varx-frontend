@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Typography, IconButton } from "@material-ui/core"
+import { Grid, Typography } from "@material-ui/core"
 import { Link } from "gatsby"
 
 import MarketingButtonsStyles from "./MarketingButtonsStyles"
