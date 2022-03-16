@@ -22,7 +22,7 @@ export default function MarketingButtons() {
       classes={{ root: classes.container }}
     >
       {buttons.map(button => (
-        <Grid item>
+        <Grid item key={button.label}>
           <Grid
             container
             alignItems="center"
@@ -34,10 +34,14 @@ export default function MarketingButtons() {
             href={button.href ? button.href : undefined}
           >
             <Grid item>
-              <img src={button.icon} alt="button.label" />
+              <img
+                className={classes.icon}
+                src={button.icon}
+                alt={button.label}
+              />
             </Grid>
             <Grid item>
-              <Typography variant="h1" classes={{ root: classes.typo }}>
+              <Typography classes={{ root: classes.label }} variant="h1">
                 {button.label}
               </Typography>
             </Grid>

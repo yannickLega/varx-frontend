@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import { Grid, Typography, Button } from "@material-ui/core"
+import { Grid, Typography, Button, useMediaQuery } from "@material-ui/core"
 
 import CallToActionStyles from "./CallToActionStyles"
 
@@ -9,34 +9,42 @@ import cta from "../../../images/cta.svg"
 
 export default function CallToAction() {
   const classes = CallToActionStyles()
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
   return (
     <Grid
       container
-      justifyContent="center"
+      justifyContent="space-around"
       alignItems="center"
       classes={{ root: classes.container }}
+      direction={matchesMD ? "column" : "row"}
     >
       <Grid item>
-        <img width="300rem" height="300rem" src={cta} alt="quality committed" />
+        <img src={cta} className={classes.icon} alt="quality committed" />
       </Grid>
       <Grid item>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          classes={{ root: classes.blockContainer }}
-        >
-          <Grid item>
-            <Typography variant="h1">Committed To Quality</Typography>
+        <Grid container direction="column">
+          <Grid item classes={{ root: classes.headingContainer }}>
+            <Typography align={matchesMD ? "center" : undefined} variant="h1">
+              Committed To Quality
+            </Typography>
           </Grid>
           <Grid item classes={{ root: classes.body }}>
-            <Typography variant="body1">
-              At Var X our mission is to provide comfortable, durable, premium
-              designer clothing, and clothing accessories to developers and
+            <Typography
+              align={matchesMD ? "center" : undefined}
+              variant="body1"
+            >
+              At VAR X our mission is to provide comfortable, durable, premium,
+              designer clothing and clothing accessories to developers and
               technology enthusiasts.
             </Typography>
           </Grid>
-          <Grid item container justifyContent="flex-end">
+          <Grid
+            item
+            container
+            justifyContent={matchesMD ? "center" : undefined}
+            classes={{ root: classes.buttonContainer }}
+          >
             <Grid item>
               <Button
                 component={Link}
@@ -49,10 +57,10 @@ export default function CallToAction() {
             </Grid>
             <Grid item>
               <Button
-                component={Link}
-                to="/account"
                 variant="contained"
                 color="primary"
+                component={Link}
+                to="/account"
                 classes={{ root: classes.account }}
               >
                 Create Account

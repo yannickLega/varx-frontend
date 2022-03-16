@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import Layout from "../components/ui/layout"
+import Layout from "../components/ui/Layout"
 import HeroBlock from "../components/home/HeroBlock"
 import PromotionalProducts from "../components/home/PromotionalProducts"
 import Separator from "../components/ui/separator"

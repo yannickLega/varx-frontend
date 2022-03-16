@@ -4,7 +4,7 @@ import separator from "../../images/wave.svg"
 
 export default function Separator() {
   return (
-    <Grid>
+    <Grid container>
       <img src={separator} alt="separator"/>
     </Grid>
   )

@@ -3,7 +3,7 @@ import clsx from "clsx"
 
 import { useStaticQuery, graphql } from "gatsby"
 
-import { Grid, Typography, IconButton, Button, Chip } from "@material-ui/core"
+import { Grid, Typography, IconButton, Button, Chip, useMediaQuery } from "@material-ui/core"
 
 import FeaturedProductsStyles from "./FeaturedProductsStyles"
 
@@ -15,6 +15,9 @@ export default function FeaturedProducts() {
   const [expanded, setExpanded] = useState(null)
 
   const classes = FeaturedProductsStyles()
+
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
   const data = useStaticQuery(graphql`
     query GetFeatured {
       allStrapiProduct(filter: { featured: { eq: true } }) {
@@ -37,25 +40,27 @@ export default function FeaturedProducts() {
   return (
     <Grid
       container
-      justifyContent="center"
+      direction="column"
+      justifyContent={matchesMD ? "space-between" : "center"}
       classes={{ root: classes.background }}
     >
       {data.allStrapiProduct.edges.map(({ node }, i) => {
-        const alignment =
-          i === 0 || i === 3
-            ? "flex-start"
-            : i === 1 || i === 4
-            ? "center"
-            : "flex-end"
+        const alignment = matchesMD
+          ? "center"
+          : i === 0 || i === 3
+          ? "flex-start"
+          : i === 1 || i === 4
+          ? "center"
+          : "flex-end"
 
         return (
           <Grid
             item
             container
             justifyContent={alignment}
-            alignItems="center"
             key={node.strapiId}
             classes={{ root: classes.productContainer }}
+            alignItems="center"
           >
             <IconButton
               onClick={() =>
@@ -65,7 +70,7 @@ export default function FeaturedProducts() {
             >
               <img
                 src={
-                  process.env.GATSBY_STRAPI_URL + node.variants[1].images[0].url
+                  process.env.GATSBY_STRAPI_URL + node.variants[0].images[0].url
                 }
                 alt={node.name}
                 className={classes.featured}
@@ -77,10 +82,12 @@ export default function FeaturedProducts() {
               classes={{
                 root: clsx(classes.slide, {
                   [classes.slideLeft]:
-                    expanded === i && alignment === "flex-end",
+                    !matchesMD && expanded === i && alignment === "flex-end",
                   [classes.slideRight]:
+                    !matchesMD &&
                     expanded === i &&
                     (alignment === "flex-start" || alignment === "center"),
+                  [classes.slideDown]: matchesMD && expanded === i,
                 }),
               }}
             >
@@ -88,10 +95,13 @@ export default function FeaturedProducts() {
                 <Typography variant="h4">{node.name.split(" ")[0]}</Typography>
               </Grid>
               <Grid item>
-                <Rating number={4.5} />
+                <Rating number={5} />
               </Grid>
               <Grid item>
-                <Chip classes={{root: classes.chipRoot, label: classes.chipLabel}}  label={`$ ${node.variants[0].price}`} />
+                <Chip
+                  classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+                  label={`$${node.variants[0].price}`}
+                />
               </Grid>
               <Grid item classes={{ root: classes.exploreContainer }}>
                 <Button classes={{ root: classes.exploreButton }}>

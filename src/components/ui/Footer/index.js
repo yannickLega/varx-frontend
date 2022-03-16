@@ -3,14 +3,14 @@ import React from "react"
 import { Link } from "gatsby"
 
 import { useMediaQuery, Grid, Typography, IconButton } from "@material-ui/core/"
-import footerStyles from "./footerStyles"
+import FooterStyles from "./FooterStyles"
 
 import facebook from "../../../images/facebook.svg"
 import twitter from "../../../images/twitter.svg"
 import instagram from "../../../images/instagram.svg"
 
 export default function Footer() {
-  const classes = footerStyles()
+  const classes = FooterStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const socialMedia = [

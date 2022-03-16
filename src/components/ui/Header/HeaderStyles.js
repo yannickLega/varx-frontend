@@ -9,6 +9,9 @@ export default makeStyles(theme => ({
       marginRight: "auto",
     },
   },
+  logo: {
+    fontSize: "3rem",
+  },
   logoText: {
     color: theme.palette.common.offBlack,
   },

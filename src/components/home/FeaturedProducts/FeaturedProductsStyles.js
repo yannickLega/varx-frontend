@@ -1,49 +1,68 @@
 import { makeStyles } from "@material-ui/core/styles"
-import featureAdornment from "../../../images/featured-adornment.svg"
+import featuredAdornment from "../../../images/featured-adornment.svg"
+import frame from "../../../images/product-frame-grid.svg"
 
 export default makeStyles(theme => ({
   background: {
-    backgroundImage: `url(${featureAdornment})`,
+    backgroundImage: `url(${featuredAdornment})`,
     backgroundPosition: "top",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "100%",
-    height: "180rem",
+    height: "100rem",
     padding: "0 2.5rem",
+    [theme.breakpoints.down("md")]: {
+      height: "110rem",
+    },
   },
   featured: {
-    height: "18rem",
-    width: "18rem",
-  },
-  productContainer: {
-    margin: "5rem 0",
+    height: "20rem",
+    width: "20rem",
+    [theme.breakpoints.down("md")]: {
+      height: "15rem",
+      width: "15rem",
+    },
   },
   frame: {
-    backgroundColor: theme.palette.common.white,
-    width: "20rem",
-    height: "20rem",
-    borderRadius: "8px",
-    boxShadow: theme.shadows[11],
+    backgroundImage: `url(${frame})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    borderRadius: 0,
+    height: "24.8rem",
+    width: "25rem",
+    boxSizing: "border-box",
+    boxShadow: theme.shadows[5],
     position: "absolute",
     zIndex: 1,
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
+    [theme.breakpoints.down("md")]: {
+      height: "19.8rem",
+      width: "20rem",
     },
   },
   slide: {
-    backgroundColor: "rgba(155,185,152,0.6)",
-    height: "18rem",
-    width: "20rem",
-    paddingTop: "1rem",
-    transition: "transform 0.5s ease",
+    backgroundColor: theme.palette.primary.main,
+    height: "20rem",
+    width: "24.5rem",
     zIndex: 0,
-    padding: "0 2rem",
+    transition: "transform 0.5s ease",
+    padding: "1rem 2rem",
+    [theme.breakpoints.down("md")]: {
+      height: "15.2rem",
+      width: "19.5rem",
+    },
   },
   slideLeft: {
-    transform: "translate(-20rem, 0px)",
+    transform: "translate(-24.5rem, 0px)",
   },
   slideRight: {
-    transform: "translate(20rem, 0px)",
+    transform: "translate(24.5rem, 0px)",
+  },
+  slideDown: {
+    transform: "translate(0px, 17rem)",
+  },
+  productContainer: {
+    margin: "5rem 0",
   },
   exploreContainer: {
     marginTop: "auto",
@@ -60,5 +79,6 @@ export default makeStyles(theme => ({
   },
   chipRoot: {
     backgroundColor: theme.palette.secondary.main,
+    marginTop: "1rem"
   },
 }))

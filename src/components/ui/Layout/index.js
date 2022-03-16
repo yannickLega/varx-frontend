@@ -8,10 +8,14 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
-import Footer from "./footer"
+import Header from "../Header"
+import Footer from "../Footer"
+
+import LayoutStyles from "./LayoutStyles"
 
 const Layout = ({ children }) => {
+  const classes = LayoutStyles()
+
   const data = useStaticQuery(graphql`
     query MyQuery {
       allStrapiCategory {
@@ -28,7 +32,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header categories={data.allStrapiCategory.edges} />
-      <div style={{ marginBottom: "10rem" }} />
+      <div className={classes.spacer} />
       <main>{children}</main>
       <Footer />
     </>

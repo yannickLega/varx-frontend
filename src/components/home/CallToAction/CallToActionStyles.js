@@ -2,17 +2,36 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   account: {
-    color: theme.palette.common.white,
-    marginLeft: "3rem",
+    color: "#fff",
+    marginLeft: "2rem",
   },
   body: {
     maxWidth: "45rem",
-    padding: "2rem 0 3rem 0"
+    [theme.breakpoints.down("md")]: {
+      padding: "0 1rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "0",
+    },
   },
   container: {
-    marginBottom: "10rem",
+    marginBottom: "15rem",
   },
-  blockContainer: {
-    marginLeft: "5rem"
-  }
+  buttonContainer: {
+    marginTop: "3rem",
+  },
+  headingContainer: {
+    [theme.breakpoints.down("md")]: {
+      padding: "0 1rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "0",
+    },
+  },
+  icon: {
+    [theme.breakpoints.down("xs")]: {
+      height: "18rem",
+      width: "20rem",
+    },
+  },
 }))

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Link, navigate } from "gatsby"
+import { Link } from "gatsby"
 
 import {
   AppBar,
@@ -16,7 +16,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core/"
-import headerStyles from "./headerStyles"
+import HeaderStyles from "./HeaderStyles"
 
 import menu from "../../../images/menu.svg"
 import search from "../../../images/search.svg"
@@ -24,7 +24,7 @@ import cart from "../../../images/cart.svg"
 import account from "../../../images/account-header.svg"
 
 export default function Header({ categories }) {
-  const classes = headerStyles()
+  const classes = HeaderStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -108,13 +108,13 @@ export default function Header({ categories }) {
 
   return (
     <AppBar color="transparent" elevation={0} position="static">
-      <Toolbar>
+      <Toolbar disableGutters>
         <Button
           component={Link}
           to="/"
           classes={{ root: classes.logoContainer }}
         >
-          <Typography variant="h1">
+          <Typography variant="h1" classes={{ root: classes.logo }}>
             <span className={classes.logoText}>VAR</span> X
           </Typography>
         </Button>
@@ -135,6 +135,8 @@ export default function Header({ categories }) {
                 />
               </IconButton>
             )
+          } else {
+            return null
           }
         })}
       </Toolbar>
