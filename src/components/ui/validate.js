@@ -13,12 +13,10 @@ export default function validate(values) {
     name: value => value.length > 3,
     message: value => value.length > 3,
   }
-
   const valid = {}
 
   Object.keys(values).map(field => {
     valid[field] = validators[field](values[field])
   })
-
   return valid
 }
