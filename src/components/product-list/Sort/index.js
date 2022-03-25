@@ -2,14 +2,10 @@ import React from "react"
 
 import { Grid, IconButton, Chip } from "@material-ui/core"
 
-import SortStyles from "./SortStyles"
-
 import sort from "../../../images/sort.svg"
 import close from "../../../images/close-outline.svg"
 
 export default function Sort({ setOption }) {
-  const classes = SortStyles()
-
   const sortOptions = [
     { label: "A-Z" },
     { label: "Z-A" },
@@ -31,10 +27,7 @@ export default function Sort({ setOption }) {
         <Grid container justifyContent="space-around">
           {sortOptions.map(option => (
             <Grid item key={option.label}>
-              <Chip
-                label={option.label}
-                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
-              />
+              <Chip label={option.label} />
             </Grid>
           ))}
         </Grid>

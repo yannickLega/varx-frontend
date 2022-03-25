@@ -64,7 +64,19 @@ const theme = createTheme({
       color: grey,
     },
   },
-  overrides: {},
+  overrides: {
+    MuiChip: {
+      root: {
+        backgroundColor: darkGreen,
+        padding: "0.5rem",
+      },
+      label: {
+        fontFamily: "Montserrat",
+        color: white,
+        fontWeight: 500,
+      },
+    },
+  },
 })
 
 export default theme
