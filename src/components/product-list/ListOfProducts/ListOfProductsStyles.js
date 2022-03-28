@@ -4,7 +4,8 @@ export default makeStyles(theme => ({
   productContainer: {
     width: "95%",
     "& > *": {
-      marginRight: "calc((100% - (25rem * 4)) /3)",
+      marginRight: ({ layout }) =>
+        layout === "grid" ? "calc((100% - (25rem * 4)) /3)" : 0,
       marginBottom: "5rem",
     },
     "& > :nth-child(4n)": {

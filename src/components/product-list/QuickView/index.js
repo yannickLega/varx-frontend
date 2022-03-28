@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import Rating from "../../ui/Rating"
 import Sizes from "../Sizes"
 import Swatches from "../Swatches"
@@ -24,18 +24,14 @@ export default function QuickView({
   name,
   price,
   product,
+  sizes,
+  colors,
+  selectedSize,
+  selectedColor,
+  setSelectedSize,
+  setSelectedColor,
 }) {
   const classes = QuickViewStyles()
-  const [selectedSize, setSelectedSize] = useState(null)
-  const [selectedColor, setSelectedColor] = useState(null)
-
-  let sizes = []
-  let colors = []
-  product.node.variants.map(variant => {
-    sizes.push(variant.size)
-    colors.push(variant.color)
-    return null
-  })
 
   return (
     <Dialog
@@ -100,7 +96,9 @@ export default function QuickView({
                   selectedColor={selectedColor}
                   setSelectedColor={setSelectedColor}
                 />
-                <QtyButton />
+                <span className={classes.qtyContainer}>
+                  <QtyButton />
+                </span>
               </Grid>
             </Grid>
           </Grid>

@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles"
 export default makeStyles(theme => ({
   mainGroup: {
     height: "3rem",
-    marginTop: "2.25rem",
   },
   qtyButton: {
     "&:hover": {

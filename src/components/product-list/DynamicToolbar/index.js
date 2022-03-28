@@ -7,7 +7,13 @@ import { Grid } from "@material-ui/core"
 
 import DynamicToolbarStyles from "./DynamicToolbarStyles"
 
-export default function DynamicToolbar({ filterOptions, name, description }) {
+export default function DynamicToolbar({
+  filterOptions,
+  name,
+  description,
+  layout,
+  setLayout,
+}) {
   const classes = DynamicToolbarStyles()
   const [option, setOption] = useState(null)
 
@@ -19,7 +25,12 @@ export default function DynamicToolbar({ filterOptions, name, description }) {
         filterOptions={filterOptions}
       />
       {option === null && (
-        <DescriptionContainer name={name} description={description} />
+        <DescriptionContainer
+          name={name}
+          description={description}
+          layout={layout}
+          setLayout={setLayout}
+        />
       )}
     </Grid>
   )

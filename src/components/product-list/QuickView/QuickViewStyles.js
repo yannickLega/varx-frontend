@@ -1,12 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles"
 
-import frame from "../../../images/selected-frame.svg"
+// import frame from "../../../images/selected-frame.svg"
 
 export default makeStyles(theme => ({
   selectedFrame: {
-    backgroundImage: `url(${frame})`,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+    // backgroundImage: `url(${frame})`,
+    // backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat",
     height: "60.4rem",
     width: "73.5rem",
     padding: "0 !important",
@@ -50,5 +50,8 @@ export default makeStyles(theme => ({
   },
   chipRoot: {
     transform: "scale(1.5)",
+  },
+  qtyContainer: {
+    marginTop: "2.25rem",
   },
 }))

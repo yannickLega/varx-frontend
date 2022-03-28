@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { graphql } from "gatsby"
 
 import { Grid } from "@material-ui/core"
@@ -6,7 +6,6 @@ import { Grid } from "@material-ui/core"
 import Layout from "../../components/ui/Layout"
 import DynamicToolbar from "../../components/product-list/DynamicToolbar"
 import ListOfProducts from "../../components/product-list/ListOfProducts"
-import ProductListStyles from "./ProductListStyles"
 
 export default function ProductList({
   pageContext: { filterOptions, name, description },
@@ -14,7 +13,7 @@ export default function ProductList({
     allStrapiProduct: { edges: products },
   },
 }) {
-  const classes = ProductListStyles()
+  const [layout, setLayout] = useState("list")
 
   return (
     <Layout>
@@ -23,8 +22,10 @@ export default function ProductList({
           filterOptions={filterOptions}
           name={name}
           description={description}
+          layout={layout}
+          setLayout={setLayout}
         />
-        <ListOfProducts products={products} />
+        <ListOfProducts layout={layout} products={products} />
       </Grid>
     </Layout>
   )

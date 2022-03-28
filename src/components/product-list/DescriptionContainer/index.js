@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import clsx from "clsx"
 
 import { Grid, Typography, ButtonGroup, Button } from "@material-ui/core"
@@ -7,10 +7,13 @@ import GridIcon from "../../../images/Grid"
 
 import DescriptionContainerStyles from "./DescriptionContainerStyles"
 
-export default function DescriptionContainer({ name, description }) {
+export default function DescriptionContainer({
+  name,
+  description,
+  layout,
+  setLayout,
+}) {
   const classes = DescriptionContainerStyles()
-
-  const [layout, setLayout] = useState("grid")
 
   return (
     <Grid
@@ -31,7 +34,7 @@ export default function DescriptionContainer({ name, description }) {
           {description}
         </Typography>
       </Grid>
-      <Grid item classes={{root: classes.buttonGroup}} >
+      <Grid item classes={{ root: classes.buttonGroup }}>
         <ButtonGroup classes={{ root: classes.buttonGroup }}>
           <Button
             onClick={() => setLayout("list")}

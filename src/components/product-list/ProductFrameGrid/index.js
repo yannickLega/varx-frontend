@@ -5,7 +5,16 @@ import { Grid, Typography } from "@material-ui/core"
 
 import ProductFrameGridStyles from "./ProductFrameGridStyles"
 
-export default function ProductFrameGrid({ product, variant }) {
+export default function ProductFrameGrid({
+  product,
+  variant,
+  sizes,
+  colors,
+  selectedSize,
+  selectedColor,
+  setSelectedSize,
+  setSelectedColor,
+}) {
   const classes = ProductFrameGridStyles()
   const [open, setOpen] = useState(false)
 
@@ -33,6 +42,12 @@ export default function ProductFrameGrid({ product, variant }) {
         name={productName}
         price={variant.price}
         product={product}
+        sizes={sizes}
+        colors={colors}
+        selectedSize={selectedSize}
+        selectedColor={selectedColor}
+        setSelectedSize={setSelectedColor}
+        setSelectedColor={setSelectedColor}
       />
     </Grid>
   )
