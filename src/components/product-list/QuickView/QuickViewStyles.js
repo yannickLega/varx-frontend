@@ -23,7 +23,8 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     height: "15.25rem",
     marginTop: "5rem",
-    padding: "1.5rem 5.5rem",
+    padding: "1.5rem",
+    position: "relative",
   },
   infoContainer: {
     height: "100%",
@@ -53,5 +54,14 @@ export default makeStyles(theme => ({
   },
   qtyContainer: {
     marginTop: "2.25rem",
+  },
+  infoItem: {
+    position: "absolute",
+    left: "2rem",
+    height: "calc(100% - 2.5rem)",
+  },
+  actionsItem: {
+    position: "absolute",
+    right: "2rem",
   },
 }))

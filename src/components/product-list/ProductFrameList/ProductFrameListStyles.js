@@ -29,4 +29,10 @@ export default makeStyles(theme => ({
   sizesAndSwatches: {
     maxWidth: "13rem",
   },
+  chipLabel: {
+    fontSize: "2rem",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }))

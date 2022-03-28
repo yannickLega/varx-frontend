@@ -1,4 +1,6 @@
 import React from "react"
+import { Link } from "gatsby"
+
 import Rating from "../../ui/Rating"
 import Sizes from "../Sizes"
 import Swatches from "../Swatches"
@@ -41,21 +43,31 @@ export default function QuickView({
     >
       <DialogContent classes={{ root: classes.selectedFrame }}>
         <Grid container direction="column" alignItems="center">
-          <Grid item>
+          <Grid
+            item
+            component={Link}
+            to={`/${product.node.category.name.toLowerCase()}/${product.node.name
+              .split(" ")[0]
+              .toLowerCase()}`}
+          >
             <img src={url} alt="product" className={classes.productImage} />
           </Grid>
           <Grid
             item
             container
-            justifyContent="space-between"
+            justifyContent="center"
             classes={{ root: classes.toolbar }}
           >
-            <Grid item>
+            <Grid item classes={{ root: classes.infoItem }}>
               <Grid
                 container
                 direction="column"
                 justifyContent="space-between"
                 classes={{ root: classes.infoContainer }}
+                component={Link}
+                to={`/${product.node.category.name.toLowerCase()}/${product.node.name
+                  .split(" ")[0]
+                  .toLowerCase()}`}
               >
                 <Grid item>
                   <Typography variant="h4">{name}</Typography>
@@ -84,7 +96,7 @@ export default function QuickView({
             <Grid item classes={{ root: classes.chipContainer }}>
               <Chip label={`$${price}`} classes={{ root: classes.chipRoot }} />
             </Grid>
-            <Grid item>
+            <Grid item classes={{ root: classes.actionsItem }}>
               <Grid container direction="column">
                 <Sizes
                   sizes={sizes}

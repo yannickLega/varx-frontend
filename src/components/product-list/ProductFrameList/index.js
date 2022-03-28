@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "gatsby"
 
 import { Grid, Typography, Chip } from "@material-ui/core"
 
@@ -6,6 +7,8 @@ import Rating from "../../ui/Rating"
 import Sizes from "../Sizes"
 import Swatches from "../Swatches"
 import QtyButton from "../QtyButton"
+
+import { colorIndex } from "../ProductFrameGrid"
 
 import ProductFrameListStyles from "./ProductFrameListStyles"
 
@@ -20,6 +23,12 @@ export default function ProductFrameList({
   setSelectedColor,
 }) {
   const classes = ProductFrameListStyles()
+  const imageIndex = colorIndex(product, variant, selectedColor)
+
+  const images =
+    imageIndex !== -1
+      ? product.node.variants[imageIndex].images
+      : variant.images
 
   return (
     <Grid item container>
@@ -31,8 +40,15 @@ export default function ProductFrameList({
         justifyContent="space-around"
         classes={{ root: classes.frame }}
       >
-        {variant.images.slice(0, 3).map(image => (
-          <Grid item key={image.url}>
+        {images.slice(0, 3).map(image => (
+          <Grid
+            item
+            key={image.url}
+            component={Link}
+            to={`/${product.node.category.name.toLowerCase()}/${product.node.name
+              .split(" ")[0]
+              .toLowerCase()}`}
+          >
             <img
               src={process.env.GATSBY_STRAPI_URL + image.url}
               alt={image.url}
@@ -49,7 +65,15 @@ export default function ProductFrameList({
         justifyContent="space-between"
         classes={{ root: classes.info }}
       >
-        <Grid item container direction="column">
+        <Grid
+          item
+          container
+          direction="column"
+          component={Link}
+          to={`/${product.node.category.name.toLowerCase()}/${product.node.name
+            .split(" ")[0]
+            .toLowerCase()}`}
+        >
           <Grid item>
             <Typography variant="h4">
               {product.node.name.split(" ")[0]}
@@ -59,7 +83,10 @@ export default function ProductFrameList({
             <Rating number={3} />
           </Grid>
           <Grid item>
-            <Chip label={`$${variant.price}`} />
+            <Chip
+              label={`$${variant.price}`}
+              classes={{ label: classes.chipLabel }}
+            />
           </Grid>
           <Grid item>
             <Typography variant="h3" classes={{ root: classes.stock }}>
@@ -67,7 +94,12 @@ export default function ProductFrameList({
             </Typography>
           </Grid>
         </Grid>
-        <Grid item container direction="column" classes={{root: classes.sizesAndSwatches}}>
+        <Grid
+          item
+          container
+          direction="column"
+          classes={{ root: classes.sizesAndSwatches }}
+        >
           <Sizes
             sizes={sizes}
             selectedSize={selectedSize}

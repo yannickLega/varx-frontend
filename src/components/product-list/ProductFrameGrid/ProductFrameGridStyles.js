@@ -27,4 +27,12 @@ export default makeStyles(theme => ({
     alignItems: "center",
     marginTop: "-0.1rem",
   },
+  invisibility: {
+    visibility: "hidden",
+  },
+  frameContainer: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }))

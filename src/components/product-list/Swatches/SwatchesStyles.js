@@ -16,6 +16,5 @@ export default makeStyles(theme => ({
   },
   selected: {
     borderColor: theme.palette.secondary.dark,
-    transform: "scale(1.2)",
   },
 }))

@@ -6,7 +6,12 @@ import { Grid } from "@material-ui/core"
 
 import ListOfProductsStyles from "./ListOfProductsStyles"
 
-export default function ListOfProducts({ products, layout }) {
+export default function ListOfProducts({
+  products,
+  layout,
+  page,
+  productsPerPage,
+}) {
   const classes = ListOfProductsStyles({ layout })
   const FrameHelper = ({ Frame, product, variant }) => {
     const [selectedSize, setSelectedSize] = useState(null)
@@ -16,7 +21,11 @@ export default function ListOfProducts({ products, layout }) {
     let colors = []
     product.node.variants.map(variant => {
       sizes.push(variant.size)
-      colors.push(variant.color)
+
+      // check to not duplicate colors for variant male and female
+      if (!colors.includes(variant.color)) {
+        colors.push(variant.color)
+      }
       return null
     })
     return (
@@ -33,18 +42,23 @@ export default function ListOfProducts({ products, layout }) {
     )
   }
 
+  let content = []
+  products.map((product, i) =>
+    product.node.variants.map(variant => content.push({ product: i, variant }))
+  )
+
   return (
     <Grid item container classes={{ root: classes.productContainer }}>
-      {products.map(product =>
-        product.node.variants.map(variant => (
+      {content
+        .slice((page - 1) * productsPerPage, page * productsPerPage)
+        .map(item => (
           <FrameHelper
             Frame={layout === "grid" ? ProductFrameGrid : ProductFrameList}
-            key={variant.id}
-            variant={variant}
-            product={product}
+            key={item.variant.id}
+            variant={item.variant}
+            product={products[item.product]}
           />
-        ))
-      )}
+        ))}
     </Grid>
   )
 }
