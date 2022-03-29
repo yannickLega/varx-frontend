@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import QuickView from "../QuickView"
 import clsx from "clsx"
+import { navigate } from "gatsby"
 
-import { Grid, Typography } from "@material-ui/core"
+import { Grid, Typography, useMediaQuery } from "@material-ui/core"
 
 import ProductFrameGridStyles from "./ProductFrameGridStyles"
 
@@ -26,7 +27,12 @@ export default function ProductFrameGrid({
   setSelectedColor,
 }) {
   const classes = ProductFrameGridStyles()
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
   const [open, setOpen] = useState(false)
+
+  if (matchesMD && open) {
+    setOpen(false)
+  }
 
   const imageIndex = colorIndex(product, variant, selectedColor)
 
@@ -46,7 +52,19 @@ export default function ProductFrameGrid({
         }),
       }}
     >
-      <Grid container direction="column" onClick={() => setOpen(true)}>
+      <Grid
+        container
+        direction="column"
+        onClick={() =>
+          matchesMD
+            ? navigate(
+                `/${product.node.category.name.toLowerCase()}/${product.node.name
+                  .split(" ")[0]
+                  .toLowerCase()}`
+              )
+            : setOpen(true)
+        }
+      >
         <Grid item classes={{ root: classes.frame }}>
           <img
             src={imgURL}

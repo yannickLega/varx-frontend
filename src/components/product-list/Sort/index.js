@@ -1,11 +1,16 @@
 import React from "react"
 
-import { Grid, IconButton, Chip } from "@material-ui/core"
+import { Grid, IconButton, Chip, useMediaQuery } from "@material-ui/core"
+
+import SortStyles from "./SortStyles"
 
 import sort from "../../../images/sort.svg"
 import close from "../../../images/close-outline.svg"
 
 export default function Sort({ setOption }) {
+  const classes = SortStyles()
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
+
   const sortOptions = [
     { label: "A-Z" },
     { label: "Z-A" },
@@ -24,9 +29,18 @@ export default function Sort({ setOption }) {
         </IconButton>
       </Grid>
       <Grid item xs>
-        <Grid container justifyContent="space-around">
+        <Grid
+          container
+          direction={matchesXS ? "column" : "row"}
+          justifyContent="space-around"
+          alignItems={matchesXS ? "center": undefined}
+        >
           {sortOptions.map(option => (
-            <Grid item key={option.label}>
+            <Grid
+              classes={{ root: classes.chipContainer }}
+              item
+              key={option.label}
+            >
               <Chip label={option.label} />
             </Grid>
           ))}

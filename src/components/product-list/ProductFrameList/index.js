@@ -34,7 +34,7 @@ export default function ProductFrameList({
     <Grid item container>
       <Grid
         item
-        xs={9}
+        lg={9}
         container
         alignItems="center"
         justifyContent="space-around"
@@ -59,7 +59,7 @@ export default function ProductFrameList({
       </Grid>
       <Grid
         item
-        xs={3}
+        lg={3}
         container
         direction="column"
         justifyContent="space-between"

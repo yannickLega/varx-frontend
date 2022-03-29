@@ -11,6 +11,9 @@ export default makeStyles(theme => ({
     height: "28rem",
     border: `solid 1px ${theme.palette.primary.main}`,
     borderRadius: "25px 0 0 25px",
+    [theme.breakpoints.down("md")]: {
+      borderRadius: "25px 25px 0 0",
+    },
   },
   productImage: {
     height: "25rem",
@@ -22,6 +25,13 @@ export default makeStyles(theme => ({
     height: "100%",
     borderRadius: "0 25px 25px 0",
     padding: "1rem 2rem",
+    [theme.breakpoints.down("md")]: {
+      borderRadius: "0 0 25px 25px",
+      height: "50%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "26rem",
+    },
   },
   stock: {
     color: theme.palette.common.white,

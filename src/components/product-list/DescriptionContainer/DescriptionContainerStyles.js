@@ -10,6 +10,9 @@ export default makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
+    [theme.breakpoints.down("sm")]: {
+      padding: "3rem 1rem",
+    },
   },
   description: {
     color: theme.palette.common.white,
@@ -17,9 +20,12 @@ export default makeStyles(theme => ({
   descriptionContainer: {
     backgroundColor: theme.palette.primary.main,
     height: "15rem",
-    width: "60rem",
+    width: "60%",
     borderRadius: 25,
     padding: "1rem",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
   },
   buttonGroup: {
     position: "absolute",
@@ -27,6 +33,17 @@ export default makeStyles(theme => ({
     right: 0,
     marginRight: "1.5rem",
     marginBottom: "1.5rem",
+    [theme.breakpoints.down("md")]: {
+      position: "relative",
+      display: "flex",
+      alignSelf: "flex-end",
+      marginRight: 0,
+      marginBottom: 0,
+      marginTop: "1.5rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      alignSelf: "center",
+    },
   },
   button: {
     border: `2px solid ${theme.palette.primary.main}`,

@@ -1,7 +1,13 @@
 import React from "react"
 import clsx from "clsx"
 
-import { Grid, Typography, ButtonGroup, Button } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  ButtonGroup,
+  Button,
+  useMediaQuery,
+} from "@material-ui/core"
 import ListIcon from "../../../images/List"
 import GridIcon from "../../../images/Grid"
 
@@ -15,6 +21,7 @@ export default function DescriptionContainer({
   setPage,
 }) {
   const classes = DescriptionContainerStyles()
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const changeLayout = option => {
     setPage(1)
@@ -25,11 +32,13 @@ export default function DescriptionContainer({
     <Grid
       item
       container
+      direction={matchesMD ? "column" : "row"}
       justifyContent="center"
+      alignItems={matchesMD ? "center" : undefined}
       classes={{ root: classes.mainContainer }}
     >
       <Grid item classes={{ root: classes.descriptionContainer }}>
-        <Typography variant="h4" paragraph gutterBottom align="center">
+        <Typography variant="h4" align="center">
           {name}
         </Typography>
         <Typography

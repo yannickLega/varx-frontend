@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import ProductFrameGrid from "../ProductFrameGrid"
 import ProductFrameList from "../ProductFrameList"
 
-import { Grid } from "@material-ui/core"
+import { Grid, useMediaQuery } from "@material-ui/core"
 
 import ListOfProductsStyles from "./ListOfProductsStyles"
 
@@ -13,6 +13,8 @@ export default function ListOfProducts({
   productsPerPage,
 }) {
   const classes = ListOfProductsStyles({ layout })
+  const matchesSM = useMediaQuery(theme => theme.breakpoints.down("sm"))
+
   const FrameHelper = ({ Frame, product, variant }) => {
     const [selectedSize, setSelectedSize] = useState(null)
     const [selectedColor, setSelectedColor] = useState(null)
@@ -48,7 +50,13 @@ export default function ListOfProducts({
   )
 
   return (
-    <Grid item container classes={{ root: classes.productContainer }}>
+    <Grid
+      item
+      container
+      direction={matchesSM ? "column" : "row"}
+      alignItems={matchesSM ? "center" : undefined}
+      classes={{ root: classes.productContainer }}
+    >
       {content
         .slice((page - 1) * productsPerPage, page * productsPerPage)
         .map(item => (
