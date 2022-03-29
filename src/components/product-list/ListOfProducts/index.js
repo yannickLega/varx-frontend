@@ -8,9 +8,11 @@ import ListOfProductsStyles from "./ListOfProductsStyles"
 
 export default function ListOfProducts({
   products,
+  content,
   layout,
   page,
   productsPerPage,
+  filterOptions,
 }) {
   const classes = ListOfProductsStyles({ layout })
   const matchesSM = useMediaQuery(theme => theme.breakpoints.down("sm"))
@@ -43,11 +45,6 @@ export default function ListOfProducts({
       />
     )
   }
-
-  let content = []
-  products.map((product, i) =>
-    product.node.variants.map(variant => content.push({ product: i, variant }))
-  )
 
   return (
     <Grid

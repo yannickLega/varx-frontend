@@ -11,6 +11,7 @@ import sort from "../../../images/sort.svg"
 
 export default function FunctionContainer({
   filterOptions,
+  setFilterOptions,
   option,
   setOption,
 }) {
@@ -21,7 +22,13 @@ export default function FunctionContainer({
       case "sort":
         return <Sort setOption={setOption} />
       case "filter":
-        return <Filter setOption={setOption} filterOptions={filterOptions} />
+        return (
+          <Filter
+            setOption={setOption}
+            filterOptions={filterOptions}
+            setFilterOptions={setFilterOptions}
+          />
+        )
       default:
         const items = [
           { icon: filter, alt: "filter" },

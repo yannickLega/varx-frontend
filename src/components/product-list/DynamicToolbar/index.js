@@ -9,11 +9,11 @@ import DynamicToolbarStyles from "./DynamicToolbarStyles"
 
 export default function DynamicToolbar({
   filterOptions,
+  setFilterOptions,
   name,
   description,
   layout,
   setLayout,
-  setPage,
 }) {
   const classes = DynamicToolbarStyles()
   const [option, setOption] = useState(null)
@@ -24,6 +24,7 @@ export default function DynamicToolbar({
         option={option}
         setOption={setOption}
         filterOptions={filterOptions}
+        setFilterOptions={setFilterOptions}
       />
       {option === null && (
         <DescriptionContainer
@@ -31,7 +32,6 @@ export default function DynamicToolbar({
           description={description}
           layout={layout}
           setLayout={setLayout}
-          setPage={setPage}
         />
       )}
     </Grid>

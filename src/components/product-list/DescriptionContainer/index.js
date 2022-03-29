@@ -18,13 +18,11 @@ export default function DescriptionContainer({
   description,
   layout,
   setLayout,
-  setPage,
 }) {
   const classes = DescriptionContainerStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const changeLayout = option => {
-    setPage(1)
     setLayout(option)
   }
 
