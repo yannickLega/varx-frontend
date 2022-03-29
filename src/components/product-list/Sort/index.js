@@ -1,4 +1,5 @@
 import React from "react"
+import clsx from "clsx"
 
 import { Grid, IconButton, Chip, useMediaQuery } from "@material-ui/core"
 
@@ -7,19 +8,19 @@ import SortStyles from "./SortStyles"
 import sort from "../../../images/sort.svg"
 import close from "../../../images/close-outline.svg"
 
-export default function Sort({ setOption }) {
+export default function Sort({ setOption, sortOptions, setSortOptions }) {
   const classes = SortStyles()
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
-  const sortOptions = [
-    { label: "A-Z" },
-    { label: "Z-A" },
-    { label: "NEWEST" },
-    { label: "OLDEST" },
-    { label: "PRICE ↑" },
-    { label: "PRICE ↓" },
-    { label: "REVIEWS" },
-  ]
+  const handleSort = i => {
+    const newOptions = [...sortOptions]
+
+    newOptions.map(option => (option.active = false))
+
+    newOptions[i].active = true
+
+    setSortOptions(newOptions)
+  }
 
   return (
     <Grid item container justifyContent="space-between" alignItems="center">
@@ -33,15 +34,22 @@ export default function Sort({ setOption }) {
           container
           direction={matchesXS ? "column" : "row"}
           justifyContent="space-around"
-          alignItems={matchesXS ? "center": undefined}
+          alignItems={matchesXS ? "center" : undefined}
         >
-          {sortOptions.map(option => (
+          {sortOptions.map((option, i) => (
             <Grid
               classes={{ root: classes.chipContainer }}
               item
               key={option.label}
             >
-              <Chip label={option.label} />
+              <Chip
+                label={option.label}
+                onClick={() => handleSort(i)}
+                color={option.active !== true ? "primary" : "secondary"}
+                classes={{
+                  root: clsx({ [classes.notActive]: option.active !== true }),
+                }}
+              />
             </Grid>
           ))}
         </Grid>

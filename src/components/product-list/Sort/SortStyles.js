@@ -6,4 +6,7 @@ export default makeStyles(theme => ({
       margin: "0.5rem",
     },
   },
+  notActive: {
+    backgroundColor: theme.palette.primary.main,
+  },
 }))
