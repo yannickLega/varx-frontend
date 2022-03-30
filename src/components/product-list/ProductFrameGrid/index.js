@@ -25,6 +25,7 @@ export default function ProductFrameGrid({
   selectedColor,
   setSelectedSize,
   setSelectedColor,
+  hasStyles,
 }) {
   const classes = ProductFrameGridStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
@@ -60,7 +61,7 @@ export default function ProductFrameGrid({
             ? navigate(
                 `/${product.node.category.name.toLowerCase()}/${product.node.name
                   .split(" ")[0]
-                  .toLowerCase()}`
+                  .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`
               )
             : setOpen(true)
         }
@@ -89,6 +90,8 @@ export default function ProductFrameGrid({
         selectedColor={selectedColor}
         setSelectedSize={setSelectedSize}
         setSelectedColor={setSelectedColor}
+        variant={variant}
+        hasStyles={hasStyles}
       />
     </Grid>
   )

@@ -21,6 +21,7 @@ export default function ProductFrameList({
   selectedColor,
   setSelectedSize,
   setSelectedColor,
+  hasStyles,
 }) {
   const classes = ProductFrameListStyles()
   const imageIndex = colorIndex(product, variant, selectedColor)
@@ -47,7 +48,7 @@ export default function ProductFrameList({
             component={Link}
             to={`/${product.node.category.name.toLowerCase()}/${product.node.name
               .split(" ")[0]
-              .toLowerCase()}`}
+              .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}
           >
             <img
               src={process.env.GATSBY_STRAPI_URL + image.url}
@@ -72,7 +73,7 @@ export default function ProductFrameList({
           component={Link}
           to={`/${product.node.category.name.toLowerCase()}/${product.node.name
             .split(" ")[0]
-            .toLowerCase()}`}
+            .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}
         >
           <Grid item>
             <Typography variant="h4">

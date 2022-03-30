@@ -32,6 +32,11 @@ export default function ListOfProducts({
       }
       return null
     })
+
+    const hasStyles = product.node.variants.some(
+      variant => variant.style !== null
+    )
+
     return (
       <Frame
         sizes={sizes}
@@ -42,6 +47,7 @@ export default function ListOfProducts({
         setSelectedColor={setSelectedColor}
         variant={variant}
         product={product}
+        hasStyles={hasStyles}
       />
     )
   }
