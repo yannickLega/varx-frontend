@@ -7,7 +7,13 @@ import Sizes from "../../product-list/Sizes"
 import QtyButton from "../../product-list/QtyButton"
 import { colorIndex } from "../../product-list/ProductFrameGrid"
 
-import { Grid, Typography, Button, Chip } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Button,
+  Chip,
+  useMediaQuery,
+} from "@material-ui/core"
 
 import ProductInfoStyles from "./ProductInfoStyles"
 
@@ -25,6 +31,7 @@ export default function ProductInfo({
 
   const [selectedSize, setSelectedSize] = useState(null)
   const [selectedColor, setSelectedColor] = useState(null)
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
   const imageIndex = colorIndex(
     { node: { variants } },
@@ -54,7 +61,7 @@ export default function ProductInfo({
       item
       container
       direction="column"
-      xs={6}
+      lg={6}
       justifyContent="center"
       alignItems="flex-end"
     >
@@ -89,6 +96,7 @@ export default function ProductInfo({
           item
           container
           justifyContent="space-between"
+          direction={matchesXS ? "column" : "row"}
           classes={{
             root: clsx(classes.detailsContainer, classes.sectionContainer),
           }}
@@ -137,8 +145,9 @@ export default function ProductInfo({
         <Grid
           item
           container
-          justifyContent="space-between"
-          alignItems="center"
+          justifyContent={matchesXS ? "space-around" : "space-between"}
+          direction={matchesXS ? "column" : "row"}
+          alignItems={matchesXS ? "flex-start" : "center"}
           classes={{
             root: clsx(classes.actionsContainer, classes.sectionContainer),
           }}

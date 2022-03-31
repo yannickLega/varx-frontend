@@ -17,6 +17,10 @@ export default makeStyles(theme => ({
       height: "20rem",
       width: "20rem",
     },
+    [theme.breakpoints.up("xs")]: {
+      height: ({ small }) => (small ? "15rem" : undefined),
+      width: ({ small }) => (small ? "15rem" : undefined),
+    },
   },
   productImage: {
     height: "20rem",
@@ -24,6 +28,10 @@ export default makeStyles(theme => ({
     [theme.breakpoints.down("xs")]: {
       height: "15rem",
       width: "15rem",
+    },
+    [theme.breakpoints.up("xs")]: {
+      height: ({ small }) => (small ? "12rem" : undefined),
+      width: ({ small }) => (small ? "12rem" : undefined),
     },
   },
   title: {
@@ -36,6 +44,9 @@ export default makeStyles(theme => ({
     marginTop: "-0.1rem",
     [theme.breakpoints.down("xs")]: {
       width: "20rem",
+    },
+    [theme.breakpoints.up("xs")]: {
+      width: ({ small }) => (small ? "15rem" : undefined),
     },
   },
   invisibility: {

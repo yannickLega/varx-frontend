@@ -5,12 +5,27 @@ export default makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
     height: "45rem",
     width: "35rem",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "58rem",
+    },
   },
   center: {
     backgroundColor: theme.palette.primary.main,
     height: "35rem",
     width: "45rem",
     position: "absolute",
+    [theme.breakpoints.down("lg")]: {
+      width: "40rem",
+    },
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "48rem",
+    },
   },
   icon: {
     height: "3rem",
@@ -33,10 +48,14 @@ export default makeStyles(theme => ({
   },
   chipContainer: {
     marginTop: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: 0,
+      marginBottom: "1rem",
+    },
   },
   chipRoot: {
     height: "3rem",
-    width: "8rem",
+    width: "auto",
     borderRadius: 50,
   },
   chipLabel: {
@@ -47,6 +66,7 @@ export default makeStyles(theme => ({
   },
   reviewButton: {
     textTransform: "none",
+    marginLeft: "-8px",
   },
   stock: {
     color: theme.palette.common.white,

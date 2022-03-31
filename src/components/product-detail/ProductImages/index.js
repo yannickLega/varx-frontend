@@ -12,7 +12,7 @@ export default function ProductImages({
   const classes = ProductImagesStyles()
 
   return (
-    <Grid item container direction="column" alignItems="center" xs={6}>
+    <Grid item container direction="column" alignItems="center" lg={6}>
       <Grid item>
         <img
           src={process.env.GATSBY_STRAPI_URL + images[selectedImage].url}

@@ -26,8 +26,10 @@ export default function ProductFrameGrid({
   setSelectedSize,
   setSelectedColor,
   hasStyles,
+  disableQuickView,
+  small,
 }) {
-  const classes = ProductFrameGridStyles()
+  const classes = ProductFrameGridStyles({ small })
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
   const [open, setOpen] = useState(false)
 
@@ -57,7 +59,7 @@ export default function ProductFrameGrid({
         container
         direction="column"
         onClick={() =>
-          matchesMD
+          matchesMD || disableQuickView
             ? navigate(
                 `/${product.node.category.name.toLowerCase()}/${product.node.name
                   .split(" ")[0]
