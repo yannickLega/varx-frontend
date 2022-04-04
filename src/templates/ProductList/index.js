@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { graphql } from "gatsby"
+
 import {
   alphabetic,
   time,
@@ -50,6 +51,7 @@ export default function ProductList({
     },
     { label: "REVIEWS", active: false, function: data => data },
   ])
+
   const scrollRef = useRef(null)
 
   const scroll = () => {
@@ -107,6 +109,7 @@ export default function ProductList({
           })
         }
       })
+      return null
     })
 
   Object.keys(filters).forEach(filter => {
@@ -121,6 +124,7 @@ export default function ProductList({
         } else if (item.variant[filter.toLowerCase()] === value.label) {
           valid = item
         }
+        return null
       })
 
       return valid

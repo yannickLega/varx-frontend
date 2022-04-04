@@ -20,12 +20,29 @@ import ProductInfoStyles from "./ProductInfoStyles"
 import favorite from "../../../images/favorite.svg"
 import subscription from "../../../images/subscription.svg"
 
+export const getStockDisplay = (stock, variant) => {
+  switch (stock) {
+    case undefined:
+    case null:
+      return "Loading Inventory..."
+    case -1:
+      return "Error Loading Inventory"
+    default:
+      if (stock[variant].qty === 0) {
+        return "Out of Stock"
+      } else {
+        return `${stock[variant].qty} Currently In Stock`
+      }
+  }
+}
+
 export default function ProductInfo({
   name,
   description,
   variants,
   selectedVariant,
   setSelectedVariant,
+  stock,
 }) {
   const classes = ProductInfoStyles()
 
@@ -48,6 +65,7 @@ export default function ProductInfo({
     if (!colors.includes(variant.color)) {
       colors.push(variant.color)
     }
+    return null
   })
 
   useEffect(() => {
@@ -55,6 +73,8 @@ export default function ProductInfo({
       setSelectedVariant(imageIndex)
     }
   }, [imageIndex, setSelectedVariant])
+
+  const stockDisplay = getStockDisplay(stock, selectedVariant)
 
   return (
     <Grid
@@ -168,13 +188,13 @@ export default function ProductInfo({
               </Grid>
               <Grid item>
                 <Typography variant="h3" classes={{ root: classes.stock }}>
-                  12 Currently In Stock
+                  {stockDisplay}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
-            <QtyButton />
+            <QtyButton stock={stock} selectedVariant={selectedVariant} />
           </Grid>
         </Grid>
       </Grid>

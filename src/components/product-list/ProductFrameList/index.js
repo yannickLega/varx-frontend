@@ -1,6 +1,8 @@
 import React from "react"
 import { Link } from "gatsby"
 
+import { getStockDisplay } from "../../product-detail/ProductInfo"
+
 import { Grid, Typography, Chip } from "@material-ui/core"
 
 import Rating from "../../ui/Rating"
@@ -22,6 +24,7 @@ export default function ProductFrameList({
   setSelectedSize,
   setSelectedColor,
   hasStyles,
+  stock,
 }) {
   const classes = ProductFrameListStyles()
   const imageIndex = colorIndex(product, variant, selectedColor)
@@ -30,6 +33,11 @@ export default function ProductFrameList({
     imageIndex !== -1
       ? product.node.variants[imageIndex].images
       : variant.images
+
+  const selectedVariant =
+    imageIndex === -1 ? product.node.variants.indexOf(variant) : imageIndex
+
+  const stockDisplay = getStockDisplay(stock, selectedVariant)
 
   return (
     <Grid item container>
@@ -91,7 +99,7 @@ export default function ProductFrameList({
           </Grid>
           <Grid item>
             <Typography variant="h3" classes={{ root: classes.stock }}>
-              12 Currently In Stock
+              {stockDisplay}
             </Typography>
           </Grid>
         </Grid>
@@ -112,7 +120,7 @@ export default function ProductFrameList({
             setSelectedColor={setSelectedColor}
           />
         </Grid>
-        <QtyButton />
+        <QtyButton stock={stock} selectedVariant={selectedVariant} />
       </Grid>
     </Grid>
   )

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react"
+import { useQuery } from "@apollo/client"
+import { GET_DETAILS } from "../../apollo/queries"
+
 import Layout from "../../components/ui/Layout"
 import ProductImages from "../../components/product-detail/ProductImages"
 import ProductInfo from "../../components/product-detail/ProductInfo"
@@ -11,11 +14,25 @@ export default function ProductDetails({
 }) {
   const [selectedVariant, setSelectedVariant] = useState(0)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [stock, setStock] = useState(null)
 
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const params = new URLSearchParams(window.location.search)
   const style = params.get("style")
+
+  //apollo query call
+  const { loading, error, data } = useQuery(GET_DETAILS, {
+    variables: { id },
+  })
+
+  useEffect(() => {
+    if (error) {
+      setStock(-1)
+    } else if (data) {
+      setStock(data.product.variants)
+    }
+  }, [error, data])
 
   useEffect(() => {
     const styledVariant = variants.filter(
@@ -70,6 +87,7 @@ export default function ProductDetails({
             variants={variants}
             selectedVariant={selectedVariant}
             setSelectedVariant={setSelectedVariant}
+            stock={stock}
           />
         </Grid>
         <RecentlyViewed

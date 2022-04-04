@@ -28,6 +28,7 @@ export default function ProductFrameGrid({
   hasStyles,
   disableQuickView,
   small,
+  stock,
 }) {
   const classes = ProductFrameGridStyles({ small })
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
@@ -94,6 +95,8 @@ export default function ProductFrameGrid({
         setSelectedColor={setSelectedColor}
         variant={variant}
         hasStyles={hasStyles}
+        stock={stock}
+        imageIndex={imageIndex}
       />
     </Grid>
   )

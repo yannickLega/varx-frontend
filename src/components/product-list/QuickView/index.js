@@ -1,6 +1,8 @@
 import React from "react"
 import { Link } from "gatsby"
 
+import { getStockDisplay } from "../../product-detail/ProductInfo"
+
 import Rating from "../../ui/Rating"
 import Sizes from "../Sizes"
 import Swatches from "../Swatches"
@@ -34,8 +36,15 @@ export default function QuickView({
   setSelectedSize,
   setSelectedColor,
   hasStyles,
+  stock,
+  imageIndex,
 }) {
   const classes = QuickViewStyles()
+
+  const selectedVariant =
+    imageIndex === -1 ? product.node.variants.indexOf(variant) : imageIndex
+
+  const stockDisplay = getStockDisplay(stock, selectedVariant)
 
   return (
     <Dialog
@@ -77,7 +86,7 @@ export default function QuickView({
                 </Grid>
                 <Grid item>
                   <Typography variant="h3" classes={{ root: classes.stock }}>
-                    12 Currently In Stock
+                    {stockDisplay}
                   </Typography>
                   <Button classes={{ root: classes.detailButton }}>
                     <Typography
@@ -111,7 +120,7 @@ export default function QuickView({
                   setSelectedColor={setSelectedColor}
                 />
                 <span className={classes.qtyContainer}>
-                  <QtyButton />
+                  <QtyButton stock={stock} selectedVariant={selectedVariant} />
                 </span>
               </Grid>
             </Grid>
