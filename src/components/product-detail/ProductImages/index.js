@@ -4,6 +4,13 @@ import { Grid, IconButton } from "@material-ui/core"
 
 import ProductImagesStyles from "./ProductImagesStyles"
 
+/**
+ * This function renders the product images
+ * @returns A grid item container with two child grid items. The first grid item contains an image of
+ * the product at the selected image index. The second grid item contains a grid item container with a
+ * grid item for each image. Each grid item contains an image of the product at the corresponding
+ * index.
+ */
 export default function ProductImages({
   images,
   selectedImage,

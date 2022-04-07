@@ -6,6 +6,13 @@ import { Grid, Typography, useMediaQuery } from "@material-ui/core"
 import animationData from "../../../images/data.json"
 import HeroBlockStyles from "./HeroBlockStyles"
 
+/**
+ * This function returns a grid container with a text container and a lottie animation
+ * @returns A grid container with two grid items. The first grid item contains a grid container with
+ * two grid items. The first grid item contains a typography component with the heading text. The
+ * second grid item contains a typography component with the subheading text. The second grid item
+ * contains a lottie animation component.
+ */
 export default function HeroBlock() {
   const matchesLG = useMediaQuery(theme => theme.breakpoints.down("lg"))
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
@@ -14,10 +21,10 @@ export default function HeroBlock() {
 
   const classes = HeroBlockStyles()
 
+/* This is the default options for the lottie animation. */
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    //égal a animationData: animationData
     animationData,
   }
   return (

@@ -5,6 +5,13 @@ import { Grid, Button } from "@material-ui/core"
 
 import SwatchesStyles from "./SwatchesStyles"
 
+/**
+ * Given a list of colors, and a selected color, render a grid of buttons that are styled with the
+ * colors.
+ *
+ * The selected color is styled differently
+ * @returns A grid item container with a grid item for each color.
+ */
 export default function Swatches({ colors, selectedColor, setSelectedColor }) {
   const classes = SwatchesStyles()
 

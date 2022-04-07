@@ -13,9 +13,14 @@ import Footer from "../Footer"
 
 import LayoutStyles from "./LayoutStyles"
 
+/**
+ * This is a function that takes in children and returns a layout with a header and footer
+ * @returns The Layout component is returning the Header, the main, and the Footer.
+ */
 const Layout = ({ children }) => {
   const classes = LayoutStyles()
 
+/* This is a query to get all the categories from the strapi database. */
   const data = useStaticQuery(graphql`
     query MyQuery {
       allStrapiCategory {

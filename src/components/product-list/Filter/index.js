@@ -15,12 +15,21 @@ import FilterStyles from "./FilterStyles"
 import filter from "../../../images/filter.svg"
 import close from "../../../images/close-outline.svg"
 
+/**
+ * This function renders a filter menu for the user to filter the results
+ * @returns A grid container with a filter icon, a close icon, and a grid item for each filter option.
+ */
 export default function Filter({ setOption, filterOptions, setFilterOptions }) {
   const classes = FilterStyles()
+  /**
+   * It takes in an option and an index, and it toggles the value of the option at the given index
+   * @param option - the name of the filter option, e.g. "genre"
+   * @param i - The index of the option in the array of options.
+   */
   const handleFilter = (option, i) => {
     const newFilters = { ...filterOptions }
 
-    //toggle value from checkbox
+    /* This is a ternary operator that toggles the value of the checkbox. */
     newFilters[option][i].checked = !newFilters[option][i].checked
 
     setFilterOptions(newFilters)
@@ -41,6 +50,7 @@ export default function Filter({ setOption, filterOptions, setFilterOptions }) {
       </Grid>
       <Grid item xs>
         <Grid container justifyContent="space-around">
+          /* Rendering the checkboxes for each filter option. */
           {Object.keys(filterOptions)
             .filter(option => filterOptions[option] !== null)
             .map(option => (

@@ -15,6 +15,12 @@ import DynamicToolbar from "../../components/product-list/DynamicToolbar"
 import ListOfProducts from "../../components/product-list/ListOfProducts"
 import ProductListStyles from "./ProductListStyles"
 
+/**
+ * This function renders the product list page
+ * @returns The `ProductList` component returns a `Layout` component with a `Grid` container. The
+ * `Grid` container has a `DynamicToolbar` component, a `ListOfProducts` component, and a `Pagination`
+ * component.
+ */
 export default function ProductList({
   pageContext: { filterOptions: options, name, description },
   data: {
@@ -26,6 +32,12 @@ export default function ProductList({
   const [layout, setLayout] = useState("grid")
   const [page, setPage] = useState(1)
   const [filterOptions, setFilterOptions] = useState(options)
+  
+  /* This is a React Hook that sets the sortOptions state to an array of objects. Each object
+contains a label, an active property, and a function. The label is the name of the option, the
+active property is a boolean that is set to true if the option is selected, and the function is a
+function that is used to sort the products. 
+*/
   const [sortOptions, setSortOptions] = useState([
     { label: "A-Z", active: true, function: data => alphabetic(data, "asc") },
     { label: "Z-A", active: false, function: data => alphabetic(data, "desc") },
@@ -52,20 +64,29 @@ export default function ProductList({
     { label: "REVIEWS", active: false, function: data => data },
   ])
 
+  /* This is a React Hook that creates a ref object that is used to scroll to the top of the page. */
   const scrollRef = useRef(null)
 
+  /**
+   * It takes a reference to a DOM element and scrolls it into view
+   */
   const scroll = () => {
     scrollRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
+  /* This is a React Hook that sets the page to 1 when the filter options or layout changes. */
   useEffect(() => {
     setPage(1)
   }, [filterOptions, layout])
 
+  /* This is a ternary operator that sets the number of products per page to 16 if the layout is grid,
+and 6 if the layout is list. */
   const productsPerPage = layout === "grid" ? 16 : 6
 
   let content = []
 
+  /* This is a ternary operator that sets the selectedSort variable to the first object in the
+sortOptions array that has the active property set to true. */
   const selectedSort = sortOptions.filter(option => option.active)[0]
   const sortedProducts = selectedSort.function(products)
 
@@ -77,6 +98,8 @@ export default function ProductList({
   let filters = {}
   let filteredProducts = []
 
+  /* Filtering the content array by checking if the value.checked is true. If it is, it is
+pushing the item to the filteredProducts array. */
   Object.keys(filterOptions)
     .filter(option => filterOptions[option] !== null)
     .map(option => {
@@ -112,6 +135,8 @@ export default function ProductList({
       return null
     })
 
+  /* This is a ternary operator that checks if the value.checked is true. If it is, it is
+pushing the item to the filteredProducts array. */
   Object.keys(filters).forEach(filter => {
     filteredProducts = filteredProducts.filter(item => {
       let valid
@@ -131,6 +156,8 @@ export default function ProductList({
     })
   })
 
+  /* This is a ternary operator that checks if the value.checked is true. If it is, it is
+pushing the item to the filteredProducts array. */
   if (isFiltered) {
     content = filteredProducts
   }

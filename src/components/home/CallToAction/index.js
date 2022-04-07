@@ -7,6 +7,15 @@ import CallToActionStyles from "./CallToActionStyles"
 
 import cta from "../../../images/cta.svg"
 
+/**
+ * This component is the
+ * call to action section of the home page. It contains a picture of a man
+ * wearing a shirt and a call to action button
+ * @returns A grid container with two grid items. The first grid item contains an
+ * image. The second grid item contains a grid container with two grid items. The
+ * first grid item contains a heading container with a heading and a body. The
+ * second grid item contains a button container with two buttons.
+ */
 export default function CallToAction() {
   const classes = CallToActionStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))

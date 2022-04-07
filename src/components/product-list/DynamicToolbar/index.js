@@ -7,6 +7,10 @@ import { Grid } from "@material-ui/core"
 
 import DynamicToolbarStyles from "./DynamicToolbarStyles"
 
+/**
+ * This function is responsible for rendering the toolbar
+ * @returns A grid item container with a toolbar inside.
+ */
 export default function DynamicToolbar({
   filterOptions,
   setFilterOptions,

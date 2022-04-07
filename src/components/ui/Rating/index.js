@@ -5,6 +5,10 @@ import fullStar from "../../../images/full-star.svg"
 import halfStar from "../../../images/half-star.svg"
 import emptyStar from "../../../images/empty-star.svg"
 
+/**
+ * This function returns a rating based on the number of stars
+ * @returns An array of images.
+ */
 export default function Rating({ number }) {
   const classes = RatingStyles()
   const diff = 5 - Math.ceil(number)

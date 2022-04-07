@@ -9,6 +9,10 @@ import FunctionContainerStyles from "./FunctionContainerStyles"
 import filter from "../../../images/filter.svg"
 import sort from "../../../images/sort.svg"
 
+/**
+ * It renders the function container, which is the area that contains the filter and sort options
+ * @returns A grid item container with a function container inside.
+ */
 export default function FunctionContainer({
   filterOptions,
   setFilterOptions,
@@ -19,6 +23,10 @@ export default function FunctionContainer({
 }) {
   const classes = FunctionContainerStyles({ option })
 
+  /**
+   * It returns a grid of buttons that allow the user to filter and sort the data
+   * @returns A switch statement is being used to return the correct component.
+   */
   const content = () => {
     switch (option) {
       case "sort":
@@ -64,6 +72,7 @@ export default function FunctionContainer({
 
   return (
     <Grid item container classes={{ root: classes.functionContainer }}>
+      /* Returning the correct component based on the `option` state. */
       {content()}
     </Grid>
   )

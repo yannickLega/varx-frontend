@@ -20,6 +20,12 @@ import ProductInfoStyles from "./ProductInfoStyles"
 import favorite from "../../../images/favorite.svg"
 import subscription from "../../../images/subscription.svg"
 
+/**
+ * Given a stock object, return a string that represents the stock status of the product
+ * @param stock - The stock object returned from the API.
+ * @param variant - The variant of the product that we're displaying.
+ * @returns A string.
+ */
 export const getStockDisplay = (stock, variant) => {
   switch (stock) {
     case undefined:
@@ -36,6 +42,10 @@ export const getStockDisplay = (stock, variant) => {
   }
 }
 
+/**
+ * This function renders the product info section of the product page
+ * @returns The ProductInfo component is returning a grid item container
+ */
 export default function ProductInfo({
   name,
   description,
@@ -46,34 +56,60 @@ export default function ProductInfo({
 }) {
   const classes = ProductInfoStyles()
 
-  const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedSize, setSelectedSize] = useState(
+    variants[selectedVariant].size
+  )
   const [selectedColor, setSelectedColor] = useState(null)
+  
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
+/* This is a helper function that returns the index of the image that matches the selected color. */
   const imageIndex = colorIndex(
     { node: { variants } },
     variants[selectedVariant],
     selectedColor
   )
 
+/* This is a loop that is used to populate the sizes and colors arrays. */
   const sizes = []
   const colors = []
 
   variants.map(variant => {
     sizes.push(variant.size)
 
-    if (!colors.includes(variant.color)) {
+    if (
+      !colors.includes(variant.color) &&
+      variant.size === selectedSize &&
+      variant.style === variants[selectedVariant].style
+    ) {
       colors.push(variant.color)
     }
     return null
   })
 
+/* This is a React Hook that runs when the selectedSize changes. It finds the first color available for
+the selected size and sets the selectedVariant to the index of that color. */
+  useEffect(() => {
+    setSelectedColor(null)
+    const newVariant = variants.find(
+      variant =>
+        variant.size === selectedSize &&
+        variant.style === variants[selectedVariant].style &&
+        variant.color === colors[0]
+    )
+    setSelectedVariant(variants.indexOf(newVariant))
+  }, [selectedSize])
+
+/* This is a React Hook that runs when the selectedColor changes. It finds the first variant available
+for
+the selected color and sets the selectedVariant to the index of that variant. */
   useEffect(() => {
     if (imageIndex !== -1) {
       setSelectedVariant(imageIndex)
     }
   }, [imageIndex, setSelectedVariant])
 
+  /* This function is returning a string that represents the stock status of the product. */
   const stockDisplay = getStockDisplay(stock, selectedVariant)
 
   return (

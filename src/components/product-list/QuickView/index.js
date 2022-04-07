@@ -21,6 +21,10 @@ import QuickViewStyles from "./QuickViewStyles"
 
 import explore from "../../../images/explore.svg"
 
+/**
+ * This function renders the QuickView Dialog
+ * @returns A Dialog component.
+ */
 export default function QuickView({
   open,
   setOpen,
@@ -41,9 +45,12 @@ export default function QuickView({
 }) {
   const classes = QuickViewStyles()
 
+  /* This is a ternary operator that checks if the imageIndex is -1. If it is,
+it will return the index of the variant. If it is not, it will return the imageIndex. */
   const selectedVariant =
     imageIndex === -1 ? product.node.variants.indexOf(variant) : imageIndex
 
+  /* This function is getting the stock display for the selected variant. */
   const stockDisplay = getStockDisplay(stock, selectedVariant)
 
   return (
@@ -57,6 +64,8 @@ export default function QuickView({
           <Grid
             item
             component={Link}
+            /* This is a ternary operator that checks if the imageIndex is -1. If it is,
+            it will return the index of the variant. If it is not, it will return the imageIndex. */
             to={`/${product.node.category.name.toLowerCase()}/${product.node.name
               .split(" ")[0]
               .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}
@@ -76,6 +85,9 @@ export default function QuickView({
                 justifyContent="space-between"
                 classes={{ root: classes.infoContainer }}
                 component={Link}
+                /* This is a ternary operator that checks if the imageIndex is -1. If it is,
+                it will return the index of the variant. If it is not, it will return the
+                imageIndex. */
                 to={`/${product.node.category.name.toLowerCase()}/${product.node.name
                   .split(" ")[0]
                   .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}

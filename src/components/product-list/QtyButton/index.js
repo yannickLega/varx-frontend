@@ -7,6 +7,11 @@ import QtyButtonStyles from "./QtyButtonStyles"
 
 import Cart from "../../../images/Cart"
 
+/**
+ * This function renders a quantity button that allows the user to increase or decrease the quantity of
+ * the product in the cart
+ * @returns The return is a grid item with a button group that contains the quantity buttons.
+ */
 export default function QtyButton({ stock, selectedVariant }) {
   const classes = QtyButtonStyles()
   const [qty, setQty] = useState(1)
@@ -24,6 +29,9 @@ export default function QtyButton({ stock, selectedVariant }) {
     setQty(newQty)
   }
 
+/* This is a React Hook that runs every time the component is rendered. It checks to see if the stock
+is null or -1. If it is, it returns undefined. If it isn't, it checks to see if the quantity is
+greater than the stock quantity. If it is, it sets the quantity to the stock quantity. */
   useEffect(() => {
     if (stock === null || stock === -1) {
       return undefined

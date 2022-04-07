@@ -7,9 +7,14 @@ import MarketingButtonsStyles from "./MarketingButtonsStyles"
 import moreByUs from "../../../images/more-by-us.svg"
 import store from "../../../images/store.svg"
 
+/**
+ * This function creates a grid of buttons
+ * @returns A grid container with a grid item for each button.
+ */
 export default function MarketingButtons() {
   const classes = MarketingButtonsStyles()
 
+  /* It creates an array of objects. Each object has a label, icon, and link. */
   const buttons = [
     { label: "Store", icon: store, link: "/hoodies" },
     { label: "More By Us", icon: moreByUs, href: "https://www.google.com" },

@@ -1,12 +1,17 @@
+/**
+ * It takes in a dictionary of values and returns a dictionary of validators
+ * @param values - The values object that is passed in from the form component.
+ * @returns An object that contains all the validators.
+ */
+//input: values = {field: value, field2: value} ex { email: email@mail.com, phone: 666 666 6666 }
+//output: {field: valid} ex {email: true, phone: true}
 export default function validate(values) {
-  //input: values = {field: value, field2: value} ex { email: email@mail.com, phone: 666 666 6666 }
-  //output: {field: valid} ex {email: true, phone: true}
   const validators = {
     email: value => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value),
     phone: value =>
-      //check validité numéro américain
+      //check american phone number schema
       /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) ||
-      //check validité numéro francais
+      //check french phone number schema
       /^\(?([0-9]{2})\)?[-. ]?([0-9]{2})[-. ]?([0-9]{2})[-. ]?([0-9]{2})[-. ]?([0-9]{2})$/.test(
         value
       ),

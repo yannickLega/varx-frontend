@@ -13,6 +13,10 @@ import GridIcon from "../../../images/Grid"
 
 import DescriptionContainerStyles from "./DescriptionContainerStyles"
 
+/**
+ * This function is responsible for rendering the description of the product
+ * @returns The return is a grid item container with a grid item container inside of it.
+ */
 export default function DescriptionContainer({
   name,
   description,
@@ -22,6 +26,7 @@ export default function DescriptionContainer({
   const classes = DescriptionContainerStyles()
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
+  /* `option` is the value of the `layout` state. */
   const changeLayout = option => {
     setLayout(option)
   }
@@ -37,6 +42,7 @@ export default function DescriptionContainer({
     >
       <Grid item classes={{ root: classes.descriptionContainer }}>
         <Typography variant="h4" align="center">
+          /* This is the name of the product. */
           {name}
         </Typography>
         <Typography
@@ -44,6 +50,7 @@ export default function DescriptionContainer({
           classes={{ root: classes.description }}
           align="center"
         >
+          /* This is the description of the product. */
           {description}
         </Typography>
       </Grid>

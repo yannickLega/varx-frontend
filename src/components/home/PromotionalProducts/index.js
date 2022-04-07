@@ -16,11 +16,21 @@ import PromotionalProductsStyles from "./PromotionalProductsStyles"
 
 import explore from "../../../images/explore.svg"
 
+/**
+ * This function is used to
+ * display the promotional products on the home page. It uses the `useStaticQuery`
+ * hook to get the data from the strapi API. It then uses the `useMediaQuery` hook
+ * to check if the screen size is small. If it is, then it displays the products
+ * in a column. If it isn't, then it displays the products in a row
+ * @returns A grid container with two grid items. The first grid item is the carousel, and the second
+ * grid item is the description.
+ */
 export default function PromotionalProducts() {
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const [selectedSlide, setSelectedSlide] = useState(0)
   const classes = PromotionalProductsStyles()
+
   const data = useStaticQuery(graphql`
     query GetPromo {
       allStrapiProduct(filter: { promo: { eq: true } }) {
@@ -40,6 +50,8 @@ export default function PromotionalProducts() {
     }
   `)
 
+/* It's creating an array of objects. Each object has a key and a content. The key is the index of the
+slide, and the content is the slide itself. */
   let slides = []
 
   data.allStrapiProduct.edges.map(({ node }, i) =>

@@ -9,6 +9,11 @@ import RecentlyViewed from "../../components/product-detail/RecentlyViewed"
 
 import { Grid, useMediaQuery } from "@material-ui/core"
 
+/**
+ * This function renders the product details page
+ * @returns The ProductDetails component is returning a Layout component, which is a container for the
+ * Grid component. The Grid component is a container for the ProductInfo and ProductImages components.
+ */
 export default function ProductDetails({
   pageContext: { name, id, category, description, variants, product },
 }) {
@@ -18,14 +23,15 @@ export default function ProductDetails({
 
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
+/* This is a helper function that allows us to access the query parameters in the URL. */
   const params = new URLSearchParams(window.location.search)
   const style = params.get("style")
 
-  //apollo query call
   const { loading, error, data } = useQuery(GET_DETAILS, {
     variables: { id },
   })
 
+/* This is a React Hook that is used to set the stock state. */
   useEffect(() => {
     if (error) {
       setStock(-1)
@@ -70,7 +76,7 @@ export default function ProductDetails({
     )
 
     setSelectedVariant(variantIndex)
-  }, [variants, name, product, style])
+  }, [style])
 
   return (
     <Layout>

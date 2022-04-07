@@ -11,6 +11,10 @@ import explore from "../../../images/explore.svg"
 
 import Rating from "../../ui/Rating"
 
+/**
+ * This function is used to display the featured products on the home page
+ * @returns A grid with a bunch of featured products.
+ */
 export default function FeaturedProducts() {
   const [expanded, setExpanded] = useState(null)
 

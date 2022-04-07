@@ -1,3 +1,9 @@
+/**
+ * This is a way to compare two strings in an alphabetical order.
+ * Sort the data by the name property in ascending or descending order
+ * @param data - The data to sort.
+ * @param direction - The direction to sort the data.
+ */
 export const alphabetic = (data, direction) =>
   data.sort((a, b) => {
     const first = a.node.name.toLowerCase()
@@ -12,6 +18,12 @@ export const alphabetic = (data, direction) =>
     return 0
   })
 
+/**
+ * This is a way to compare two dates in an chronological order.
+ * Sort the data by the date of creation
+ * @param data - The data to sort.
+ * @param direction - The direction to sort the data.
+ */
 export const time = (data, direction) =>
   data.sort((a, b) => {
     const first = new Date(a.node.createdAt)
@@ -26,6 +38,12 @@ export const time = (data, direction) =>
     return 0
   })
 
+/**
+ * This is a way to get the price of the first variant of the product.
+ * Sort the products by price, in ascending or descending order
+ * @param data - The data to sort.
+ * @param direction - The direction to sort the results in.
+ */
 export const price = (data, direction) =>
   data.sort((a, b) => {
     const first = a.node.variants[0].price

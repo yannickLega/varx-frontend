@@ -158,6 +158,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+/**
+ * It creates a contact page with a form to send a message to the company
+ * @returns The ContactPage component is returning a Layout component.
+ */
 export default function ContactPage() {
   const classes = useStyles()
   const theme = useTheme()
@@ -235,6 +239,10 @@ export default function ContactPage() {
     },
   ]
 
+  /* 
+  This is a conditional that checks if there are any errors in the form. If there are errors, the
+  button is disabled. 
+  */
   const disabled =
     Object.keys(errors).some(error => errors[error] === true) ||
     Object.keys(errors).length !== 4
