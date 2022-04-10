@@ -50,9 +50,9 @@ export default function Footer() {
         {/* links */}
         <Grid item classes={{ root: classes.linkContainer }}>
           <Grid container>
-            /* This is a nested for loop. The outer for loop is for each
+            {/* This is a nested for loop. The outer for loop is for each
             category in the routes object. The inner for loop is for each route
-            in the category. */
+            in the category. */}
             {Object.keys(routes).map(category => (
               <Grid
                 key={category}
@@ -90,9 +90,9 @@ export default function Footer() {
             alignItems={matchesMD ? null : "center"}
             justifyContent={matchesMD ? "center" : null}
           >
-            /* This is a nested for loop. The outer for loop is for each
+            {/* This is a nested for loop. The outer for loop is for each
             category in the routes object. The inner for loop is for each route
-            in the category. */
+            in the category. */}
             {socialMedia.map(platform => (
               <Grid item key={platform.alt}>
                 <IconButton

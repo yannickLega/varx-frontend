@@ -61,17 +61,17 @@ If the selected color is not in the variant, it returns -1. */
         justifyContent="space-around"
         classes={{ root: classes.frame }}
       >
-        /* This is a ternary operator that returns the images of the variant if
+        {/* This is a ternary operator that returns the images of the variant if
         the selected color is in the variant. If the selected color is not in
-        the variant, it returns the images of the variant. */
+        the variant, it returns the images of the variant. */}
         {images.slice(0, 3).map(image => (
           <Grid
             item
             key={image.url}
             component={Link}
-            /* This is a ternary operator that returns the URL of the product. If the product has
-            styles, it returns the URL with the style. If the product does not have styles, it
-            returns the URL without the style. */
+            // This is a ternary operator that returns the URL of the product. If the product has
+            // styles, it returns the URL with the style. If the product does not have styles, it
+            // returns the URL without the style.
             to={`/${product.node.category.name.toLowerCase()}/${product.node.name
               .split(" ")[0]
               .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}
@@ -97,9 +97,9 @@ If the selected color is not in the variant, it returns -1. */
           container
           direction="column"
           component={Link}
-          /* This is a ternary operator that returns the URL of the product.
-          If the product has styles, it returns the URL with the style.
-          If the product does not have styles, it returns the URL without the style. */
+          // This is a ternary operator that returns the URL of the product.
+          // If the product has styles, it returns the URL with the style.
+          // If the product does not have styles, it returns the URL without the style.
           to={`/${product.node.category.name.toLowerCase()}/${product.node.name
             .split(" ")[0]
             .toLowerCase()}${hasStyles ? `?style=${variant.style}` : ""}`}

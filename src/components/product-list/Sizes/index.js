@@ -25,9 +25,9 @@ they are, it sets the actualSizes to the possibleSizes. If not, it sets it to an
 
   return (
     <Grid item container justifyContent="space-between">
-      /* This is a for loop that creates a grid item for each size in the array
+      {/* This is a for loop that creates a grid item for each size in the array
       of sizes. It also creates a button that is selected if the size is the
-      selected size. */
+      selected size. */}
       {actualSizes.map(size => (
         <Grid item key={size}>
           <Button

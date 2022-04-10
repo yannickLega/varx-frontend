@@ -33,10 +33,10 @@ export default function Header({ categories }) {
 
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-/**
- * It returns the index of the route that matches the current location
- * @returns The index of the route that matches the current location.
- */
+  /**
+   * It returns the index of the route that matches the current location
+   * @returns The index of the route that matches the current location.
+   */
   const activeIndex = () => {
     const found = routes.indexOf(
       routes.filter(
@@ -48,13 +48,13 @@ export default function Header({ categories }) {
     return found === -1 ? false : found
   }
 
-/* Adding the contact route to the routes array. */
+  /* Adding the contact route to the routes array. */
   const routes = [
     ...categories,
     { node: { name: "Contact us", strapiId: "contact", link: "/contact" } },
   ]
 
-/* It returns the tabs component. */
+  /* It returns the tabs component. */
   const tabs = (
     <Tabs
       value={activeIndex()}
@@ -72,7 +72,7 @@ export default function Header({ categories }) {
     </Tabs>
   )
 
-/* Returning the drawer component. */
+  /* Returning the drawer component. */
   const drawer = (
     <SwipeableDrawer
       open={drawerOpen}
@@ -100,7 +100,7 @@ export default function Header({ categories }) {
     </SwipeableDrawer>
   )
 
-/* Returning the actions that are visible on the screen. */
+  /* Returning the actions that are visible on the screen. */
   const actions = [
     {
       icon: search,
@@ -131,7 +131,7 @@ export default function Header({ categories }) {
           </Typography>
         </Button>
         {matchesMD ? drawer : tabs}
-/* Returning the actions that are visible on the screen. */
+        {/* Returning the actions that are visible on the screen. */}
         {actions.map(action => {
           if (action.visible) {
             return (

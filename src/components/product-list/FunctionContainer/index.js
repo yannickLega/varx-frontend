@@ -72,7 +72,7 @@ export default function FunctionContainer({
 
   return (
     <Grid item container classes={{ root: classes.functionContainer }}>
-      /* Returning the correct component based on the `option` state. */
+      {/* Returning the correct component based on the `option` state. */}
       {content()}
     </Grid>
   )

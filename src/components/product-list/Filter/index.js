@@ -50,7 +50,7 @@ export default function Filter({ setOption, filterOptions, setFilterOptions }) {
       </Grid>
       <Grid item xs>
         <Grid container justifyContent="space-around">
-          /* Rendering the checkboxes for each filter option. */
+          {/* Rendering the checkboxes for each filter option. */}
           {Object.keys(filterOptions)
             .filter(option => filterOptions[option] !== null)
             .map(option => (

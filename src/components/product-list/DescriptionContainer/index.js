@@ -42,7 +42,6 @@ export default function DescriptionContainer({
     >
       <Grid item classes={{ root: classes.descriptionContainer }}>
         <Typography variant="h4" align="center">
-          /* This is the name of the product. */
           {name}
         </Typography>
         <Typography
@@ -50,7 +49,6 @@ export default function DescriptionContainer({
           classes={{ root: classes.description }}
           align="center"
         >
-          /* This is the description of the product. */
           {description}
         </Typography>
       </Grid>

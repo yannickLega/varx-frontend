@@ -17,6 +17,10 @@ export default function validate(values) {
       ),
     name: value => value.length > 3,
     message: value => value.length > 3,
+    password: value =>
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+        value
+      ),
   }
   const valid = {}
 
