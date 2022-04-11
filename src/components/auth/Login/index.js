@@ -1,9 +1,17 @@
 import React, { useState } from "react"
+import axios from "axios"
+import { setUser, setSnackbar } from "../../../contexts/actions"
 import clsx from "clsx"
 
 import Fields from "../Fields"
 
-import { Grid, Typography, Button, IconButton } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Button,
+  IconButton,
+  CircularProgress,
+} from "@material-ui/core"
 
 import LoginStyles from "./LoginStyles"
 
@@ -57,7 +65,12 @@ export const EmailPassword = (
   },
 })
 
-export default function Login({ steps, setSelectedStep }) {
+export default function Login({
+  steps,
+  setSelectedStep,
+  dispatchUser,
+  dispatchFeedback,
+}) {
   const classes = LoginStyles()
   const [values, setValues] = useState({
     email: "",
@@ -66,6 +79,7 @@ export default function Login({ steps, setSelectedStep }) {
   const [errors, setErrors] = useState({})
   const [visible, setVisible] = useState(false)
   const [forgot, setForgot] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   /* A object that is used to create the text fields. */
   const fields = EmailPassword(classes, false, forgot, visible, setVisible)
@@ -77,6 +91,29 @@ export default function Login({ steps, setSelectedStep }) {
 
     setSelectedStep(steps.indexOf(signUp))
   }
+
+  const handleLogin = () => {
+    setLoading(true)
+    axios
+      .post(process.env.GATSBY_STRAPI_URL + "/auth/local", {
+        identifier: values.email,
+        password: values.password,
+      })
+      .then(response => {
+        setLoading(false)
+        dispatchUser(setUser({ ...response.data.user, jwt: response.data.jwt }))
+      })
+      .catch(error => {
+        const { message } = error.response.data.message[0].messages[0]
+        setLoading(false)
+        console.error(error)
+        dispatchFeedback(setSnackbar({ status: "error", message }))
+      })
+  }
+
+  const disabled =
+    Object.keys(errors).some(error => errors[error] === true) ||
+    Object.keys(errors).length !== Object.keys(values).length
 
   return (
     <>
@@ -92,6 +129,8 @@ export default function Login({ steps, setSelectedStep }) {
       />
       <Grid item>
         <Button
+          onClick={() => (forgot ? null : handleLogin())}
+          disabled={loading || (!forgot && disabled)}
           variant="contained"
           color="secondary"
           classes={{
@@ -100,9 +139,13 @@ export default function Login({ steps, setSelectedStep }) {
             }),
           }}
         >
-          <Typography variant="h5">
-            {forgot ? "reset password" : "login"}
-          </Typography>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Typography variant="h5">
+              {forgot ? "reset password" : "login"}
+            </Typography>
+          )}
         </Button>
       </Grid>
       {forgot ? null : (

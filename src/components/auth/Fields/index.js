@@ -18,21 +18,25 @@ export default function Fields({
   return Object.keys(fields).map(field => {
     const validateHelper = event => {
       // valide chaque lettre quand le format est bon efface l'erreur
-      const valid = validate({ [field]: event.target.value })
-      setErrors({ ...errors, [field]: !valid[field] })
+      return validate({ [field]: event.target.value })
     }
     return !fields[field].hidden ? (
       <Grid item key={field}>
         <TextField
           value={values[field]}
           onChange={e => {
-            if (errors[field]) {
-              validateHelper(e)
+            const valid = validateHelper(e)
+
+            if (errors[field] || valid[field] === true) {
+              setErrors({ ...errors, [field]: !valid[field] })
             }
             setValues({ ...values, [field]: e.target.value })
           }}
           // sur le focus gere les erreurs avec la function validate
-          onBlur={e => validateHelper(e)}
+          onBlur={e => {
+            const valid = validateHelper(e)
+            setErrors({ ...errors, [field]: !valid[field] })
+          }}
           //applique le style error sur le field
           error={errors[field]}
           helperText={

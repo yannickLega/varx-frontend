@@ -1,10 +1,18 @@
 import React, { useState } from "react"
+import { setUser, setSnackbar } from "../../../contexts/actions"
+import axios from "axios"
 import clsx from "clsx"
 
 import Fields from "../Fields"
 import { EmailPassword } from "../Login"
 
-import { Grid, Typography, Button, IconButton } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Button,
+  IconButton,
+  CircularProgress,
+} from "@material-ui/core"
 
 import SignUpStyles from "./SignUpStyles"
 
@@ -13,7 +21,12 @@ import nameAdornment from "../../../images/name-adornment.svg"
 import forward from "../../../images/forward-outline.svg"
 import backward from "../../../images/backwards-outline.svg"
 
-export default function SignUp({ steps, setSelectedStep }) {
+export default function SignUp({
+  steps,
+  setSelectedStep,
+  dispatchUser,
+  dispatchFeedback,
+}) {
   const classes = SignUpStyles()
   const [info, setInfo] = useState(false)
   const [values, setValues] = useState({
@@ -23,6 +36,7 @@ export default function SignUp({ steps, setSelectedStep }) {
   })
   const [errors, setErrors] = useState({})
   const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const nameField = {
     name: {
@@ -50,9 +64,32 @@ export default function SignUp({ steps, setSelectedStep }) {
     }
   }
 
+  const disabled =
+    Object.keys(errors).some(error => errors[error] === true) ||
+    Object.keys(errors).length !== Object.keys(values).length
+
   const handleComplete = () => {
-    const complete = steps.find(step => step.label === "Complete")
-    setSelectedStep(steps.indexOf(complete))
+    setLoading(true)
+    axios
+      .post(process.env.GATSBY_STRAPI_URL + "/auth/local/register", {
+        username: values.name,
+        email: values.email,
+        password: values.password,
+      })
+      .then(response => {
+        setLoading(false)
+        dispatchUser(setUser({ ...response.data.user, jwt: response.data.jwt }))
+
+        const complete = steps.find(step => step.label === "Complete")
+
+        setSelectedStep(steps.indexOf(complete))
+      })
+      .catch(error => {
+        const { message } = error.response.data.message[0].messages[0]
+        setLoading(false)
+        console.error(error)
+        dispatchFeedback(setSnackbar({ status: "error", message }))
+      })
   }
 
   return (
@@ -71,6 +108,7 @@ export default function SignUp({ steps, setSelectedStep }) {
         <Button
           variant="contained"
           color="secondary"
+          disabled={loading || (info && disabled)}
           onClick={() => (info ? handleComplete() : null)}
           classes={{
             root: clsx(classes.facebookSignUp, {
@@ -78,9 +116,13 @@ export default function SignUp({ steps, setSelectedStep }) {
             }),
           }}
         >
-          <Typography variant="h5" classes={{ root: classes.facebookText }}>
-            sign up{info ? "" : " with Facebook"}
-          </Typography>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Typography variant="h5" classes={{ root: classes.facebookText }}>
+              sign up{info ? "" : " with Facebook"}
+            </Typography>
+          )}
         </Button>
       </Grid>
       <Grid item container justifyContent="space-between">
