@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { setUser, setSnackbar } from "../../../contexts/actions"
 import clsx from "clsx"
@@ -80,6 +80,7 @@ export default function Login({
   const [visible, setVisible] = useState(false)
   const [forgot, setForgot] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   /* A object that is used to create the text fields. */
   const fields = EmailPassword(classes, false, forgot, visible, setVisible)
@@ -101,7 +102,35 @@ export default function Login({
       })
       .then(response => {
         setLoading(false)
-        dispatchUser(setUser({ ...response.data.user, jwt: response.data.jwt }))
+        dispatchUser(
+          setUser({
+            ...response.data.user,
+            jwt: response.data.jwt,
+            onboarding: true,
+          })
+        )
+      })
+      .catch(error => {
+        const { message } = error.response.data.message[0].messages[0]
+        setLoading(false)
+        console.error(error)
+        dispatchFeedback(setSnackbar({ status: "error", message }))
+      })
+  }
+
+  const handleForgot = () => {
+    setLoading(true)
+    axios
+      .post(process.env.GATSBY_STRAPI_URL + "/auth/forgot-password", {
+        email: values.email,
+      })
+      .then(response => {
+        setLoading(false)
+        setSuccess(true)
+
+        dispatchFeedback(
+          setSnackbar({ status: "success", message: "Reset code sent" })
+        )
       })
       .catch(error => {
         const { message } = error.response.data.message[0].messages[0]
@@ -114,6 +143,15 @@ export default function Login({
   const disabled =
     Object.keys(errors).some(error => errors[error] === true) ||
     Object.keys(errors).length !== Object.keys(values).length
+
+  useEffect(() => {
+    if (!success) return
+
+    const timer = setTimeout(() => {
+      setForgot(false)
+    }, 6000)
+    return () => clearTimeout(timer)
+  }, [success])
 
   return (
     <>
@@ -129,7 +167,7 @@ export default function Login({
       />
       <Grid item>
         <Button
-          onClick={() => (forgot ? null : handleLogin())}
+          onClick={() => (forgot ? handleForgot() : handleLogin())}
           disabled={loading || (!forgot && disabled)}
           variant="contained"
           color="secondary"

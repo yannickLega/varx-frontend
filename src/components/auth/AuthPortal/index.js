@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 
 import Login from "../Login"
 import SignUp from "../SignUp"
 import Complete from "../Complete"
+import Reset from "../Reset"
 import { UserContext, FeedbackContext } from "../../../contexts"
 
 import { Grid, Paper } from "@material-ui/core"
@@ -19,7 +20,18 @@ export default function AuthPortal() {
     { component: Login, label: "Login" },
     { component: SignUp, label: "Sign Up" },
     { component: Complete, label: "Complete" },
+    { component: Reset, label: "Reset" },
   ]
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const code = params.get("code")
+
+    if (code) {
+      const resetStep = steps.find(step => step.label === "Reset")
+      setSelectedStep(steps.indexOf(resetStep))
+    }
+  }, [])
 
   return (
     <Grid
