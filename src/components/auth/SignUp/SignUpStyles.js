@@ -6,12 +6,6 @@ export default makeStyles(theme => ({
     width: "11rem",
     marginTop: "5rem",
   },
-  textField: {
-    width: "20rem",
-  },
-  input: {
-    color: theme.palette.secondary.main,
-  },
   bottomIcons: {
     padding: "0 0.5rem",
     height: "3rem",
@@ -21,6 +15,9 @@ export default makeStyles(theme => ({
     width: "20rem",
     borderRadius: 50,
     marginTop: "-3rem",
+    [theme.breakpoints.down("xs")]: {
+      width: "15rem",
+    },
   },
   removeButtonMargin: {
     marginTop: 0,
@@ -28,6 +25,9 @@ export default makeStyles(theme => ({
   facebookText: {
     textTransform: "none",
     fontSize: "1.5rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.25rem",
+    },
   },
   visibleIcon: {
     padding: 0,

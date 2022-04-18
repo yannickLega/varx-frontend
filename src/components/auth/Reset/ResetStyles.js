@@ -6,8 +6,16 @@ export default makeStyles(theme => ({
     borderRadius: 50,
     textTransform: "none",
     marginBottom: "4rem",
+    [theme.breakpoints.down("xs")]: {
+      width: "15rem",
+    },
   },
   icon: {
     marginTop: "2rem",
+  },
+  buttonText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.5rem",
+    },
   },
 }))

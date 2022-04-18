@@ -16,6 +16,9 @@ export default makeStyles(theme => ({
     width: "20rem",
     borderRadius: 50,
     textTransform: "none",
+    [theme.breakpoints.down("xs")]: {
+      width: "15rem",
+    },
   },
   reset: {
     marginTop: "-4rem",
@@ -33,5 +36,10 @@ export default makeStyles(theme => ({
   },
   bottomIcons: {
     padding: "0 0.5rem",
+  },
+  buttonText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.5rem",
+    },
   },
 }))

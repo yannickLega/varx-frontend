@@ -101,7 +101,9 @@ export default function Reset({ steps, setSelectedStep, dispatchFeedback }) {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Typography variant="h5">reset password</Typography>
+            <Typography variant="h5" classes={{ root: classes.buttonText }}>
+              reset password
+            </Typography>
           )}
         </Button>
       </Grid>
