@@ -4,25 +4,14 @@ import { setUser } from "../contexts/actions"
 
 import Layout from "../components/ui/Layout"
 import AuthPortal from "../components/auth/AuthPortal"
-
-import { Button } from "@material-ui/core"
+import SettingsPortal from "../components/settings/SettingsPortal"
 
 export default function Account() {
-  const { user, dispatchUser, defaultUser } = useContext(UserContext)
-
-  const handleLogout = () => {
-    dispatchUser(setUser(defaultUser))
-  }
+  const { user } = useContext(UserContext)
 
   return (
     <Layout>
-      {user.jwt && user.onboarding ? (
-        <Button variant="contained" onClick={handleLogout}>
-          logout
-        </Button>
-      ) : (
-        <AuthPortal />
-      )}
+      {user.jwt && user.onboarding ? <SettingsPortal /> : <AuthPortal />}
     </Layout>
   )
 }
