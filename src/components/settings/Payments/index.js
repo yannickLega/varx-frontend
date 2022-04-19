@@ -13,7 +13,15 @@ export default function Payments() {
   const cards = [{ last4: 1234, brand: "Visa" }]
 
   return (
-    <Grid item container direction="column" xs={6} alignItems="center">
+    <Grid
+      item
+      container
+      direction="column"
+      xs={6}
+      alignItems="center"
+      justifyContent="center"
+      classes={{ root: classes.paymentsContainer }}
+    >
       <Grid item>
         <img src={card} alt="payment settings" className={classes.icon} />
       </Grid>
@@ -38,7 +46,7 @@ export default function Payments() {
           </Grid>
         )}
       </Grid>
-      <Grid item container>
+      <Grid item container classes={{ root: classes.slotsContainer }}>
         <Slots />
       </Grid>
     </Grid>

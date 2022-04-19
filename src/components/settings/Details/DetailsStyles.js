@@ -22,6 +22,13 @@ export default makeStyles(theme => ({
       marginLeft: "5rem",
     },
   },
+  detailsContainer: {
+    position: "relative",
+  },
+  slotsContainer: {
+    position: "absolute",
+    bottom: 0,
+  },
   "@global": {
     ".MuiInput-underline:before": {
       borderBottom: "solid 2px #fff",

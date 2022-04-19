@@ -23,4 +23,12 @@ export default makeStyles(theme => ({
   icon: {
     marginBottom: "3rem",
   },
+  paymentsContainer: {
+    position: "relative",
+    borderLeft: `4px solid ${theme.palette.common.white}`,
+  },
+  slotsContainer: {
+    position: "absolute",
+    bottom: 0,
+  },
 }))

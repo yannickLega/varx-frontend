@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   slotWrappers: {
-    marginLeft: "2rem",
+    marginLeft: "1rem",
+    marginBottom: "1rem",
     "& > :not(:first-child)": {
       marginLeft: "-0.5rem",
     },

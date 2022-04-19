@@ -14,8 +14,10 @@ export default makeStyles(theme => ({
     backgroundSize: "fill",
     backgroundPosition: "center",
     backgroundRepeat: "repeat",
-    borderTop: `0.5rem solid ${theme.palette.primary.main}`,
-    borderBottom: `0.5rem solid ${theme.palette.primary.main}`,
+    borderTop: ({ showComponent }) =>
+      `${showComponent ? 0 : 0.5}rem solid ${theme.palette.primary.main}`,
+    borderBottom: ({ showComponent }) =>
+      `${showComponent ? 0 : 0.5}rem solid ${theme.palette.primary.main}`,
     margin: "5rem 0",
   },
   icons: {

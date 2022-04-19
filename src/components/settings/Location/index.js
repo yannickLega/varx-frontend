@@ -32,7 +32,15 @@ export default function Location() {
   }
 
   return (
-    <Grid item container direction="column" xs={6} alignItems="center">
+    <Grid
+      item
+      container
+      direction="column"
+      xs={6}
+      alignItems="center"
+      justifyContent="center"
+      classes={{ root: classes.locationContainer }}
+    >
       <Grid item>
         <img
           src={locationIcon}
@@ -40,7 +48,13 @@ export default function Location() {
           className={classes.icon}
         />
       </Grid>
-      <Grid item container direction="column" alignItems="center" classes={{root: classes.fieldContainer}}>
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        classes={{ root: classes.fieldContainer }}
+      >
         <Fields
           fields={fields}
           values={values}
@@ -53,7 +67,7 @@ export default function Location() {
       <Grid item classes={{ root: classes.chipWrapper }}>
         <Chip label="City, State" />
       </Grid>
-      <Grid item container>
+      <Grid item container classes={{ root: classes.slotsContainer }} >
         <Slots />
       </Grid>
     </Grid>

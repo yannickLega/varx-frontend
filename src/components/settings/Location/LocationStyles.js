@@ -13,4 +13,11 @@ export default makeStyles(theme => ({
       marginTop: "2rem",
     },
   },
+  slotsContainer: {
+    position: "absolute",
+    bottom: 0,
+  },
+  locationContainer: {
+    position: "relative",
+  },
 }))

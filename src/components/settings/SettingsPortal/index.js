@@ -20,11 +20,11 @@ import orderHistoryIcon from "../../../images/order-history.svg"
 const AnimatedGrid = animated(Grid)
 
 export default function SettingsPortal() {
-  const classes = SettingsPortalStyles()
   const { user } = useContext(UserContext)
   const [selectedSetting, setSelectedSetting] = useState(null)
   const [resizeListener, sizes] = useResizeAware()
   const [showComponent, setShowComponent] = useState(false)
+  const classes = SettingsPortalStyles({ showComponent })
 
   const buttons = [
     { label: "Settings", icon: settingsIcon, component: Settings },
@@ -133,7 +133,7 @@ export default function SettingsPortal() {
                 alignItems="center"
               >
                 {selectedSetting === button.label && showComponent ? (
-                  <button.component />
+                  <button.component setSelectedSetting={setSelectedSetting} />
                 ) : (
                   <>
                     <Grid item>
