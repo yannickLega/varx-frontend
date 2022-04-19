@@ -8,6 +8,7 @@ export default makeStyles(theme => ({
     },
   },
   input: {
-    color: theme.palette.secondary.main,
+    color: ({ isWhite }) =>
+      isWhite ? theme.palette.common.white : theme.palette.secondary.main,
   },
 }))

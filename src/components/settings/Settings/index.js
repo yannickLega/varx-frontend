@@ -1,11 +1,25 @@
 import React from "react"
 
-import { Grid, Typography } from "@material-ui/core"
+import Details from "../Details"
+import Payments from "../Payments"
+import Location from "../Location"
+
+import { Grid } from "@material-ui/core"
 
 import SettingsStyles from "./SettingsStyles"
 
 export default function Settings() {
   const classes = SettingsStyles()
 
-  return <div>User Settings</div>
+  return (
+    <>
+      <Grid container>
+        <Details />
+        <Payments />
+      </Grid>
+      <Grid container>
+        <Location />
+      </Grid>
+    </>
+  )
 }

@@ -22,4 +22,13 @@ export default makeStyles(theme => ({
     height: "12rem",
     width: "12rem",
   },
+  button: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  addHover: {
+    "&:hover": {
+      cursor: "pointer",
+      backgroundColor: theme.palette.secondary.main,
+    },
+  },
 }))
