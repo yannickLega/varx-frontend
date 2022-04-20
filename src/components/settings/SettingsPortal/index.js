@@ -6,8 +6,9 @@ import clsx from "clsx"
 import Settings from "../Settings"
 
 import { UserContext } from "../../../contexts"
+import { setUser } from "../../../contexts/actions"
 
-import { Grid, Typography } from "@material-ui/core"
+import { Button, Grid, Typography } from "@material-ui/core"
 
 import SettingsPortalStyles from "./SettingsPortalStyles"
 
@@ -20,7 +21,7 @@ import orderHistoryIcon from "../../../images/order-history.svg"
 const AnimatedGrid = animated(Grid)
 
 export default function SettingsPortal() {
-  const { user } = useContext(UserContext)
+  const { user, dispatchUser, defaultUser } = useContext(UserContext)
   const [selectedSetting, setSelectedSetting] = useState(null)
   const [resizeListener, sizes] = useResizeAware()
   const [showComponent, setShowComponent] = useState(false)
@@ -81,6 +82,10 @@ export default function SettingsPortal() {
     delay: selectedSetting === null || showComponent ? 0 : 1350,
   })
 
+  const handleLogout = () => {
+    dispatchUser(setUser(defaultUser))
+  }
+
   useEffect(() => {
     if (selectedSetting === null) {
       setShowComponent(false)
@@ -102,6 +107,17 @@ export default function SettingsPortal() {
         <Typography variant="h4" classes={{ root: classes.name }}>
           Welcome back, {user.username}
         </Typography>
+      </Grid>
+      <Grid item>
+        <Button
+          variant="outlined"
+          onClick={handleLogout}
+          classes={{ root: classes.logoutButton }}
+        >
+          <Typography variant="h5" classes={{ root: classes.logout }}>
+            logout
+          </Typography>
+        </Button>
       </Grid>
       <Grid
         item

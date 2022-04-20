@@ -1,5 +1,7 @@
-import React from "react"
+import React, {useContext} from "react"
 import clsx from "clsx"
+
+import {UserContext} from "../../../contexts"
 
 import Details from "../Details"
 import Payments from "../Payments"
@@ -12,19 +14,20 @@ import SettingsStyles from "./SettingsStyles"
 
 export default function Settings({ setSelectedSetting }) {
   const classes = SettingsStyles()
+  const {user} = useContext(UserContext)
 
   return (
     <>
       <Grid container classes={{ root: classes.sectionContainer }}>
-        <Details />
-        <Payments />
+        <Details user={user} />
+        <Payments user={user} />
       </Grid>
       <Grid
         container
         classes={{ root: clsx(classes.bottomRow, classes.sectionContainer) }}
       >
-        <Location />
-        <Edit setSelectedSetting={setSelectedSetting} />
+        <Location user={user} />
+        <Edit user={user} setSelectedSetting={setSelectedSetting} />
       </Grid>
     </>
   )

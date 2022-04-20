@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import Fields from "../../auth/Fields"
 import Slots from "../Slots"
@@ -11,10 +11,20 @@ import locationIcon from "../../../images/location.svg"
 import streetAdornment from "../../../images/street-adornment.svg"
 import zipAdornment from "../../../images/zip-adornment.svg"
 
-export default function Location() {
+export default function Location({ user }) {
   const classes = LocationStyles()
-  const [values, setValues] = useState({ street: "", zip: "" })
+  const [values, setValues] = useState({
+    street: "",
+    zip: "",
+    city: "",
+    state: "",
+  })
   const [errors, setErrors] = useState({})
+  const [slot, setSlot] = useState(0)
+
+  useEffect(() => {
+    setValues(user.locations[slot])
+  }, [slot])
 
   const fields = {
     street: {
@@ -65,10 +75,14 @@ export default function Location() {
         />
       </Grid>
       <Grid item classes={{ root: classes.chipWrapper }}>
-        <Chip label="City, State" />
+        <Chip
+          label={
+            values.city ? `${values.city}, ${values.state}` : "City, State"
+          }
+        />
       </Grid>
-      <Grid item container classes={{ root: classes.slotsContainer }} >
-        <Slots />
+      <Grid item container classes={{ root: classes.slotsContainer }}>
+        <Slots slot={slot} setSlot={setSlot} />
       </Grid>
     </Grid>
   )

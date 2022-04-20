@@ -23,4 +23,13 @@ export default makeStyles(theme => ({
     color: theme.palette.secondary.main,
     marginLeft: "-0.25rem",
   },
+  selected: {
+    backgroundColor: theme.palette.secondary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+    },
+  },
+  selectedText: {
+    color: theme.palette.common.white,
+  },
 }))

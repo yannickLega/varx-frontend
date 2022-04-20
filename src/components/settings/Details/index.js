@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import Fields from "../../auth/Fields"
 import { EmailPassword } from "../../auth/Login"
@@ -12,16 +12,21 @@ import NameAdornment from "../../../images/NameAdornment"
 import PhoneAdornment from "../../../images/PhoneAdornment"
 import Slots from "../Slots"
 
-export default function Details() {
+export default function Details({ user }) {
   const classes = DetailsStyles()
   const [visible, setVisible] = useState(false)
   const [values, setValues] = useState({
     name: "",
     phone: "",
     email: "",
-    password: "",
+    password: "********",
   })
   const [errors, setErrors] = useState({})
+  const [slot, setSlot] = useState(0)
+
+  useEffect(() => {
+    setValues({ ...user.contactInfo[slot], password: "********" })
+  }, [slot])
 
   const email_password = EmailPassword(
     classes,
@@ -61,7 +66,7 @@ export default function Details() {
       xs={6}
       alignItems="center"
       justifyContent="center"
-      classes={{ root: classes.detailsContainer }} 
+      classes={{ root: classes.detailsContainer }}
     >
       <Grid item>
         <img
@@ -88,7 +93,7 @@ export default function Details() {
         </Grid>
       ))}
       <Grid item container classes={{ root: classes.slotsContainer }}>
-        <Slots />
+        <Slots slot={slot} setSlot={setSlot} />
       </Grid>
     </Grid>
   )

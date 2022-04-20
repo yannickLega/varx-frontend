@@ -22,6 +22,7 @@ const theme = createTheme({
       lightRed,
       red,
       offBlack,
+      grey,
     },
   },
   typography: {

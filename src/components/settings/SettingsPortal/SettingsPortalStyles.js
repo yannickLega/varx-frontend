@@ -33,4 +33,21 @@ export default makeStyles(theme => ({
       backgroundColor: theme.palette.secondary.main,
     },
   },
+  logoutButton: {
+    textTransform: "lowercase",
+    backgroundColor: theme.palette.common.white,
+    borderRadius: 50,
+    border: `solid 1px ${theme.palette.error.main}`,
+    marginTop: "1rem",
+    padding: "0 2rem",
+    "&:hover": {
+      backgroundColor: theme.palette.error.main,
+    },
+  },
+  logout: {
+    color: theme.palette.error.main,
+    "&:hover": {
+      color: theme.palette.common.white,
+    },
+  },
 }))
