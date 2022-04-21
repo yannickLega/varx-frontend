@@ -11,20 +11,30 @@ import locationIcon from "../../../images/location.svg"
 import streetAdornment from "../../../images/street-adornment.svg"
 import zipAdornment from "../../../images/zip-adornment.svg"
 
-export default function Location({ user }) {
+export default function Location({
+  user,
+  edit,
+  setChangesMade,
+  values,
+  setValues,
+  slot,
+  setSlot,
+  errors,
+  setErrors,
+}) {
   const classes = LocationStyles()
-  const [values, setValues] = useState({
-    street: "",
-    zip: "",
-    city: "",
-    state: "",
-  })
-  const [errors, setErrors] = useState({})
-  const [slot, setSlot] = useState(0)
 
   useEffect(() => {
     setValues(user.locations[slot])
   }, [slot])
+
+  useEffect(() => {
+    const changed = Object.keys(user.locations[slot]).some(
+      field => values[field] !== user.locations[slot][field]
+    )
+
+    setChangesMade(changed)
+  }, [values])
 
   const fields = {
     street: {
@@ -72,6 +82,7 @@ export default function Location({ user }) {
           errors={errors}
           setErrors={setErrors}
           isWhite
+          disabled={!edit}
         />
       </Grid>
       <Grid item classes={{ root: classes.chipWrapper }}>

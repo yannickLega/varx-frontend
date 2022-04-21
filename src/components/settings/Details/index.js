@@ -12,30 +12,33 @@ import NameAdornment from "../../../images/NameAdornment"
 import PhoneAdornment from "../../../images/PhoneAdornment"
 import Slots from "../Slots"
 
-export default function Details({ user }) {
+export default function Details({
+  user,
+  edit,
+  setChangesMade,
+  values,
+  setValues,
+  slot,
+  setSlot,
+  errors,
+  setErrors,
+}) {
   const classes = DetailsStyles()
   const [visible, setVisible] = useState(false)
-  const [values, setValues] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    password: "********",
-  })
-  const [errors, setErrors] = useState({})
-  const [slot, setSlot] = useState(0)
 
   useEffect(() => {
     setValues({ ...user.contactInfo[slot], password: "********" })
   }, [slot])
 
-  const email_password = EmailPassword(
-    classes,
-    false,
-    false,
-    visible,
-    setVisible,
-    true
-  )
+  useEffect(() => {
+    const changed = Object.keys(user.contactInfo[slot]).some(
+      field => values[field] !== user.contactInfo[slot][field]
+    )
+
+    setChangesMade(changed)
+  }, [values])
+
+  const email_password = EmailPassword(false, false, visible, setVisible, true)
 
   const name_phone = {
     name: {
@@ -89,6 +92,7 @@ export default function Details({ user }) {
             errors={errors}
             setErrors={setErrors}
             isWhite
+            disabled={!edit}
           />
         </Grid>
       ))}

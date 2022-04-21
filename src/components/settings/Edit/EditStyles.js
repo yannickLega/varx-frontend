@@ -8,4 +8,7 @@ export default makeStyles(theme => ({
   editContainer: {
     borderLeft: `4px solid ${theme.palette.common.white}`,
   },
+  iconWrapper: {
+    marginTop: "1.25rem",
+  },
 }))

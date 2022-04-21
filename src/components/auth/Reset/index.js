@@ -20,7 +20,7 @@ export default function Reset({ steps, setSelectedStep, dispatchFeedback }) {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
-  const { password } = EmailPassword(classes, true, false, visible, setVisible)
+  const { password } = EmailPassword(true, false, visible, setVisible)
 
   const fields = {
     password,

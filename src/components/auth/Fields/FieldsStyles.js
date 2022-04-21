@@ -2,9 +2,9 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   textField: {
-    width: "20rem",
+    width: ({ fullWidth }) => (fullWidth ? undefined : "20rem"),
     [theme.breakpoints.down("xs")]: {
-      width: "15rem",
+      width: ({ fullWidth }) => (fullWidth ? undefined : "15rem"),
     },
   },
   input: {

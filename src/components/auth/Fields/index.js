@@ -13,8 +13,10 @@ export default function Fields({
   values,
   setValues,
   isWhite,
+  disabled,
+  fullWidth,
 }) {
-  const classes = FieldsStyles({ isWhite })
+  const classes = FieldsStyles({ isWhite, fullWidth })
 
   return Object.keys(fields).map(field => {
     const validateHelper = event => {
@@ -24,6 +26,8 @@ export default function Fields({
     return !fields[field].hidden ? (
       <Grid item key={field}>
         <TextField
+          fullWidth={fullWidth}
+          disabled={disabled}
           value={values[field]}
           onChange={e => {
             const valid = validateHelper(e)

@@ -4,14 +4,6 @@ export default makeStyles(theme => ({
   accountIcon: {
     marginTop: "2rem",
   },
-  emailAdornment: {
-    height: 17,
-    width: 22,
-    marginBottom: 6,
-  },
-  visibleIcon: {
-    padding: 0,
-  },
   loginButton: {
     width: "20rem",
     borderRadius: 50,

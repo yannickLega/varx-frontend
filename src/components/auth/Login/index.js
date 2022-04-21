@@ -25,7 +25,6 @@ import forgotPasswordIcon from "../../../images/forgot.svg"
 import close from "../../../images/close-outline.svg"
 
 export const EmailPassword = (
-  classes,
   hideEmail,
   hidePassword,
   visible,
@@ -39,7 +38,7 @@ export const EmailPassword = (
     type: "text",
     hidden: hideEmail,
     startAdornment: (
-      <span className={classes.emailAdornment}>
+      <span style={{ height: 17, width: 22, marginBottom: 6 }}>
         <EmailAdornment color={isWhite ? "#fff" : null} />
       </span>
     ),
@@ -53,10 +52,7 @@ export const EmailPassword = (
     type: visible ? "text" : "password",
     startAdornment: <PasswordAdornment color={isWhite ? "#fff" : null} />,
     endAdornment: (
-      <IconButton
-        onClick={() => setVisible(!visible)}
-        classes={{ root: classes.visibleIcon }}
-      >
+      <IconButton onClick={() => setVisible(!visible)} style={{ padding: 0 }}>
         {visible ? (
           <ShowPasswordIcon color={isWhite ? "#fff" : null} />
         ) : (
@@ -85,7 +81,7 @@ export default function Login({
   const [success, setSuccess] = useState(false)
 
   /* A object that is used to create the text fields. */
-  const fields = EmailPassword(classes, false, forgot, visible, setVisible)
+  const fields = EmailPassword(false, forgot, visible, setVisible)
   /**
    * "Find the step with the label "Sign Up" and set the selected step to that step's index."
    */
