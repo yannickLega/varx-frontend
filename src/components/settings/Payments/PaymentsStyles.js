@@ -22,10 +22,17 @@ export default makeStyles(theme => ({
   },
   icon: {
     marginBottom: "3rem",
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "1rem",
+    },
   },
   paymentsContainer: {
     position: "relative",
     borderLeft: `4px solid ${theme.palette.common.white}`,
+    [theme.breakpoints.down("md")]: {
+      borderLeft: 0,
+      height: "35rem",
+    },
   },
   slotsContainer: {
     position: "absolute",

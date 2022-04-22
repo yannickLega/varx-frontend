@@ -19,10 +19,26 @@ export default makeStyles(theme => ({
     borderBottom: ({ showComponent }) =>
       `${showComponent ? 0 : 0.5}rem solid ${theme.palette.primary.main}`,
     margin: "5rem 0",
+    [theme.breakpoints.down("md")]: {
+      padding: ({ showComponent }) => (showComponent ? 0 : "5rem 0"),
+      "& > :not(:last-child)": {
+        marginBottom: ({ showComponent }) => (showComponent ? 0 : "5rem"),
+      },
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: ({ showComponent }) => (showComponent ? 0 : "2rem 0"),
+      "& > :not(:last-child)": {
+        marginBottom: ({ showComponent }) => (showComponent ? 0 : "2rem"),
+      },
+    },
   },
   icons: {
     height: "12rem",
     width: "12rem",
+    [theme.breakpoints.down("lg")]: {
+      height: "10rem",
+      width: "10rem",
+    },
   },
   button: {
     backgroundColor: theme.palette.primary.main,

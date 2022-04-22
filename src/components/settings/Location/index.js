@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import axios from "axios"
 
 import Fields from "../../auth/Fields"
 import Slots from "../Slots"
+import { FeedbackContext } from "../../../contexts"
+import { setSnackbar } from "../../../contexts/actions"
 
-import { Grid, Chip } from "@material-ui/core"
+import { Grid, Chip, CircularProgress } from "@material-ui/core"
 
 import LocationStyles from "./LocationStyles"
 
@@ -23,6 +26,34 @@ export default function Location({
   setErrors,
 }) {
   const classes = LocationStyles()
+  const [loading, setLoading] = useState(false)
+  const { dispatchFeedback } = useContext(FeedbackContext)
+
+  const getLocation = () => {
+    setLoading(true)
+
+    axios
+      .get(
+        `https://data.opendatasoft.com/api/records/1.0/search/?dataset=geonames-postal-code%40public&q=&rows=1&facet=country_code&facet=admin_name1&facet=place_name&facet=postal_code&refine.country_code=FR&refine.postal_code=${values.zip}`
+      )
+      .then(response => {
+        setLoading(false)
+
+        const { place_name, admin_name1 } = response.data.records[0].fields
+
+        setValues({ ...values, city: place_name, state: admin_name1 })
+      })
+      .catch(error => {
+        setLoading(false)
+        console.error(error)
+        dispatchFeedback(
+          setSnackbar({
+            status: "error",
+            message: "There was a problem with your zipcode, please try again",
+          })
+        )
+      })
+  }
 
   useEffect(() => {
     setValues(user.locations[slot])
@@ -34,6 +65,14 @@ export default function Location({
     )
 
     setChangesMade(changed)
+
+    if (values.zip.length === 5) {
+      if (values.city) return
+
+      getLocation()
+    } else if (values.zip.length < 5 && values.city) {
+      setValues({ ...values, city: "", state: "" })
+    }
   }, [values])
 
   const fields = {
@@ -56,7 +95,8 @@ export default function Location({
       item
       container
       direction="column"
-      xs={6}
+      lg={6}
+      xs={12}
       alignItems="center"
       justifyContent="center"
       classes={{ root: classes.locationContainer }}
@@ -86,11 +126,15 @@ export default function Location({
         />
       </Grid>
       <Grid item classes={{ root: classes.chipWrapper }}>
-        <Chip
-          label={
-            values.city ? `${values.city}, ${values.state}` : "City, State"
-          }
-        />
+        {loading ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <Chip
+            label={
+              values.city ? `${values.city}, ${values.state}` : "City, State"
+            }
+          />
+        )}
       </Grid>
       <Grid item container classes={{ root: classes.slotsContainer }}>
         <Slots slot={slot} setSlot={setSlot} />

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import Fields from "../../auth/Fields"
 import { EmailPassword } from "../../auth/Login"
 
-import { Grid } from "@material-ui/core"
+import { Grid, useMediaQuery } from "@material-ui/core"
 
 import DetailsStyles from "./DetailsStyles"
 
@@ -24,6 +24,7 @@ export default function Details({
   setErrors,
 }) {
   const classes = DetailsStyles()
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export default function Details({
       startAdornment: <NameAdornment color="#fff" />,
     },
     phone: {
-      helperText: "for USA: 666-666-6666, for France: 06-66-66-66-66",
+      helperText: "eg: 666-666-6666 or 06-66-66-66-66",
       helperErrorText: "Invalid phone number",
       placeholder: "Phone",
       startAdornment: (
@@ -66,7 +67,8 @@ export default function Details({
       item
       container
       direction="column"
-      xs={6}
+      lg={6}
+      xs={12}
       alignItems="center"
       justifyContent="center"
       classes={{ root: classes.detailsContainer }}
@@ -83,7 +85,9 @@ export default function Details({
           container
           key={i}
           justifyContent="center"
+          alignItems={matchesXS ? "center" : undefined}
           classes={{ root: classes.fieldContainer }}
+          direction={matchesXS ? "column" : "row"}
         >
           <Fields
             fields={pair}
@@ -93,6 +97,7 @@ export default function Details({
             setErrors={setErrors}
             isWhite
             disabled={!edit}
+            settings
           />
         </Grid>
       ))}

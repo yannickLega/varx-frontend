@@ -7,6 +7,10 @@ export default makeStyles(theme => ({
   },
   editContainer: {
     borderLeft: `4px solid ${theme.palette.common.white}`,
+    [theme.breakpoints.down("md")]: {
+      borderLeft: 0,
+      height: "35rem",
+    },
   },
   iconWrapper: {
     marginTop: "1.25rem",

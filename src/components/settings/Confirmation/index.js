@@ -10,6 +10,7 @@ import {
   DialogActions,
   Button,
   CircularProgress,
+  useMediaQuery,
 } from "@material-ui/core"
 
 import Fields from "../../auth/Fields"
@@ -25,6 +26,7 @@ export default function Confirmation({
   setSnackbar,
 }) {
   const classes = ConfirmationStyles()
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
   const [values, setValues] = useState({ password: "", confirmation: "" })
   const [errors, setErrors] = useState({})
   const [visible, setVisible] = useState(false)
@@ -104,14 +106,18 @@ export default function Confirmation({
   return (
     <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
       <DialogTitle disableTypography>
-        <Typography variant="h3" classes={{ root: classes.title }}>
+        <Typography
+          align={matchesXS ? "center" : undefined}
+          variant="h3"
+          classes={{ root: classes.title }}
+        >
           Change Password
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <DialogContentText align={matchesXS ? "center" : undefined}>
           You are changing your account password. Please confirm old password
-          and new password.
+          and the new one.
         </DialogContentText>
         <Fields
           fullWidth

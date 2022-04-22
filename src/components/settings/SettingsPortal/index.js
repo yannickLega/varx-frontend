@@ -8,7 +8,7 @@ import Settings from "../Settings"
 import { UserContext } from "../../../contexts"
 import { setUser } from "../../../contexts/actions"
 
-import { Button, Grid, Typography } from "@material-ui/core"
+import { Button, Grid, Typography, useMediaQuery } from "@material-ui/core"
 
 import SettingsPortalStyles from "./SettingsPortalStyles"
 
@@ -26,6 +26,16 @@ export default function SettingsPortal() {
   const [resizeListener, sizes] = useResizeAware()
   const [showComponent, setShowComponent] = useState(false)
   const classes = SettingsPortalStyles({ showComponent })
+  const matchesLG = useMediaQuery(theme => theme.breakpoints.down("lg"))
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
+
+  const buttonWidth = matchesXS ? `${sizes.width - 64}px` : matchesMD
+    ? `${sizes.width - 160}px`
+    : matchesLG
+    ? "288px"
+    : "352px"
+  const buttonHeight = matchesMD ? "22rem" : matchesLG ? "18rem" : "22rem"
 
   const buttons = [
     { label: "Settings", icon: settingsIcon, component: Settings },
@@ -55,9 +65,9 @@ export default function SettingsPortal() {
         }
 
         const size = {
-          height: selectedSetting === button.label ? "60rem" : "22rem",
+          height: selectedSetting === button.label ? matchesMD ? "140rem" : "60rem" : buttonHeight,
           width:
-            selectedSetting === button.label ? `${sizes.width}px` : "352px",
+            selectedSetting === button.label ? `${sizes.width}px` : buttonWidth,
           borderRadius: selectedSetting === button.label ? 0 : 25,
           delay: selectedSetting !== null ? 600 : 0,
         }
@@ -104,7 +114,11 @@ export default function SettingsPortal() {
         <img src={accountIcon} alt="settings page" />
       </Grid>
       <Grid item>
-        <Typography variant="h4" classes={{ root: classes.name }}>
+        <Typography
+          align="center"
+          variant="h4"
+          classes={{ root: classes.name }}
+        >
           Welcome back, {user.username}
         </Typography>
       </Grid>
@@ -125,6 +139,7 @@ export default function SettingsPortal() {
         classes={{ root: classes.dashboard }}
         alignItems="center"
         justifyContent="space-around"
+        direction={matchesMD ? "column" : "row"}
       >
         {springs.map((prop, i) => {
           const button = buttons[i]

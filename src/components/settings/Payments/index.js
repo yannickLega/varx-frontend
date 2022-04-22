@@ -7,7 +7,7 @@ import PaymentsStyles from "./PaymentsStyles"
 import cardIcon from "../../../images/card.svg"
 import Slots from "../Slots"
 
-export default function Payments({user}) {
+export default function Payments({ user }) {
   const classes = PaymentsStyles()
   const [slot, setSlot] = useState(0)
 
@@ -18,7 +18,8 @@ export default function Payments({user}) {
       item
       container
       direction="column"
-      xs={6}
+      lg={6}
+      xs={12}
       alignItems="center"
       justifyContent="center"
       classes={{ root: classes.paymentsContainer }}
@@ -28,7 +29,7 @@ export default function Payments({user}) {
       </Grid>
       <Grid item container justifyContent="center">
         <Grid item>
-          <Typography variant="h3" classes={{ root: classes.number }}>
+          <Typography align="center" variant="h3" classes={{ root: classes.number }}>
             {card.last4
               ? `${card[0].brand.toUpperCase()} **** **** ${card[0].last4}`
               : "Add a new card during checkout"}

@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles"
 export default makeStyles(theme => ({
   icon: {
     marginBottom: "3rem",
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "1rem",
+    },
   },
   chipWrapper: {
     marginTop: "2rem",
@@ -19,5 +22,9 @@ export default makeStyles(theme => ({
   },
   locationContainer: {
     position: "relative",
+    [theme.breakpoints.down("md")]: {
+      borderBottom: `4px solid ${theme.palette.common.white}`,
+      height: "35rem",
+    },
   },
 }))

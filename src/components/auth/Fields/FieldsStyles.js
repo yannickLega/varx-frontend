@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   textField: {
-    width: ({ fullWidth }) => (fullWidth ? undefined : "20rem"),
+    width: ({ fullWidth, settings }) =>
+      fullWidth ? undefined : settings ? "15rem" : "20rem",
     [theme.breakpoints.down("xs")]: {
       width: ({ fullWidth }) => (fullWidth ? undefined : "15rem"),
     },

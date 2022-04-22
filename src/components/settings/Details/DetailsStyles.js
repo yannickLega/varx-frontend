@@ -15,15 +15,29 @@ export default makeStyles(theme => ({
   },
   icon: {
     marginBottom: "3rem",
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "1rem",
+    },
   },
   fieldContainer: {
     marginBottom: "2rem",
     "& > :not(:first-child)": {
       marginLeft: "5rem",
     },
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: "1rem",
+      "& > :not(:first-child)": {
+        marginLeft: 0,
+        marginTop: "1rem",
+      },
+    },
   },
   detailsContainer: {
     position: "relative",
+    [theme.breakpoints.down("md")]: {
+      borderBottom: `4px solid ${theme.palette.common.white}`,
+      height: "35rem",
+    },
   },
   slotsContainer: {
     position: "absolute",

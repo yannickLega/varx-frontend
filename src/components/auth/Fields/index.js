@@ -15,8 +15,9 @@ export default function Fields({
   isWhite,
   disabled,
   fullWidth,
+  settings,
 }) {
-  const classes = FieldsStyles({ isWhite, fullWidth })
+  const classes = FieldsStyles({ isWhite, fullWidth, settings })
 
   return Object.keys(fields).map(field => {
     const validateHelper = event => {
