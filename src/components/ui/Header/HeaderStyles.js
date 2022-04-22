@@ -35,4 +35,16 @@ export default makeStyles(theme => ({
   listItemText: {
     color: theme.palette.common.white,
   },
+  badge: {
+    fontSize: "1rem",
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.secondary.main,
+    minWidth: 0,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.75rem",
+      height: "1.1rem",
+      width: "1.1rem",
+      minWidth: 0,
+    },
+  },
 }))

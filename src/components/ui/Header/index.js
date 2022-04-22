@@ -1,6 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 
 import { Link } from "gatsby"
+
+import { CartContext } from "../../../contexts"
 
 import {
   AppBar,
@@ -15,12 +17,13 @@ import {
   List,
   ListItem,
   ListItemText,
+  Badge,
 } from "@material-ui/core/"
 import HeaderStyles from "./HeaderStyles"
 
 import menu from "../../../images/menu.svg"
 import search from "../../../images/search.svg"
-import cart from "../../../images/cart.svg"
+import cartIcon from "../../../images/cart.svg"
 import account from "../../../images/account-header.svg"
 
 /**
@@ -32,6 +35,8 @@ export default function Header({ categories }) {
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const [drawerOpen, setDrawerOpen] = useState(false)
+
+  const { cart } = useContext(CartContext)
 
   /**
    * It returns the index of the route that matches the current location
@@ -108,7 +113,7 @@ export default function Header({ categories }) {
       visible: true,
       onClick: () => console.log("search"),
     },
-    { icon: cart, alt: "cart", visible: true, link: "/cart" },
+    { icon: cartIcon, alt: "cart", visible: true, link: "/cart" },
     { icon: account, alt: "account", visible: !matchesMD, link: "/account" },
     {
       icon: menu,
@@ -133,6 +138,10 @@ export default function Header({ categories }) {
         {matchesMD ? drawer : tabs}
         {/* Returning the actions that are visible on the screen. */}
         {actions.map(action => {
+          const image = (
+            <img className={classes.icon} src={action.icon} alt={action.alt} />
+          )
+
           if (action.visible) {
             return (
               <IconButton
@@ -141,11 +150,17 @@ export default function Header({ categories }) {
                 to={action.onClick ? undefined : action.link}
                 onClick={action.onClick}
               >
-                <img
-                  className={classes.icon}
-                  src={action.icon}
-                  alt={action.alt}
-                />
+                {action.alt === "cart" ? (
+                  <Badge
+                    overlap="circle"
+                    badgeContent={cart.length}
+                    classes={{ badge: classes.badge }}
+                  >
+                    {image}
+                  </Badge>
+                ) : (
+                  image
+                )}
               </IconButton>
             )
           } else {
