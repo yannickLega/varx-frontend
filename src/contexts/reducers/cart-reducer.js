@@ -11,7 +11,7 @@ export default function cartReducer(state, action) {
 
   if (action.payload) {
     existingIndex = state.findIndex(
-      item => item.variant === action.payload.variant
+      item => item.variant.id === action.payload.variant.id
     )
   }
 

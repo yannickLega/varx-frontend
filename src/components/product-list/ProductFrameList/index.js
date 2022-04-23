@@ -141,7 +141,12 @@ If the selected color is not in the variant, it returns -1. */
             setSelectedColor={setSelectedColor}
           />
         </Grid>
-        <QtyButton stock={stock} selectedVariant={selectedVariant} />
+        <QtyButton
+          name={product.node.name.split(" ")[0]}
+          stock={stock}
+          selectedVariant={selectedVariant}
+          variants={product.node.variants}
+        />
       </Grid>
     </Grid>
   )

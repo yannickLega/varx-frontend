@@ -60,17 +60,17 @@ export default function ProductInfo({
     variants[selectedVariant].size
   )
   const [selectedColor, setSelectedColor] = useState(null)
-  
+
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
-/* This is a helper function that returns the index of the image that matches the selected color. */
+  /* This is a helper function that returns the index of the image that matches the selected color. */
   const imageIndex = colorIndex(
     { node: { variants } },
     variants[selectedVariant],
     selectedColor
   )
 
-/* This is a loop that is used to populate the sizes and colors arrays. */
+  /* This is a loop that is used to populate the sizes and colors arrays. */
   const sizes = []
   const colors = []
 
@@ -87,7 +87,7 @@ export default function ProductInfo({
     return null
   })
 
-/* This is a React Hook that runs when the selectedSize changes. It finds the first color available for
+  /* This is a React Hook that runs when the selectedSize changes. It finds the first color available for
 the selected size and sets the selectedVariant to the index of that color. */
   useEffect(() => {
     setSelectedColor(null)
@@ -100,7 +100,7 @@ the selected size and sets the selectedVariant to the index of that color. */
     setSelectedVariant(variants.indexOf(newVariant))
   }, [selectedSize])
 
-/* This is a React Hook that runs when the selectedColor changes. It finds the first variant available
+  /* This is a React Hook that runs when the selectedColor changes. It finds the first variant available
 for
 the selected color and sets the selectedVariant to the index of that variant. */
   useEffect(() => {
@@ -230,7 +230,12 @@ the selected color and sets the selectedVariant to the index of that variant. */
             </Grid>
           </Grid>
           <Grid item>
-            <QtyButton stock={stock} selectedVariant={selectedVariant} />
+            <QtyButton
+              stock={stock}
+              selectedVariant={selectedVariant}
+              name={name}
+              variants={variants}
+            />
           </Grid>
         </Grid>
       </Grid>

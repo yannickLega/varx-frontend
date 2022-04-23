@@ -132,7 +132,12 @@ it will return the index of the variant. If it is not, it will return the imageI
                   setSelectedColor={setSelectedColor}
                 />
                 <span className={classes.qtyContainer}>
-                  <QtyButton stock={stock} selectedVariant={selectedVariant} />
+                  <QtyButton
+                    name={name}
+                    stock={stock}
+                    selectedVariant={selectedVariant}
+                    variants={product.node.variants}
+                  />
                 </span>
               </Grid>
             </Grid>

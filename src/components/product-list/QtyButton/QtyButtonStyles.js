@@ -6,31 +6,42 @@ export default makeStyles(theme => ({
   },
   qtyButton: {
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: ({ isCart }) =>
+        isCart ? "transparent" : theme.palette.secondary.main,
     },
   },
   editButtons: {
     height: "1.525rem",
     borderRadius: 0,
-    backgroundColor: theme.palette.secondary.main,
-    borderLeft: `2px solid ${theme.palette.common.white}`,
+    backgroundColor: ({ isCart }) =>
+      isCart ? "transparent" : theme.palette.secondary.main,
+    borderLeft: ({ isCart }) =>
+      `2px solid ${
+        isCart ? theme.palette.secondary.main : theme.palette.common.white
+      }`,
     borderRight: `2px solid ${theme.palette.common.white}`,
     borderBottom: "none",
     borderTop: "none",
   },
   qtyText: {
-    color: theme.palette.common.white,
+    color: ({ isCart }) =>
+      isCart ? theme.palette.secondary.main : theme.palette.common.white,
   },
   endButtons: {
     borderRadius: 25,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: ({ isCart }) =>
+      isCart ? "transparent" : theme.palette.secondary.main,
     border: "none",
   },
   cartButton: {
     marginLeft: "0 !important",
+    transition: "background-color 1s ease",
   },
   minusButton: {
-    borderTop: `2px solid ${theme.palette.common.white}`,
+    borderTop: ({ isCart }) =>
+      `2px solid ${
+        isCart ? theme.palette.secondary.main : theme.palette.common.white
+      }`,
   },
   minus: {
     marginTop: "-0.25rem",
@@ -40,5 +51,11 @@ export default makeStyles(theme => ({
     fontSize: "1.5rem",
     backgroundColor: theme.palette.secondary.main,
     padding: 0,
+  },
+  success: {
+    backgroundColor: theme.palette.success.main,
+    "&:hover": {
+      backgroundColor: theme.palette.success.main,
+    },
   },
 }))
