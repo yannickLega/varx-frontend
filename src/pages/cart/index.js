@@ -17,13 +17,18 @@ export default function Cart() {
 
   return (
     <Layout>
-      <Grid container direction="column" alignItems="center">
-        <Grid item>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        classe={{ root: classes.cartContainer }}
+      >
+        <Grid item classes={{ root: classes.titleContainer }}>
           <Typography variant="h1">{user.username}'s Cart</Typography>
         </Grid>
         <Grid item container>
           <CartItems />
-          <CheckoutPortal />
+          <CheckoutPortal user={user} />
         </Grid>
       </Grid>
     </Layout>

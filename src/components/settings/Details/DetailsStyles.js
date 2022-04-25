@@ -14,7 +14,8 @@ export default makeStyles(theme => ({
     marginBottom: 10,
   },
   icon: {
-    marginBottom: "3rem",
+    marginTop: ({ checkout }) => (checkout ? "-2rem" : undefined),
+    marginBottom: ({ checkout }) => (checkout ? "1rem" : "3rem"),
     [theme.breakpoints.down("xs")]: {
       marginBottom: "1rem",
     },
@@ -32,6 +33,11 @@ export default makeStyles(theme => ({
       },
     },
   },
+  fieldContainerCart: {
+    "& > *": {
+      marginBottom: "1rem",
+    },
+  },
   detailsContainer: {
     position: "relative",
     [theme.breakpoints.down("md")]: {
@@ -41,7 +47,14 @@ export default makeStyles(theme => ({
   },
   slotsContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: checkout => (checkout ? -8 : 0),
+  },
+  switchWrapper: {
+    marginRight: 4,
+  },
+  switchLabel: {
+    color: theme.palette.common.white,
+    fontWeight: 600,
   },
   "@global": {
     ".MuiInput-underline:before": {

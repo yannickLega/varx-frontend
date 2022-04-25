@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react"
+import clsx from "clsx"
 
 import Fields from "../../auth/Fields"
 import { EmailPassword } from "../../auth/Login"
 
-import { Grid, useMediaQuery } from "@material-ui/core"
+import {
+  Grid,
+  useMediaQuery,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core"
 
 import DetailsStyles from "./DetailsStyles"
 
@@ -22,16 +28,24 @@ export default function Details({
   setSlot,
   errors,
   setErrors,
+  checkout,
+  billing,
+  setBilling,
 }) {
-  const classes = DetailsStyles()
+  const classes = DetailsStyles({ checkout })
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    setValues({ ...user.contactInfo[slot], password: "********" })
+    if (checkout) {
+      setValues(user.contactInfo[slot])
+    } else {
+      setValues({ ...user.contactInfo[slot], password: "********" })
+    }
   }, [slot])
 
   useEffect(() => {
+    if (checkout) return
     const changed = Object.keys(user.contactInfo[slot]).some(
       field => values[field] !== user.contactInfo[slot][field]
     )
@@ -60,14 +74,24 @@ export default function Details({
     },
   }
 
-  const fields = [name_phone, email_password]
+  let fields = [name_phone, email_password]
+
+  if (checkout) {
+    fields = [
+      {
+        name: name_phone.name,
+        email: email_password.email,
+        phone: name_phone.phone,
+      },
+    ]
+  }
 
   return (
     <Grid
       item
       container
       direction="column"
-      lg={6}
+      lg={checkout ? 12 : 6}
       xs={12}
       alignItems="center"
       justifyContent="center"
@@ -85,9 +109,14 @@ export default function Details({
           container
           key={i}
           justifyContent="center"
-          alignItems={matchesXS ? "center" : undefined}
-          classes={{ root: classes.fieldContainer }}
-          direction={matchesXS ? "column" : "row"}
+          alignItems={matchesXS || checkout ? "center" : undefined}
+          classes={{
+            root: clsx({
+              [classes.fieldContainerCart]: checkout,
+              [classes.fieldContainer]: !checkout,
+            }),
+          }}
+          direction={matchesXS || checkout ? "column" : "row"}
         >
           <Fields
             fields={pair}
@@ -96,13 +125,37 @@ export default function Details({
             errors={errors}
             setErrors={setErrors}
             isWhite
-            disabled={!edit}
-            settings
+            disabled={checkout ? false : !edit}
+            settings={!checkout}
           />
         </Grid>
       ))}
-      <Grid item container classes={{ root: classes.slotsContainer }}>
-        <Slots slot={slot} setSlot={setSlot} />
+      <Grid
+        item
+        container
+        justifyContent={checkout ? "space-between" : undefined}
+        classes={{ root: classes.slotsContainer }}
+      >
+        <Slots slot={slot} setSlot={setSlot} checkout={checkout} />
+        {checkout && (
+          <Grid item>
+            <FormControlLabel
+              classes={{
+                root: classes.switchWrapper,
+                label: classes.switchLabel,
+              }}
+              label="Billing"
+              labelPlacement="start"
+              control={
+                <Switch
+                  checked={billing}
+                  onChange={() => setBilling(!billing)}
+                  color={"secondary"}
+                />
+              }
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

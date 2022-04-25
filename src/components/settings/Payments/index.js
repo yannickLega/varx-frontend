@@ -1,15 +1,27 @@
 import React, { useState } from "react"
 
-import { Grid, Typography, Button } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Button,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core"
 
 import PaymentsStyles from "./PaymentsStyles"
 
 import cardIcon from "../../../images/card.svg"
 import Slots from "../Slots"
 
-export default function Payments({ user }) {
-  const classes = PaymentsStyles()
-  const [slot, setSlot] = useState(0)
+export default function Payments({
+  user,
+  slot,
+  setSlot,
+  checkout,
+  saveCard,
+  setSaveCard,
+}) {
+  const classes = PaymentsStyles({ checkout })
 
   const card = user.paymentMethods[slot]
 
@@ -18,7 +30,7 @@ export default function Payments({ user }) {
       item
       container
       direction="column"
-      lg={6}
+      lg={checkout ? 12 : 6}
       xs={12}
       alignItems="center"
       justifyContent="center"
@@ -29,7 +41,11 @@ export default function Payments({ user }) {
       </Grid>
       <Grid item container justifyContent="center">
         <Grid item>
-          <Typography align="center" variant="h3" classes={{ root: classes.number }}>
+          <Typography
+            align="center"
+            variant="h3"
+            classes={{ root: classes.number }}
+          >
             {card.last4
               ? `${card[0].brand.toUpperCase()} **** **** ${card[0].last4}`
               : "Add a new card during checkout"}
@@ -48,8 +64,32 @@ export default function Payments({ user }) {
           </Grid>
         )}
       </Grid>
-      <Grid item container classes={{ root: classes.slotsContainer }}>
-        <Slots slot={slot} setSlot={setSlot} />
+      <Grid
+        item
+        container
+        justifyContent="space-between"
+        classes={{ root: classes.slotsContainer }}
+      >
+        <Slots slot={slot} setSlot={setSlot} noLabel />
+        {checkout && (
+          <Grid item>
+            <FormControlLabel
+              classes={{
+                root: classes.switchWrapper,
+                label: classes.switchLabel,
+              }}
+              label="Save Card For Future Use"
+              labelPlacement="start"
+              control={
+                <Switch
+                  checked={saveCard}
+                  onChange={() => setSaveCard(!saveCard)}
+                  color={"secondary"}
+                />
+              }
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

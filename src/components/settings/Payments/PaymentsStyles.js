@@ -28,7 +28,8 @@ export default makeStyles(theme => ({
   },
   paymentsContainer: {
     position: "relative",
-    borderLeft: `4px solid ${theme.palette.common.white}`,
+    borderLeft: ({ checkout }) =>
+      checkout ? 0 : `4px solid ${theme.palette.common.white}`,
     [theme.breakpoints.down("md")]: {
       borderLeft: 0,
       height: "35rem",
@@ -36,6 +37,13 @@ export default makeStyles(theme => ({
   },
   slotsContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: ({ checkout }) => (checkout ? -8 : 0),
+  },
+  switchWrapper: {
+    marginRight: 4,
+  },
+  switchLabel: {
+    color: theme.palette.common.white,
+    fontWeight: 600,
   },
 }))

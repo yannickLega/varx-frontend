@@ -6,7 +6,13 @@ import Slots from "../Slots"
 import { FeedbackContext } from "../../../contexts"
 import { setSnackbar } from "../../../contexts/actions"
 
-import { Grid, Chip, CircularProgress } from "@material-ui/core"
+import {
+  Grid,
+  Chip,
+  CircularProgress,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core"
 
 import LocationStyles from "./LocationStyles"
 
@@ -24,8 +30,11 @@ export default function Location({
   setSlot,
   errors,
   setErrors,
+  checkout,
+  billing,
+  setBilling,
 }) {
-  const classes = LocationStyles()
+  const classes = LocationStyles({ checkout })
   const [loading, setLoading] = useState(false)
   const { dispatchFeedback } = useContext(FeedbackContext)
 
@@ -60,12 +69,13 @@ export default function Location({
   }, [slot])
 
   useEffect(() => {
-    const changed = Object.keys(user.locations[slot]).some(
-      field => values[field] !== user.locations[slot][field]
-    )
+    if (!checkout) {
+      const changed = Object.keys(user.locations[slot]).some(
+        field => values[field] !== user.locations[slot][field]
+      )
 
-    setChangesMade(changed)
-
+      setChangesMade(changed)
+    }
     if (values.zip.length === 5) {
       if (values.city) return
 
@@ -95,7 +105,7 @@ export default function Location({
       item
       container
       direction="column"
-      lg={6}
+      lg={checkout ? 12 : 6}
       xs={12}
       alignItems="center"
       justifyContent="center"
@@ -122,7 +132,7 @@ export default function Location({
           errors={errors}
           setErrors={setErrors}
           isWhite
-          disabled={!edit}
+          disabled={checkout ? false : !edit}
         />
       </Grid>
       <Grid item classes={{ root: classes.chipWrapper }}>
@@ -136,8 +146,27 @@ export default function Location({
           />
         )}
       </Grid>
-      <Grid item container classes={{ root: classes.slotsContainer }}>
-        <Slots slot={slot} setSlot={setSlot} />
+      <Grid item container justifyContent="space-between" classes={{ root: classes.slotsContainer }}>
+        <Slots slot={slot} setSlot={setSlot} checkout={checkout} />
+        {checkout && (
+          <Grid item>
+            <FormControlLabel
+              classes={{
+                root: classes.switchWrapper,
+                label: classes.switchLabel,
+              }}
+              label="Billing"
+              labelPlacement="start"
+              control={
+                <Switch
+                  checked={billing}
+                  onChange={() => setBilling(!billing)}
+                  color={"secondary"}
+                />
+              }
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

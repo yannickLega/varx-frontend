@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
   icon: {
-    marginBottom: "3rem",
+    marginBottom: ({ checkout }) => (checkout ? "1rem" : "3rem"),
     [theme.breakpoints.down("xs")]: {
       marginBottom: "1rem",
     },
@@ -18,7 +18,7 @@ export default makeStyles(theme => ({
   },
   slotsContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: ({ checkout }) => (checkout ? -8 : 0),
   },
   locationContainer: {
     position: "relative",
@@ -26,5 +26,12 @@ export default makeStyles(theme => ({
       borderBottom: `4px solid ${theme.palette.common.white}`,
       height: "35rem",
     },
+  },
+  switchWrapper: {
+    marginRight: 4,
+  },
+  switchLabel: {
+    color: theme.palette.common.white,
+    fontWeight: 600,
   },
 }))

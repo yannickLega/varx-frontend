@@ -21,7 +21,7 @@ export default function HeroBlock() {
 
   const classes = HeroBlockStyles()
 
-/* This is the default options for the lottie animation. */
+  /* This is the default options for the lottie animation. */
   const defaultOptions = {
     loop: true,
     autoplay: true,

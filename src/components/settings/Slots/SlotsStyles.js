@@ -32,4 +32,10 @@ export default makeStyles(theme => ({
   selectedText: {
     color: theme.palette.common.white,
   },
+  shipping: {
+    color: theme.palette.common.white,
+    fontWeight: 600,
+    marginLeft: "0.5rem",
+    marginTop: "0.5rem",
+  },
 }))
