@@ -30,6 +30,7 @@ export default function validate(values) {
         value
       ),
     zip: value => /^\d{5}(-\d{4})?$/.test(value),
+    promo: value => true,
   }
   const valid = {}
 
