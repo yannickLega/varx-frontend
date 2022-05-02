@@ -30,6 +30,8 @@ export default function validate(values) {
         value
       ),
     zip: value => /^\d{5}(-\d{4})?$/.test(value),
+    city: value => value.length !== 0,
+    state: value => value.length !== 0,
     promo: value => true,
   }
   const valid = {}

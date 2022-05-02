@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import clsx from "clsx"
+
+import { CartContext } from "../../../contexts"
 
 import Fields from "../../auth/Fields"
 
@@ -16,14 +18,37 @@ import zipAdornment from "../../../images/zip-adornment.svg"
 import promoAdornment from "../../../images/promo-code.svg"
 import cardAdornment from "../../../images/card.svg"
 
-export default function Confirmation() {
+export default function Confirmation({
+  detailValues,
+  billingDetails,
+  detailBillingSwitch,
+  locationValues,
+  billingLocation,
+  locationBillingSwitch,
+  shippingOptions,
+  selectedShipping,
+}) {
   const classes = ConfirmationStyles()
+
+  const { cart } = useContext(CartContext)
+
   const [promo, setPromo] = useState({ promo: "" })
   const [promoError, setPromoError] = useState({})
 
+  const shipping = shippingOptions.find(
+    option => option.label === selectedShipping
+  )
+
+  const subtotal = cart.reduce(
+    (total, item) => total + item.variant.price * item.qty,
+    0
+  )
+
+  const tax = subtotal * 0.2
+
   const firstFields = [
     {
-      value: "Yannick Lega",
+      value: detailValues.name,
       adornment: (
         <div className={classes.nameWrapper}>
           <NameAdornment color="#fff" />
@@ -31,7 +56,7 @@ export default function Confirmation() {
       ),
     },
     {
-      value: "yannick.lega@yahoo.com",
+      value: detailValues.email,
       adornment: (
         <div className={classes.emailWrapper}>
           <EmailAdornment color="#fff" />
@@ -39,7 +64,7 @@ export default function Confirmation() {
       ),
     },
     {
-      value: "06-66-66-66-66",
+      value: detailValues.phone,
       adornment: (
         <div className={classes.phoneWrapper}>
           <PhoneAdornment />
@@ -47,14 +72,14 @@ export default function Confirmation() {
       ),
     },
     {
-      value: "19 rue de la tielle",
+      value: locationValues.street,
       adornment: <img src={streetAdornment} alt="street address" />,
     },
   ]
 
   const secondFields = [
     {
-      value: "34300 Agde, Occitanie",
+      value: `${locationValues.zip}, ${locationValues.city} ${locationValues.state}`,
       adornment: <img src={zipAdornment} alt="city, state, zip code" />,
     },
     {
@@ -75,17 +100,22 @@ export default function Confirmation() {
   const prices = [
     {
       label: "SUBTOTAL",
-      value: "99.99",
+      value: subtotal.toFixed(2),
     },
     {
       label: "SHIPPING",
-      value: "9.99",
+      value: shipping.price.toFixed(2),
     },
     {
       label: "TAX",
-      value: "9.67",
+      value: tax.toFixed(2),
     },
   ]
+
+  const total = prices.reduce(
+    (total, item) => total + parseFloat(item.value),
+    0
+  )
 
   const adornmentValue = (adornment, value) => (
     <>
@@ -181,7 +211,7 @@ export default function Confirmation() {
             </Grid>
             <Grid item>
               <Chip
-                label="$149.99"
+                label={`$${total.toFixed(2)}`}
                 classes={{ root: classes.chipRoot, label: classes.chipLabel }}
               />
             </Grid>

@@ -33,6 +33,7 @@ export default function Location({
   checkout,
   billing,
   setBilling,
+  noSlots,
 }) {
   const classes = LocationStyles({ checkout })
   const [loading, setLoading] = useState(false)
@@ -65,6 +66,8 @@ export default function Location({
   }
 
   useEffect(() => {
+    if (noSlots) return
+
     setValues(user.locations[slot])
   }, [slot])
 
@@ -146,28 +149,35 @@ export default function Location({
           />
         )}
       </Grid>
-      <Grid item container justifyContent="space-between" classes={{ root: classes.slotsContainer }}>
-        <Slots slot={slot} setSlot={setSlot} checkout={checkout} />
-        {checkout && (
-          <Grid item>
-            <FormControlLabel
-              classes={{
-                root: classes.switchWrapper,
-                label: classes.switchLabel,
-              }}
-              label="Billing"
-              labelPlacement="start"
-              control={
-                <Switch
-                  checked={billing}
-                  onChange={() => setBilling(!billing)}
-                  color={"secondary"}
-                />
-              }
-            />
-          </Grid>
-        )}
-      </Grid>
+      {noSlots ? null : (
+        <Grid
+          item
+          container
+          justifyContent="space-between"
+          classes={{ root: classes.slotsContainer }}
+        >
+          <Slots slot={slot} setSlot={setSlot} checkout={checkout} />
+          {checkout && (
+            <Grid item>
+              <FormControlLabel
+                classes={{
+                  root: classes.switchWrapper,
+                  label: classes.switchLabel,
+                }}
+                label="Billing"
+                labelPlacement="start"
+                control={
+                  <Switch
+                    checked={billing}
+                    onChange={() => setBilling(!billing)}
+                    color={"secondary"}
+                  />
+                }
+              />
+            </Grid>
+          )}
+        </Grid>
+      )}
     </Grid>
   )
 }

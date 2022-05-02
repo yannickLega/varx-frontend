@@ -16,4 +16,7 @@ export default makeStyles(theme => ({
     visibility: ({ steps, selectedStep }) =>
       selectedStep >= steps.length - 2 ? "hidden" : "visible",
   },
+  disabled: {
+    opacity: 0.2,
+  },
 }))
