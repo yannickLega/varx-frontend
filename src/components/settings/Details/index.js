@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import clsx from "clsx"
 
 import Fields from "../../auth/Fields"
@@ -31,9 +31,13 @@ export default function Details({
   checkout,
   billing,
   setBilling,
+  billingValues,
+  setBillingValues,
   noSlots,
 }) {
   const classes = DetailsStyles({ checkout })
+  const isMounted = useRef(false)
+
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
   const [visible, setVisible] = useState(false)
 
@@ -54,6 +58,23 @@ export default function Details({
 
     setChangesMade(changed)
   }, [values])
+
+  useEffect(() => {
+    if (noSlots) {
+      isMounted.current = false
+      return
+    }
+
+    if (isMounted.current === false) {
+      isMounted.current = true
+      return
+    }
+    if (billing === false && isMounted.current) {
+      setValues(billingValues)
+    } else {
+      setBillingValues(values)
+    }
+  }, [billing])
 
   const email_password = EmailPassword(false, false, visible, setVisible, true)
 
@@ -122,8 +143,10 @@ export default function Details({
         >
           <Fields
             fields={pair}
-            values={values}
-            setValues={setValues}
+            values={billing === slot && !noSlots ? billingValues : values}
+            setValues={
+              billing === slot && !noSlots ? setBillingValues : setValues
+            }
             errors={errors}
             setErrors={setErrors}
             isWhite
@@ -151,8 +174,8 @@ export default function Details({
                 labelPlacement="start"
                 control={
                   <Switch
-                    checked={billing}
-                    onChange={() => setBilling(!billing)}
+                    checked={billing === slot}
+                    onChange={() => setBilling(billing === slot ? false : slot)}
                     color={"secondary"}
                   />
                 }

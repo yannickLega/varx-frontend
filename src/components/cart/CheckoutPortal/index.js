@@ -8,6 +8,7 @@ import Location from "../../settings/Location"
 import Shipping from "../Shipping"
 import Payments from "../../settings/Payments"
 import Confirmation from "../Confirmation"
+import BillingConfirmation from "../BillingConfirmation"
 
 import { Grid } from "@material-ui/core"
 
@@ -53,10 +54,29 @@ export default function CheckoutPortal({ user }) {
     { label: "OVERNIGHT SHIPPING", price: 29.99 },
   ]
 
-  const errorHelper = values => {
+  const errorHelper = (values, billingSwitch, billingValues, slot) => {
     const valid = validate(values)
 
-    return Object.keys(valid).some(value => !valid[value])
+    //if we have one slot marked as billing
+    if (billingSwitch !== false && billingSwitch !== undefined) {
+      //validate billing values
+      const billingValid = validate(billingValues)
+
+      //if we are currently on the same slot as marked for billing, ie billing and shipping are the same
+      if (billingSwitch === slot) {
+        //then we just need to validate the one set of values because they are the same
+        return Object.keys(billingValid).some(value => !billingValid[value])
+      } else {
+        //otherwise, if we are currently on a different slot than the slot marked for billing ie billing and shipping are different we need to validate both billing values, and shipping values
+        return (
+          Object.keys(billingValid).some(value => !billingValid[value]) ||
+          Object.keys(valid).some(value => !valid[value])
+        )
+      }
+    } else {
+      //if no slots were marked for billing, just validate current slot
+      return Object.keys(valid).some(value => !valid[value])
+    }
   }
 
   let steps = [
@@ -71,12 +91,19 @@ export default function CheckoutPortal({ user }) {
           setSlot={setDetailSlot}
           billing={detailBillingSwitch}
           setBilling={setDetailBillingSwitch}
+          billingValues={billingDetails}
+          setBillingValues={setBillingDetails}
           errors={errors}
           setErrors={setErrors}
           checkout
         />
       ),
-      error: errorHelper(detailValues),
+      error: errorHelper(
+        detailValues,
+        detailBillingSwitch,
+        billingDetails,
+        detailSlot
+      ),
     },
     {
       title: "Billing Info",
@@ -103,12 +130,19 @@ export default function CheckoutPortal({ user }) {
           setSlot={setLocationSlot}
           billing={locationBillingSwitch}
           setBilling={setLocationBillingSwitch}
+          billingValues={billingLocation}
+          setBillingValues={setBillingLocation}
           errors={errors}
           setErrors={setErrors}
           checkout
         />
       ),
-      error: errorHelper(locationValues),
+      error: errorHelper(
+        locationValues,
+        locationBillingSwitch,
+        billingLocation,
+        locationSlot
+      ),
     },
     {
       title: "Billing Address",
@@ -167,11 +201,11 @@ export default function CheckoutPortal({ user }) {
     { title: `Thanks, ${user.username}!` },
   ]
 
-  if (detailBillingSwitch) {
+  if (detailBillingSwitch !== false) {
     steps = steps.filter(step => step.title !== "Billing Info")
   }
 
-  if (locationBillingSwitch) {
+  if (locationBillingSwitch !== false) {
     steps = steps.filter(step => step.title !== "Billing Address")
   }
 
@@ -195,6 +229,16 @@ export default function CheckoutPortal({ user }) {
       >
         {steps[selectedStep].component}
       </Grid>
+      {steps[selectedStep].title === "Confirmation" && (
+        <BillingConfirmation
+          detailBillingSwitch={detailBillingSwitch}
+          billingDetails={billingDetails}
+          detailSlot={detailSlot}
+          locationBillingSwitch={locationBillingSwitch}
+          billingLocation={billingLocation}
+          locationSlot={locationSlot}
+        />
+      )}
     </Grid>
   )
 }
