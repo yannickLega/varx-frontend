@@ -98,6 +98,7 @@ export default function CheckoutPortal({ user }) {
           checkout
         />
       ),
+      hasActions: true,
       error: errorHelper(
         detailValues,
         detailBillingSwitch,
@@ -137,6 +138,7 @@ export default function CheckoutPortal({ user }) {
           checkout
         />
       ),
+      hasActions: true,
       error: errorHelper(
         locationValues,
         locationBillingSwitch,
@@ -219,6 +221,12 @@ export default function CheckoutPortal({ user }) {
         steps={steps}
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
+        details={detailValues}
+        setDetails={setDetailValues}
+        detailSlot={detailSlot}
+        location={locationValues}
+        setLocation={setLocationValues}
+        locationSlot={locationSlot}
       />
       <Grid
         item
