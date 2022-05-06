@@ -18,10 +18,17 @@ export default makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.common.white,
     },
+    [theme.breakpoints.down("xs")]: {
+      width: ({ checkout }) => (checkout ? "2rem" : "2.5rem"),
+      height: ({ checkout }) => (checkout ? "2rem" : "2.5rem"),
+    },
   },
   slotText: {
     color: theme.palette.secondary.main,
     marginLeft: "-0.25rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: ({ checkout }) => (checkout ? "1.5rem" : undefined),
+    },
   },
   selected: {
     backgroundColor: theme.palette.secondary.main,
@@ -37,5 +44,9 @@ export default makeStyles(theme => ({
     fontWeight: 600,
     marginLeft: "0.5rem",
     marginTop: "0.5rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem",
+      marginTop: "0.4rem",
+    },
   },
 }))

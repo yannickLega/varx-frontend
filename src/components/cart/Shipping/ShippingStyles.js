@@ -9,9 +9,16 @@ export default makeStyles(theme => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
     },
+    [theme.breakpoints.down("xs")]: {
+      width: "6rem",
+      height: "6rem",
+    },
   },
   label: {
     fontSize: "1.5rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+    },
   },
   shippingContainer: {
     height: "100%",
@@ -22,6 +29,9 @@ export default makeStyles(theme => ({
   },
   price: {
     color: theme.palette.common.white,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem",
+    },
   },
   selected: {
     backgroundColor: theme.palette.common.white,

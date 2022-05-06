@@ -1,11 +1,20 @@
 import React, { useState, useContext } from "react"
+import axios from "axios"
 import clsx from "clsx"
 
-import { CartContext } from "../../../contexts"
+import { CartContext, FeedbackContext } from "../../../contexts"
+import { setSnackbar, clearCart } from "../../../contexts/actions"
 
 import Fields from "../../auth/Fields"
 
-import { Grid, Typography, Button, Chip } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Button,
+  Chip,
+  CircularProgress,
+  useMediaQuery,
+} from "@material-ui/core"
 
 import ConfirmationStyles from "./ConfirmationStyles"
 
@@ -19,6 +28,7 @@ import promoAdornment from "../../../images/promo-code.svg"
 import cardAdornment from "../../../images/card.svg"
 
 export default function Confirmation({
+  user,
   detailValues,
   billingDetails,
   detailBillingSwitch,
@@ -27,10 +37,16 @@ export default function Confirmation({
   locationBillingSwitch,
   shippingOptions,
   selectedShipping,
+  selectedStep,
+  setSelectedStep,
+  setOrder,
 }) {
   const classes = ConfirmationStyles()
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
-  const { cart } = useContext(CartContext)
+  const [loading, setLoading] = useState(false)
+  const { cart, dispatchCart } = useContext(CartContext)
+  const { dispatchFeedback } = useContext(FeedbackContext)
 
   const [promo, setPromo] = useState({ promo: "" })
   const [promoError, setPromoError] = useState({})
@@ -122,13 +138,80 @@ export default function Confirmation({
       <Grid item xs={2} classes={{ root: classes.adornmentWrapper }}>
         {adornment}
       </Grid>
-      <Grid item xs={10} classes={{ root: classes.centerText }}>
-        <Typography variant="body1" classes={{ root: classes.text }}>
+      <Grid item xs={10} classes={{ root: classes.centerText }} zeroMinWidth>
+        <Typography noWrap variant="body1" classes={{ root: classes.text }}>
           {value}
         </Typography>
       </Grid>
     </>
   )
+
+  const handleOrder = () => {
+    setLoading(true)
+
+    axios
+      .post(
+        process.env.GATSBY_STRAPI_URL + "/orders/place",
+        {
+          shippingAddress: locationValues,
+          billingAddress: billingLocation,
+          shippingInfo: detailValues,
+          billingInfo: billingDetails,
+          shippingOption: shipping,
+          subtotal: subtotal.toFixed(2),
+          tax: tax.toFixed(2),
+          total: total.toFixed(2),
+          items: cart,
+        },
+        {
+          headers:
+            user.username === "Guest"
+              ? undefined
+              : { Authorization: `Bearer ${user.jwt}` },
+        }
+      )
+      .then(response => {
+        setLoading(false)
+
+        dispatchCart(clearCart())
+
+        setOrder(response.data.order)
+
+        setSelectedStep(selectedStep + 1)
+      })
+      .catch(error => {
+        setLoading(false)
+        console.error(error)
+
+        switch (error.response.status) {
+          case 400:
+            dispatchFeedback(
+              setSnackbar({ status: "error", message: "Invalid Cart" })
+            )
+            break
+          case 409:
+            dispatchFeedback(
+              setSnackbar({
+                status: "error",
+                message:
+                  `The following items are not available at the requested quantity. Please update your cart and try again.\n` +
+                  `${error.response.data.unavailable.map(
+                    item => `\nItem: ${item.id}, Available: ${item.qty}`
+                  )}`,
+              })
+            )
+            break
+          default:
+            dispatchFeedback(
+              setSnackbar({
+                status: "error",
+                message:
+                  "Something went wrong, please refresh the page and try again. you have NOT been charged.",
+              })
+            )
+        }
+      })
+  }
 
   return (
     <Grid
@@ -181,6 +264,7 @@ export default function Confirmation({
                   errors={promoError}
                   setErrors={setPromoError}
                   isWhite
+                  xs={matchesXS}
                 />
               </span>
             ) : (
@@ -204,16 +288,24 @@ export default function Confirmation({
         </Grid>
       ))}
       <Grid item classes={{ root: classes.buttonWrapper }}>
-        <Button classes={{ root: classes.button }}>
+        <Button
+          onClick={handleOrder}
+          classes={{ root: classes.button, disabled: classes.disabled }}
+          disabled={cart.length === 0 || loading}
+        >
           <Grid container justifyContent="space-around" alignItems="center">
             <Grid item>
               <Typography variant="h5">PLACE ORDER</Typography>
             </Grid>
             <Grid item>
-              <Chip
-                label={`$${total.toFixed(2)}`}
-                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
-              />
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Chip
+                  label={`$${total.toFixed(2)}`}
+                  classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+                />
+              )}
             </Grid>
           </Grid>
         </Button>

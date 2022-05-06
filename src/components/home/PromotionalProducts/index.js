@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+
 import Carousel from "react-spring-3d-carousel"
 
 import clsx from "clsx"
@@ -10,7 +11,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core"
 
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 
 import PromotionalProductsStyles from "./PromotionalProductsStyles"
 
@@ -50,7 +51,7 @@ export default function PromotionalProducts() {
     }
   `)
 
-/* It's creating an array of objects. Each object has a key and a content. The key is the index of the
+  /* It's creating an array of objects. Each object has a key and a content. The key is the index of the
 slide, and the content is the slide itself. */
   let slides = []
 
@@ -106,7 +107,7 @@ slide, and the content is the slide itself. */
         <Typography variant="h2" paragraph>
           {slides[selectedSlide].description}
         </Typography>
-        <Button>
+        <Button component={Link} to="/hats">
           <Typography variant="h4" classes={{ root: classes.explore }}>
             Explore
           </Typography>

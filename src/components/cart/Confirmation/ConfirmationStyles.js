@@ -16,6 +16,9 @@ export default makeStyles(theme => ({
   text: {
     fontSize: "1rem",
     color: theme.palette.common.white,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+    },
   },
   card: {
     height: 18,
@@ -23,6 +26,9 @@ export default makeStyles(theme => ({
   },
   priceLabel: {
     fontSize: "1.5rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+    },
   },
   darkBackground: {
     backgroundColor: theme.palette.secondary.main,
@@ -45,9 +51,16 @@ export default makeStyles(theme => ({
   },
   priceValue: {
     marginRight: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8rem",
+      marginRight: "0.5rem",
+    },
   },
   fieldWrapper: {
     marginLeft: "1.25rem",
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "0.5rem",
+    },
   },
   button: {
     width: "100%",
@@ -69,5 +82,13 @@ export default makeStyles(theme => ({
   },
   chipLabel: {
     color: theme.palette.secondary.main,
+  },
+  disabled: {
+    backgroundColor: theme.palette.grey[500],
+  },
+  "@global": {
+    ".MuiSnackbarContent-message": {
+      whiteSpace: "pre-wrap",
+    },
   },
 }))

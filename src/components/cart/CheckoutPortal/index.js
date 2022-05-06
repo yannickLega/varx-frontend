@@ -9,13 +9,16 @@ import Shipping from "../Shipping"
 import Payments from "../../settings/Payments"
 import Confirmation from "../Confirmation"
 import BillingConfirmation from "../BillingConfirmation"
+import ThankYou from "../ThankYou"
 
-import { Grid } from "@material-ui/core"
+import { Grid, useMediaQuery } from "@material-ui/core"
 
 import CheckoutPortalStyles from "./CheckoutPortalStyles"
 
 export default function CheckoutPortal({ user }) {
   const classes = CheckoutPortalStyles()
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
   const [selectedStep, setSelectedStep] = useState(0)
   const [detailValues, setDetailValues] = useState({
     name: "",
@@ -47,6 +50,8 @@ export default function CheckoutPortal({ user }) {
   const [saveCard, setSaveCard] = useState(false)
 
   const [errors, setErrors] = useState({})
+
+  const [order, setOrder] = useState(null)
   const [selectedShipping, setSelectedShipping] = useState(null)
   const shippingOptions = [
     { label: "FREE SHIPPING", price: 0 },
@@ -189,6 +194,8 @@ export default function CheckoutPortal({ user }) {
       title: "Confirmation",
       component: (
         <Confirmation
+          user={user}
+          setOrder={setOrder}
           detailValues={detailValues}
           billingDetails={billingDetails}
           detailBillingSwitch={detailBillingSwitch}
@@ -197,10 +204,15 @@ export default function CheckoutPortal({ user }) {
           locationBillingSwitch={locationBillingSwitch}
           shippingOptions={shippingOptions}
           selectedShipping={selectedShipping}
+          selectedStep={selectedStep}
+          setSelectedStep={setSelectedStep}
         />
       ),
     },
-    { title: `Thanks, ${user.username}!` },
+    {
+      title: `Thanks, ${user.username.split(" ")[0]}!`,
+      component: <ThankYou selectedShipping={selectedShipping} order={order} />,
+    },
   ]
 
   if (detailBillingSwitch !== false) {
@@ -216,7 +228,14 @@ export default function CheckoutPortal({ user }) {
   }, [detailSlot, locationSlot, selectedStep])
 
   return (
-    <Grid item container direction="column" xs={6} alignItems="flex-end">
+    <Grid
+      item
+      container
+      direction="column"
+      lg={6}
+      alignItems={matchesMD ? "flex-start" : "flex-end"}
+      classes={{ root: classes.container }}
+    >
       <CheckoutNavigation
         steps={steps}
         selectedStep={selectedStep}
@@ -227,6 +246,7 @@ export default function CheckoutPortal({ user }) {
         location={locationValues}
         setLocation={setLocationValues}
         locationSlot={locationSlot}
+        setErrors={setErrors}
       />
       <Grid
         item

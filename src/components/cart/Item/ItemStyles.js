@@ -11,6 +11,9 @@ export default makeStyles(theme => ({
   id: {
     color: theme.palette.secondary.main,
     fontSize: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.75rem",
+    },
   },
   actionWrapper: {
     height: "2rem",
@@ -29,10 +32,16 @@ export default makeStyles(theme => ({
   },
   itemContainer: {
     margin: "2rem 0 2rem 2rem",
+    [theme.breakpoints.down("md")]: {
+      margin: "2rem 0",
+    },
   },
   actionButton: {
     "&:hover": {
       backgroundColor: "transparent",
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "12px 6px",
     },
   },
 }))

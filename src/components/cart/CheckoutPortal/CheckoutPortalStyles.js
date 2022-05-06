@@ -5,6 +5,14 @@ export default makeStyles(theme => ({
     width: "40rem",
     height: "25rem",
     backgroundColor: theme.palette.primary.main,
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
+  },
+  container: {
+    [theme.breakpoints.down("md")]: {
+      marginBottom: "5rem",
+    },
   },
   "@global": {
     ".MuiInput-underline:before": {

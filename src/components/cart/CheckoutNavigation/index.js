@@ -27,6 +27,7 @@ export default function CheckoutNavigation({
   location,
   locationSlot,
   setLocation,
+  setErrors,
 }) {
   const classes = CheckoutNavigationStyles({ selectedStep, steps })
   const [loading, setLoading] = useState(null)
@@ -34,7 +35,7 @@ export default function CheckoutNavigation({
   const { user, dispatchUser } = useContext(UserContext)
 
   const handleAction = action => {
-    if (steps[selectedStep].error) {
+    if (steps[selectedStep].error && action !== "delete") {
       dispatchFeedback(
         setSnackbar({
           status: "error",
@@ -76,6 +77,7 @@ export default function CheckoutNavigation({
         )
 
         if (action === "delete") {
+          setErrors({})
           if (isDetails) {
             setDetails({ name: "", email: "", phone: "" })
           } else if (isLocation) {
@@ -106,32 +108,42 @@ export default function CheckoutNavigation({
       classes={{ root: classes.navBar }}
     >
       <Grid item classes={{ root: classes.back }}>
-        <Button onClick={() => setSelectedStep(selectedStep - 1)}>
-          <Typography variant="h5">{"<"}</Typography>
+        <Button
+          classes={{ root: classes.navButtons }}
+          onClick={() => setSelectedStep(selectedStep - 1)}
+        >
+          <Typography classes={{ root: classes.text }} variant="h5">
+            {"<"}
+          </Typography>
         </Button>
       </Grid>
       <Grid item>
-        <Typography variant="h5">
+        <Typography variant="h5" classes={{ root: classes.text }}>
           {steps[selectedStep].title.toUpperCase()}
         </Typography>
       </Grid>
       <Grid item classes={{ root: classes.forward }}>
         <Button
           disabled={steps[selectedStep].error}
-          classes={{ disabled: classes.disabled }}
+          classes={{ disabled: classes.disabled, root: classes.navButtons }}
           onClick={() => setSelectedStep(selectedStep + 1)}
         >
-          <Typography variant="h5">{">"}</Typography>
+          <Typography variant="h5" classes={{ root: classes.text }}>
+            {">"}
+          </Typography>
         </Button>
       </Grid>
-      {steps[selectedStep].hasActions ? (
+      {steps[selectedStep].hasActions && user.username !== "Guest" ? (
         <Grid item classes={{ root: classes.actions }}>
           <Grid container>
             <Grid item>
               {loading === "save" ? (
                 <CircularProgress />
               ) : (
-                <IconButton onClick={() => handleAction("save")}>
+                <IconButton
+                  classes={{ root: classes.iconButton }}
+                  onClick={() => handleAction("save")}
+                >
                   <img src={save} alt="save" className={classes.icon} />
                 </IconButton>
               )}
@@ -140,7 +152,10 @@ export default function CheckoutNavigation({
               {loading === "delete" ? (
                 <CircularProgress />
               ) : (
-                <IconButton onClick={() => handleAction("delete")}>
+                <IconButton
+                  classes={{ root: classes.iconButton }}
+                  onClick={() => handleAction("delete")}
+                >
                   <span className={classes.delete}>
                     <Delete color="#fff" />
                   </span>

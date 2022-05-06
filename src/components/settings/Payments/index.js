@@ -23,7 +23,10 @@ export default function Payments({
 }) {
   const classes = PaymentsStyles({ checkout })
 
-  const card = user.paymentMethods[slot]
+  const card =
+    user.username === "Guest"
+      ? { last4: "", brand: "" }
+      : user.paymentMethods[slot]
 
   return (
     <Grid

@@ -3,7 +3,13 @@ import React, { useContext } from "react"
 import { CartContext } from "../../../contexts"
 import { removeFromCart } from "../../../contexts/actions"
 
-import { Grid, Typography, Chip, IconButton } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  Chip,
+  IconButton,
+  useMediaQuery,
+} from "@material-ui/core"
 import { useTheme } from "@material-ui/core/styles"
 
 import QtyButton from "../../product-list/QtyButton"
@@ -16,6 +22,7 @@ import DeleteIcon from "../../../images/Delete"
 
 export default function Item({ item }) {
   const classes = ItemStyles()
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
   const theme = useTheme()
 
   const { dispatchCart } = useContext(CartContext)
@@ -30,7 +37,7 @@ export default function Item({ item }) {
     {
       icon: DeleteIcon,
       color: theme.palette.error.main,
-      size: "1.5rem",
+      size: "1.75rem",
       onClick: handleDelete,
     },
   ]
@@ -47,7 +54,7 @@ export default function Item({ item }) {
       <Grid
         item
         container
-        direction="column"
+        direction={matchesXS ? "row" : "column"}
         classes={{ root: classes.infoContainer }}
         justifyContent="space-between"
       >
@@ -76,12 +83,12 @@ export default function Item({ item }) {
           justifyContent="space-between"
           alignItems="flex-end"
         >
-          <Grid item xs>
+          <Grid item sm xs={7}>
             <Typography variant="body1" classes={{ root: classes.id }}>
               ID: {item.variant.id}
             </Typography>
           </Grid>
-          <Grid item container xs justifyContent="flex-end">
+          <Grid item container sm xs={5} justifyContent="flex-end">
             {actions.map((action, i) => (
               <Grid item key={i}>
                 <IconButton

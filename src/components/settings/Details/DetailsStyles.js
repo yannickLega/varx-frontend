@@ -55,6 +55,9 @@ export default makeStyles(theme => ({
   switchLabel: {
     color: theme.palette.common.white,
     fontWeight: 600,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1rem",
+    },
   },
   "@global": {
     ".MuiInput-underline:before": {

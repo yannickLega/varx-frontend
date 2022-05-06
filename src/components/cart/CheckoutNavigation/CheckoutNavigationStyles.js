@@ -6,6 +6,9 @@ export default makeStyles(theme => ({
     width: "40rem",
     height: "5rem",
     position: "relative",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
   },
   back: {
     visibility: ({ steps, selectedStep }) =>
@@ -23,13 +26,38 @@ export default makeStyles(theme => ({
   icon: {
     width: "2.25rem",
     height: "2.25rem",
+    [theme.breakpoints.down("xs")]: {
+      width: "1.75rem",
+      height: "1.75rem",
+    },
   },
   delete: {
-    width: "1.9rem",
-    height: "1.9rem",
+    width: "2rem",
+    height: "2rem",
+    [theme.breakpoints.down("xs")]: {
+      width: "1.5rem",
+      height: "1.5rem",
+    },
   },
   actions: {
     position: "absolute",
     right: 0,
+  },
+  iconButton: {
+    [theme.breakpoints.down("xs")]: {
+      padding: 6,
+    },
+  },
+  text: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.5rem",
+    },
+  },
+  navButtons: {
+    [theme.breakpoints.down("xs")]: {
+      width: "1.5rem",
+      height: "1.5rem",
+      minWidth: 0,
+    },
   },
 }))

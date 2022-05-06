@@ -5,11 +5,11 @@ import { Grid, Typography, Button } from "@material-ui/core"
 
 import SlotsStyles from "./SlotsStyles"
 
-export default function Slots({ slot, setSlot, checkout, noLabel }) {
-  const classes = SlotsStyles()
+export default function Slots({ slot, setSlot, checkout}) {
+  const classes = SlotsStyles({checkout})
 
   return (
-    <Grid item container xs={noLabel ? 3 : checkout ? 6 : undefined}>
+    <Grid item container xs>
       <Grid item classes={{ root: classes.slotWrappers }}>
         {[1, 2, 3].map(number => (
           <Button
