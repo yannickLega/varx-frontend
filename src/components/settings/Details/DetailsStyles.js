@@ -39,6 +39,8 @@ export default makeStyles(theme => ({
     },
   },
   detailsContainer: {
+    display: ({ selectedStep, stepNumber, checkout }) =>
+      checkout && selectedStep !== stepNumber ? "none" : "flex",
     position: "relative",
     [theme.breakpoints.down("md")]: {
       borderBottom: `4px solid ${theme.palette.common.white}`,

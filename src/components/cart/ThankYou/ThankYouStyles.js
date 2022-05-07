@@ -20,6 +20,8 @@ export default makeStyles(theme => ({
     },
   },
   container: {
+    display: ({ selectedStep, stepNumber }) =>
+    selectedStep !== stepNumber ? "none" : "flex",
     height: "100%",
     position: "relative",
   },

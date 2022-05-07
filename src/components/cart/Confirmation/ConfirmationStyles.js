@@ -75,6 +75,8 @@ export default makeStyles(theme => ({
     marginTop: "auto",
   },
   mainContainer: {
+    display: ({ selectedStep, stepNumber }) =>
+      selectedStep !== stepNumber ? "none" : "flex",
     height: "100%",
   },
   chipRoot: {

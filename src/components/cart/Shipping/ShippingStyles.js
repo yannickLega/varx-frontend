@@ -21,6 +21,8 @@ export default makeStyles(theme => ({
     },
   },
   shippingContainer: {
+    display: ({ selectedStep, stepNumber }) =>
+      selectedStep !== stepNumber ? "none" : "flex",
     height: "100%",
   },
   icon: {

@@ -2473,17 +2473,17 @@
     escape-string-regexp "^2.0.0"
     lodash.deburr "^4.1.0"
 
-"@stripe/react-stripe-js@^1.2.2":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.7.0.tgz#83c993a09a903703205d556617f9729784a896c3"
-  integrity sha512-L20v8Jq0TDZFL2+y+uXD751t6q9SalSFkSYZpmZ2VWrGZGK7HAGfRQ804dzYSSr5fGenW6iz6y7U0YKfC/TK3g==
+"@stripe/react-stripe-js@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.7.2.tgz#87cc5464378fb28bc7390702415cf70f13a46bcd"
+  integrity sha512-IAVg2nPUPoSwI//XDRCO7D8mGeK4+N3Xg63fYZHmlfEWAuFVcuaqJKTT67uzIdKYZhHZ/NMdZw/ttz+GOjP/rQ==
   dependencies:
     prop-types "^15.7.2"
 
-"@stripe/stripe-js@^1.12.1":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.24.0.tgz#d23977f364565981f8ab30b1b540e367f72abc5c"
-  integrity sha512-8CEILOpzoRhGwvgcf6y+BlPyEq1ZqxAv3gsX7LvokFYvbcyH72GRcHQMGXuZS3s7HqfYQuTSFrvZNL/qdkgA9Q==
+"@stripe/stripe-js@^1.29.0":
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.29.0.tgz#f41e46aee711d1eabcb3bbc77376016a250ec962"
+  integrity sha512-OsUxk0VLlum8E2d6onlEdKuQcvLMs7qTrOXCnl/BGV3fAm65qr6h3e1IZ5AX4lgUlPRrzRcddSOA5DvkKKYLvg==
 
 "@swc/helpers@^0.2.11":
   version "0.2.14"

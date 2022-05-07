@@ -7,8 +7,13 @@ import complete from "../../../images/order-placed.svg"
 
 import ThankYouStyles from "./ThankYouStyles"
 
-export default function ThankYou({ selectedShipping, order }) {
-  const classes = ThankYouStyles()
+export default function ThankYou({
+  selectedShipping,
+  order,
+  selectedStep,
+  stepNumber,
+}) {
+  const classes = ThankYouStyles({ selectedStep, stepNumber })
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
   const addToDate = days => {
@@ -58,7 +63,7 @@ export default function ThankYou({ selectedShipping, order }) {
         >
           <Grid item>
             <Typography variant="body2" classes={{ root: classes.order }}>
-              Order #{order.id.slice(order.id.length - 10, order.id.length)}
+              Order #{order?.id.slice(order.id.length - 10, order.id.length)}
             </Typography>
           </Grid>
           <Grid item>

@@ -34,8 +34,10 @@ export default function Details({
   billingValues,
   setBillingValues,
   noSlots,
+  selectedStep,
+  stepNumber,
 }) {
-  const classes = DetailsStyles({ checkout })
+  const classes = DetailsStyles({ checkout, selectedStep, stepNumber })
   const isMounted = useRef(false)
 
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))

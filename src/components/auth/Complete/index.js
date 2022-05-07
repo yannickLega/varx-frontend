@@ -1,4 +1,6 @@
 import React, { useEffect } from "react"
+import { Link } from "gatsby"
+
 import { setUser } from "../../../contexts/actions"
 
 import { Grid, Typography, Button } from "@material-ui/core"
@@ -38,7 +40,7 @@ export default function Complete({ user, dispatchUser }) {
       </Grid>
       <Grid item container justifyContent="flex-end">
         <Grid item classes={{ root: classes.shopContainer }}>
-          <Button>
+          <Button component={Link} to="/hats">
             <Typography variant="h3" classes={{ root: classes.text }}>
               Shop
             </Typography>

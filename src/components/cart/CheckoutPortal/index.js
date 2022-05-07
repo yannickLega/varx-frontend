@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react"
 
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
+
 import validate from "../../ui/validate"
 
 import CheckoutNavigation from "../CheckoutNavigation"
@@ -14,6 +17,8 @@ import ThankYou from "../ThankYou"
 import { Grid, useMediaQuery } from "@material-ui/core"
 
 import CheckoutPortalStyles from "./CheckoutPortalStyles"
+
+const stripePromise = loadStripe(process.env.GATSBY_STRIPE_PK)
 
 export default function CheckoutPortal({ user }) {
   const classes = CheckoutPortalStyles()
@@ -47,6 +52,7 @@ export default function CheckoutPortal({ user }) {
   const [locationSlot, setLocationSlot] = useState(0)
   const [locationBillingSwitch, setLocationBillingSwitch] = useState(false)
   const [billingSlot, setBillingSlot] = useState(0)
+  const [cardError, setCardError] = useState(true)
   const [saveCard, setSaveCard] = useState(false)
 
   const [errors, setErrors] = useState({})
@@ -100,6 +106,7 @@ export default function CheckoutPortal({ user }) {
           setBillingValues={setBillingDetails}
           errors={errors}
           setErrors={setErrors}
+          selectedStep={selectedStep}
           checkout
         />
       ),
@@ -119,6 +126,7 @@ export default function CheckoutPortal({ user }) {
           setValues={setBillingDetails}
           errors={errors}
           setErrors={setErrors}
+          selectedStep={selectedStep}
           checkout
           noSlots
         />
@@ -140,6 +148,7 @@ export default function CheckoutPortal({ user }) {
           setBillingValues={setBillingLocation}
           errors={errors}
           setErrors={setErrors}
+          selectedStep={selectedStep}
           checkout
         />
       ),
@@ -159,6 +168,7 @@ export default function CheckoutPortal({ user }) {
           setValues={setBillingLocation}
           errors={errors}
           setErrors={setErrors}
+          selectedStep={selectedStep}
           checkout
           noSlots
         />
@@ -172,6 +182,7 @@ export default function CheckoutPortal({ user }) {
           shippingOptions={shippingOptions}
           selectedShipping={selectedShipping}
           setSelectedShipping={setSelectedShipping}
+          selectedStep={selectedStep}
         />
       ),
       error: selectedShipping === null,
@@ -185,16 +196,19 @@ export default function CheckoutPortal({ user }) {
           setSlot={setBillingSlot}
           saveCard={saveCard}
           setSaveCard={setSaveCard}
+          setCardError={setCardError}
+          selectedStep={selectedStep}
           checkout
         />
       ),
-      error: false,
+      error: cardError,
     },
     {
       title: "Confirmation",
       component: (
         <Confirmation
           user={user}
+          order={order}
           setOrder={setOrder}
           detailValues={detailValues}
           billingDetails={billingDetails}
@@ -211,7 +225,13 @@ export default function CheckoutPortal({ user }) {
     },
     {
       title: `Thanks, ${user.username.split(" ")[0]}!`,
-      component: <ThankYou selectedShipping={selectedShipping} order={order} />,
+      component: (
+        <ThankYou
+          selectedShipping={selectedShipping}
+          order={order}
+          selectedStep={selectedStep}
+        />
+      ),
     },
   ]
 
@@ -255,7 +275,14 @@ export default function CheckoutPortal({ user }) {
         alignItems="center"
         classes={{ root: classes.stepContainer }}
       >
-        {steps[selectedStep].component}
+        <Elements stripe={stripePromise}>
+          {steps.map((step, i) =>
+            React.cloneElement(step.component, {
+              stepNumber: i,
+              key: i,
+            })
+          )}
+        </Elements>
       </Grid>
       {steps[selectedStep].title === "Confirmation" && (
         <BillingConfirmation

@@ -11,8 +11,10 @@ export default function Shipping({
   shippingOptions,
   selectedShipping,
   setSelectedShipping,
+  selectedStep,
+  stepNumber,
 }) {
-  const classes = ShippingStyles()
+  const classes = ShippingStyles({ selectedStep, stepNumber })
 
   return (
     <Grid
@@ -43,7 +45,8 @@ export default function Shipping({
                     variant="h5"
                     classes={{
                       root: clsx(classes.label, {
-                        [classes.selectedText]: selectedShipping === option.label,
+                        [classes.selectedText]:
+                          selectedShipping === option.label,
                       }),
                     }}
                   >
@@ -55,7 +58,8 @@ export default function Shipping({
                     variant="body1"
                     classes={{
                       root: clsx(classes.price, {
-                        [classes.selectedText]: selectedShipping === option.label,
+                        [classes.selectedText]:
+                          selectedShipping === option.label,
                       }),
                     }}
                   >{`$${option.price.toFixed(2)}`}</Typography>

@@ -36,8 +36,10 @@ export default function Location({
   billingValues,
   setBillingValues,
   noSlots,
+  selectedStep,
+  stepNumber,
 }) {
-  const classes = LocationStyles({ checkout })
+  const classes = LocationStyles({ checkout, selectedStep, stepNumber })
   const isMounted = useRef(false)
 
   const [loading, setLoading] = useState(false)

@@ -27,6 +27,8 @@ export default makeStyles(theme => ({
     },
   },
   paymentsContainer: {
+    display: ({ selectedStep, stepNumber, checkout }) =>
+      checkout && selectedStep !== stepNumber ? "none" : "flex",
     position: "relative",
     borderLeft: ({ checkout }) =>
       checkout ? 0 : `4px solid ${theme.palette.common.white}`,
@@ -45,5 +47,11 @@ export default makeStyles(theme => ({
   switchLabel: {
     color: theme.palette.common.white,
     fontWeight: 600,
+  },
+  form: {
+    width: "75%",
+    borderBottom: "2px solid #fff",
+    height: "2rem",
+    marginTop: "-1rem",
   },
 }))

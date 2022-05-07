@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
+
 import {
   Grid,
   Typography,
@@ -20,13 +22,54 @@ export default function Payments({
   checkout,
   saveCard,
   setSaveCard,
+  setCardError,
+  selectedStep,
+  stepNumber,
 }) {
-  const classes = PaymentsStyles({ checkout })
+  const classes = PaymentsStyles({ checkout, selectedStep, stepNumber })
+
+  const stripe = useStripe()
+  const elements = useElements()
 
   const card =
     user.username === "Guest"
       ? { last4: "", brand: "" }
       : user.paymentMethods[slot]
+
+  const handleSubmit = async event => {
+    event.preventDefault()
+
+    if (!stripe || !elements) return
+  }
+
+  const handleCardChange = async event => {
+    if (event.complete) {
+      setCardError(false)
+    } else {
+      setCardError(true)
+    }
+  }
+
+  const cardWrapper = (
+    <form onSubmit={handleSubmit} className={classes.form}>
+      <CardElement
+        options={{
+          style: {
+            base: {
+              fontSize: "20px",
+              fontFamily: "Montserrat",
+              color: "#fff",
+              iconColor: "#fff",
+              "::placeholder": {
+                color: "#fff",
+              },
+            },
+          },
+        }}
+        onChange={handleCardChange}
+      />
+    </form>
+  )
 
   return (
     <Grid
@@ -43,6 +86,7 @@ export default function Payments({
         <img src={cardIcon} alt="payment settings" className={classes.icon} />
       </Grid>
       <Grid item container justifyContent="center">
+        {checkout && !card.last4 ? cardWrapper : null}
         <Grid item>
           <Typography
             align="center"
@@ -51,6 +95,8 @@ export default function Payments({
           >
             {card.last4
               ? `${card[0].brand.toUpperCase()} **** **** ${card[0].last4}`
+              : checkout
+              ? null
               : "Add a new card during checkout"}
           </Typography>
         </Grid>
