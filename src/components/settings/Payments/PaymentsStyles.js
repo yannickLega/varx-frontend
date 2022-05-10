@@ -54,4 +54,7 @@ export default makeStyles(theme => ({
     height: "2rem",
     marginTop: "-1rem",
   },
+  spinner: {
+    marginLeft: "3rem",
+  },
 }))

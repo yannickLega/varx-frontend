@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from "react"
 import clsx from "clsx"
 
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
+
 import { UserContext } from "../../../contexts"
 
 import Details from "../Details"
@@ -11,6 +14,8 @@ import Edit from "../Edit"
 import { Grid } from "@material-ui/core"
 
 import SettingsStyles from "./SettingsStyles"
+
+const stripePromise = loadStripe(process.env.GATSBY_STRIPE_PK)
 
 export default function Settings({ setSelectedSetting }) {
   const classes = SettingsStyles()
@@ -63,12 +68,14 @@ export default function Settings({ setSelectedSetting }) {
           errors={detailErrors}
           setErrors={setDetailErrors}
         />
-        <Payments
-          user={user}
-          edit={edit}
-          slot={billingSlot}
-          setSlot={setBillingSlot}
-        />
+        <Elements stripe={stripePromise}>
+          <Payments
+            user={user}
+            edit={edit}
+            slot={billingSlot}
+            setSlot={setBillingSlot}
+          />
+        </Elements>
       </Grid>
       <Grid
         container

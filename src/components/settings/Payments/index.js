@@ -1,4 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import axios from "axios"
+import clsx from "clsx"
+
+import { UserContext, FeedbackContext } from "../../../contexts"
+import { setSnackbar, setUser } from "../../../contexts/actions"
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 
@@ -8,6 +13,7 @@ import {
   Button,
   FormControlLabel,
   Switch,
+  CircularProgress,
 } from "@material-ui/core"
 
 import PaymentsStyles from "./PaymentsStyles"
@@ -25,16 +31,58 @@ export default function Payments({
   setCardError,
   selectedStep,
   stepNumber,
+  setCard,
 }) {
   const classes = PaymentsStyles({ checkout, selectedStep, stepNumber })
 
   const stripe = useStripe()
   const elements = useElements()
 
+  const [loading, setLoading] = useState(false)
+
+  const { dispatchUser } = useContext(UserContext)
+  const { dispatchFeedback } = useContext(FeedbackContext)
+
   const card =
     user.username === "Guest"
       ? { last4: "", brand: "" }
       : user.paymentMethods[slot]
+
+  const removeCard = () => {
+    setLoading(true)
+
+    axios
+      .post(
+        process.env.GATSBY_STRAPI_URL + "/orders/removeCard",
+        {
+          card: card.last4,
+        },
+        {
+          headers: { Authorization: `Bearer ${user.jwt}` },
+        }
+      )
+      .then(response => {
+        setLoading(false)
+
+        dispatchUser(
+          setUser({ ...response.data.user, jwt: user.jwt, onboarding: true })
+        )
+        setCardError(true)
+        setCard({ brand: "", last4: "" })
+      })
+      .catch(error => {
+        setLoading(false)
+        console.error(error)
+
+        dispatchFeedback(
+          setSnackbar({
+            status: "error",
+            message:
+              "There was a problem removing your card. Please try again.",
+          })
+        )
+      })
+  }
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -44,6 +92,16 @@ export default function Payments({
 
   const handleCardChange = async event => {
     if (event.complete) {
+      const cardElement = elements.getElement(CardElement)
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+      })
+
+      setCard({
+        brand: paymentMethod.card.brand,
+        last4: paymentMethod.card.last4,
+      })
       setCardError(false)
     } else {
       setCardError(true)
@@ -71,6 +129,18 @@ export default function Payments({
     </form>
   )
 
+  useEffect(() => {
+    if (!checkout || !user.jwt) return
+
+    if (user.paymentMethods[slot].last4 !== "") {
+      setCard(user.paymentMethods[slot])
+      setCardError(false)
+    } else {
+      setCard({ brand: "", last4: "" })
+      setCardError(true)
+    }
+  }, [slot])
+
   return (
     <Grid
       item
@@ -94,22 +164,37 @@ export default function Payments({
             classes={{ root: classes.number }}
           >
             {card.last4
-              ? `${card[0].brand.toUpperCase()} **** **** ${card[0].last4}`
+              ? `${card.brand.toUpperCase()} **** **** ${card.last4}`
               : checkout
               ? null
               : "Add a new card during checkout"}
           </Typography>
         </Grid>
         {card.last4 && (
-          <Grid item>
-            <Button variant="contained" classes={{ root: classes.removeCard }}>
-              <Typography
-                variant="h6"
-                classes={{ root: classes.removeCardText }}
+          <Grid
+            item
+            classes={{
+              root: clsx({
+                [classes.spinner]: loading,
+              }),
+            }}
+          >
+            {loading ? (
+              <CircularProgress color="secondary" />
+            ) : (
+              <Button
+                onClick={removeCard}
+                variant="contained"
+                classes={{ root: classes.removeCard }}
               >
-                Remove Card
-              </Typography>
-            </Button>
+                <Typography
+                  variant="h6"
+                  classes={{ root: classes.removeCardText }}
+                >
+                  Remove Card
+                </Typography>
+              </Button>
+            )}
           </Grid>
         )}
       </Grid>
@@ -120,7 +205,7 @@ export default function Payments({
         classes={{ root: classes.slotsContainer }}
       >
         <Slots slot={slot} setSlot={setSlot} noLabel />
-        {checkout && (
+        {checkout && user.username !== "Guest" && (
           <Grid item>
             <FormControlLabel
               classes={{
@@ -131,7 +216,10 @@ export default function Payments({
               labelPlacement="start"
               control={
                 <Switch
-                  checked={saveCard}
+                  disabled={user.paymentMethods[slot].last4 !== ""}
+                  checked={
+                    user.paymentMethods[slot].last4 !== "" ? true : saveCard
+                  }
                   onChange={() => setSaveCard(!saveCard)}
                   color={"secondary"}
                 />

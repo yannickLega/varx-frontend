@@ -4,8 +4,8 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import clsx from "clsx"
 import { v4 as uuidv4 } from "uuid"
 
-import { CartContext, FeedbackContext } from "../../../contexts"
-import { setSnackbar, clearCart } from "../../../contexts/actions"
+import { CartContext, FeedbackContext, UserContext } from "../../../contexts"
+import { setSnackbar, clearCart, setUser } from "../../../contexts/actions"
 
 import Fields from "../../auth/Fields"
 
@@ -44,6 +44,9 @@ export default function Confirmation({
   order,
   setOrder,
   stepNumber,
+  saveCard,
+  card,
+  cardSlot,
 }) {
   const classes = ConfirmationStyles({ selectedStep, stepNumber })
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
@@ -55,6 +58,7 @@ export default function Confirmation({
 
   const [loading, setLoading] = useState(false)
   const { cart, dispatchCart } = useContext(CartContext)
+  const { dispatchUser } = useContext(UserContext)
   const { dispatchFeedback } = useContext(FeedbackContext)
 
   const [promo, setPromo] = useState({ promo: "" })
@@ -108,7 +112,7 @@ export default function Confirmation({
       adornment: <img src={zipAdornment} alt="city, state, zip code" />,
     },
     {
-      value: "**** **** **** 1234",
+      value: `${card.brand.toUpperCase()} ${card.last4}`,
       adornment: (
         <img src={cardAdornment} alt="credit card" className={classes.card} />
       ),
@@ -158,6 +162,8 @@ export default function Confirmation({
   const handleOrder = async () => {
     setLoading(true)
 
+    const savedCard = user.jwt && user.paymentMethods[cardSlot].last4 !== ""
+
     const idempotencyKey = uuidv4()
 
     const cardElement = elements.getElement(CardElement)
@@ -165,19 +171,22 @@ export default function Confirmation({
     const result = await stripe.confirmCardPayment(
       clientSecret,
       {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            address: {
-              city: billingLocation.city,
-              state: billingLocation.state,
-              line1: billingLocation.street,
+        payment_method: savedCard
+          ? undefined
+          : {
+              card: cardElement,
+              billing_details: {
+                address: {
+                  city: billingLocation.city,
+                  state: billingLocation.state,
+                  line1: billingLocation.street,
+                },
+                email: billingDetails.email,
+                name: billingDetails.name,
+                phone: billingDetails.phone,
+              },
             },
-            email: billingDetails.email,
-            name: billingDetails.name,
-            phone: billingDetails.phone,
-          },
-        },
+        setup_future_usage: saveCard ? "off_session" : undefined,
       },
       {
         idempotencyKey,
@@ -205,6 +214,9 @@ export default function Confirmation({
             total: total.toFixed(2),
             items: cart,
             transaction: result.paymentIntent.id,
+            paymentMethod: card,
+            saveCard,
+            cardSlot,
           },
           {
             headers:
@@ -214,6 +226,12 @@ export default function Confirmation({
           }
         )
         .then(response => {
+          if (saveCard) {
+            let newUser = { ...user }
+            newUser.paymentMethods[cardSlot] = card
+            dispatchUser(setUser(newUser))
+          }
+
           setLoading(false)
           dispatchCart(clearCart())
 
@@ -260,6 +278,10 @@ export default function Confirmation({
             idempotencyKey,
             storedIntent,
             email: detailValues.email,
+            savedCard:
+              user.jwt && user.paymentMethods[cardSlot].last4 !== ""
+                ? card.last4
+                : undefined,
           },
           {
             headers: user.jwt

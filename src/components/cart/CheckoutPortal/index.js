@@ -51,13 +51,16 @@ export default function CheckoutPortal({ user }) {
   })
   const [locationSlot, setLocationSlot] = useState(0)
   const [locationBillingSwitch, setLocationBillingSwitch] = useState(false)
-  const [billingSlot, setBillingSlot] = useState(0)
+
+  const [cardSlot, setCardSlot] = useState(0)
   const [cardError, setCardError] = useState(true)
   const [saveCard, setSaveCard] = useState(false)
+  const [card, setCard] = useState({ brand: "", last4: "" })
 
   const [errors, setErrors] = useState({})
 
   const [order, setOrder] = useState(null)
+
   const [selectedShipping, setSelectedShipping] = useState(null)
   const shippingOptions = [
     { label: "FREE SHIPPING", price: 0 },
@@ -192,8 +195,9 @@ export default function CheckoutPortal({ user }) {
       component: (
         <Payments
           user={user}
-          slot={billingSlot}
-          setSlot={setBillingSlot}
+          slot={cardSlot}
+          setSlot={setCardSlot}
+          setCard={setCard}
           saveCard={saveCard}
           setSaveCard={setSaveCard}
           setCardError={setCardError}
@@ -210,6 +214,9 @@ export default function CheckoutPortal({ user }) {
           user={user}
           order={order}
           setOrder={setOrder}
+          card={card}
+          cardSlot={cardSlot}
+          saveCard={saveCard}
           detailValues={detailValues}
           billingDetails={billingDetails}
           detailBillingSwitch={detailBillingSwitch}
