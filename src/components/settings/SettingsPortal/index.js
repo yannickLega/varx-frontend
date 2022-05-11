@@ -4,6 +4,7 @@ import useResizeAware from "react-resize-aware"
 import clsx from "clsx"
 
 import Settings from "../Settings"
+import OrderHistory from "../OrderHistory"
 
 import { UserContext } from "../../../contexts"
 import { setUser } from "../../../contexts/actions"
@@ -30,7 +31,9 @@ export default function SettingsPortal() {
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
   const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
-  const buttonWidth = matchesXS ? `${sizes.width - 64}px` : matchesMD
+  const buttonWidth = matchesXS
+    ? `${sizes.width - 64}px`
+    : matchesMD
     ? `${sizes.width - 160}px`
     : matchesLG
     ? "288px"
@@ -39,7 +42,7 @@ export default function SettingsPortal() {
 
   const buttons = [
     { label: "Settings", icon: settingsIcon, component: Settings },
-    { label: "Order History", icon: orderHistoryIcon },
+    { label: "Order History", icon: orderHistoryIcon, component: OrderHistory },
     { label: "Favorites", icon: favoritesIcon },
     { label: "Subscriptions", icon: subscriptionIcon },
   ]
@@ -65,7 +68,12 @@ export default function SettingsPortal() {
         }
 
         const size = {
-          height: selectedSetting === button.label ? matchesMD ? "140rem" : "60rem" : buttonHeight,
+          height:
+            selectedSetting === button.label
+              ? matchesMD
+                ? "140rem"
+                : "60rem"
+              : buttonHeight,
           width:
             selectedSetting === button.label ? `${sizes.width}px` : buttonWidth,
           borderRadius: selectedSetting === button.label ? 0 : 25,

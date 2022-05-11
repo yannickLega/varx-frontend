@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Switch,
   CircularProgress,
+  useMediaQuery,
 } from "@material-ui/core"
 
 import PaymentsStyles from "./PaymentsStyles"
@@ -34,6 +35,7 @@ export default function Payments({
   setCard,
 }) {
   const classes = PaymentsStyles({ checkout, selectedStep, stepNumber })
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
   const stripe = useStripe()
   const elements = useElements()
@@ -155,7 +157,14 @@ export default function Payments({
       <Grid item>
         <img src={cardIcon} alt="payment settings" className={classes.icon} />
       </Grid>
-      <Grid item container justifyContent="center">
+      <Grid
+        item
+        container
+        justifyContent="center"
+        classes={{
+          root: clsx({ [classes.numberWrapper]: checkout && matchesXS }),
+        }}
+      >
         {checkout && !card.last4 ? cardWrapper : null}
         <Grid item>
           <Typography
@@ -206,7 +215,10 @@ export default function Payments({
       >
         <Slots slot={slot} setSlot={setSlot} noLabel />
         {checkout && user.username !== "Guest" && (
-          <Grid item>
+          <Grid
+            item
+            classes={{ root: clsx({ [classes.switchItem]: matchesXS }) }}
+          >
             <FormControlLabel
               classes={{
                 root: classes.switchWrapper,

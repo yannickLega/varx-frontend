@@ -24,7 +24,11 @@ export default function Cart() {
         classe={{ root: classes.cartContainer }}
       >
         <Grid item classes={{ root: classes.titleContainer }}>
-          <Typography variant="h1" align="center">
+          <Typography
+            variant="h1"
+            align="center"
+            classes={{ root: classes.name }}
+          >
             {user.username}'s Cart
           </Typography>
         </Grid>
