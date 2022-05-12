@@ -42,6 +42,7 @@ export default makeStyles(theme => ({
   },
   button: {
     backgroundColor: theme.palette.primary.main,
+    display: "flex",
   },
   addHover: {
     "&:hover": {

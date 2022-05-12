@@ -61,5 +61,8 @@ export default makeStyles(theme => ({
     ".MuiDataGrid-root": {
       border: "none",
     },
+    ".MuiDataGrid-root .MuiDataGrid-overlay": {
+      bottom: "8rem",
+    },
   },
 }))

@@ -5,7 +5,7 @@ import { UserContext } from "../../../contexts"
 
 import OrderDetails from "../OrderDetails"
 
-import { Grid, Chip, IconButton, Icon } from "@material-ui/core"
+import { Grid, Chip, IconButton } from "@material-ui/core"
 import { DataGrid } from "@material-ui/data-grid"
 
 import BackwardsIcon from "../../../images/BackwardsOutline"
@@ -47,28 +47,28 @@ export default function OrderHistory({ setSelectedSetting }) {
     }))
 
   const columns = [
-    { field: "shipping", headerName: "Shipping", flex: 1, sortable: false },
-    { field: "order", headerName: "Order", flex: 1 },
+    { field: "shipping", headerName: "Shipping", width: 350, sortable: false },
+    { field: "order", headerName: "Order", width: 250 },
     {
       field: "status",
       headerName: "Status",
-      flex: 1,
+      width: 250,
       renderCell: ({ value }) => (
         <Chip label={value} classes={{ label: classes.chipLabel }} />
       ),
     },
-    { field: "date", headerName: "Date", flex: 1, type: "date" },
+    { field: "date", headerName: "Date", width: 250, type: "date" },
     {
       field: "total",
       headerName: "Total",
-      flex: 1,
+      width: 250,
       renderCell: ({ value }) => (
         <Chip label={`$${value}`} classes={{ label: classes.chipLabel }} />
       ),
     },
     {
       field: "",
-      flex: 1.5,
+      width: 350,
       sortable: false,
       renderCell: () => (
         <IconButton>
@@ -96,7 +96,7 @@ export default function OrderHistory({ setSelectedSetting }) {
         columns={columns}
         pageSize={5}
       />
-      <OrderDetails open={open} setOpen={setOpen} />
+      <OrderDetails open={open} setOpen={setOpen} orders={orders} />
     </Grid>
   )
 }
