@@ -17,6 +17,7 @@ export default function Fields({
   fullWidth,
   settings,
   xs,
+  noError,
 }) {
   const classes = FieldsStyles({ isWhite, fullWidth, settings, xs })
 
@@ -34,20 +35,24 @@ export default function Fields({
           onChange={e => {
             const valid = validateHelper(e)
 
-            if (errors[field] || valid[field] === true) {
+            if (!noError && (errors[field] || valid[field] === true)) {
               setErrors({ ...errors, [field]: !valid[field] })
             }
             setValues({ ...values, [field]: e.target.value })
           }}
           // sur le focus gere les erreurs avec la function validate
           onBlur={e => {
+            if (noError) return
+
             const valid = validateHelper(e)
             setErrors({ ...errors, [field]: !valid[field] })
           }}
           //applique le style error sur le field
-          error={errors[field]}
+          error={noError ? false : errors[field]}
           helperText={
-            errors[field]
+            noError
+              ? ""
+              : errors[field]
               ? fields[field].helperErrorText
               : fields[field].helperText
           }
@@ -55,11 +60,11 @@ export default function Fields({
           placeholder={fields[field].placeholder}
           type={fields[field].type}
           InputProps={{
-            startAdornment: (
+            startAdornment: fields[field].startAdornment ? (
               <InputAdornment position="start">
                 {fields[field].startAdornment}
               </InputAdornment>
-            ),
+            ) : undefined,
             endAdornment: fields[field].endAdornment ? (
               <InputAdornment position="end">
                 {fields[field].endAdornment}

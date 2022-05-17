@@ -6,6 +6,7 @@ import Layout from "../../components/ui/Layout"
 import ProductImages from "../../components/product-detail/ProductImages"
 import ProductInfo from "../../components/product-detail/ProductInfo"
 import RecentlyViewed from "../../components/product-detail/RecentlyViewed"
+import ProductReviews from "../../components/product-detail/ProductReviews"
 
 import { Grid, useMediaQuery } from "@material-ui/core"
 
@@ -23,7 +24,7 @@ export default function ProductDetails({
 
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
-/* This is a helper function that allows us to access the query parameters in the URL. */
+  /* This is a helper function that allows us to access the query parameters in the URL. */
   const params = new URLSearchParams(window.location.search)
   const style = params.get("style")
 
@@ -31,7 +32,7 @@ export default function ProductDetails({
     variables: { id },
   })
 
-/* This is a React Hook that is used to set the stock state. */
+  /* This is a React Hook that is used to set the stock state. */
   useEffect(() => {
     if (error) {
       setStock(-1)
@@ -99,6 +100,7 @@ export default function ProductDetails({
         <RecentlyViewed
           products={JSON.parse(window.localStorage.getItem("recentlyViewed"))}
         />
+        <ProductReviews />
       </Grid>
     </Layout>
   )
