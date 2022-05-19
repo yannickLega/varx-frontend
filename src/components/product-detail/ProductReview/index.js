@@ -1,18 +1,21 @@
 import React, { useContext, useState, useRef } from "react"
+import axios from "axios"
 import clsx from "clsx"
 
 import Rating from "../../ui/Rating"
 import Fields from "../../auth/Fields"
 
-import { UserContext } from "../../../contexts"
+import { UserContext, FeedbackContext } from "../../../contexts"
+import { setSnackbar } from "../../../contexts/actions"
 
-import { Grid, Typography, Button } from "@material-ui/core"
+import { Grid, Typography, Button, CircularProgress } from "@material-ui/core"
 
 import ProductReviewStyles from "./ProductReviewStyles"
 
-export default function ProductReview() {
+export default function ProductReview({ product }) {
   const classes = ProductReviewStyles()
   const { user } = useContext(UserContext)
+  const { dispatchFeedback } = useContext(FeedbackContext)
 
   const ratingRef = useRef(null)
   const [tempRating, setTempRating] = useState(0)
@@ -20,12 +23,53 @@ export default function ProductReview() {
 
   const [values, setValues] = useState({ message: "" })
 
+  const [loading, setLoading] = useState(null)
+
   const fields = {
     message: {
       helperText: "",
       helperErrorText: "",
       placeholder: "Write your Review",
     },
+  }
+
+  const handleReview = () => {
+    setLoading("leave-review")
+
+    axios
+      .post(
+        process.env.GATSBY_STRAPI_URL + "/reviews",
+        {
+          text: values.message,
+          product,
+          rating,
+        },
+        {
+          headers: { Authorization: `Bearer ${user.jwt}` },
+        }
+      )
+      .then(response => {
+        setLoading(null)
+
+        dispatchFeedback(
+          setSnackbar({
+            status: "success",
+            message: "Product Reviewed Successfully",
+          })
+        )
+      })
+      .catch(error => {
+        setLoading(null)
+        console.error(error)
+
+        dispatchFeedback(
+          setSnackbar({
+            status: "error",
+            message:
+              "There was a problem leaving your review, please try again",
+          })
+        )
+      })
   }
 
   return (
@@ -80,9 +124,18 @@ export default function ProductReview() {
       </Grid>
       <Grid item container classes={{ root: classes.buttonContainer }}>
         <Grid item>
-          <Button variant="contained" color="primary">
-            <span className={classes.reviewButtonText}>Leave Review</span>
-          </Button>
+          {loading === "leave-review" ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              onClick={handleReview}
+              disabled={!rating}
+              variant="contained"
+              color="primary"
+            >
+              <span className={classes.reviewButtonText}>Leave Review</span>
+            </Button>
+          )}
         </Grid>
         <Grid item>
           <Button>
