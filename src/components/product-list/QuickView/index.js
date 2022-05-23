@@ -42,6 +42,7 @@ export default function QuickView({
   hasStyles,
   stock,
   imageIndex,
+  rating,
 }) {
   const classes = QuickViewStyles()
 
@@ -94,7 +95,7 @@ it will return the index of the variant. If it is not, it will return the imageI
               >
                 <Grid item>
                   <Typography variant="h4">{name}</Typography>
-                  <Rating number={4} />
+                  <Rating number={rating} />
                 </Grid>
                 <Grid item>
                   <Typography variant="h3" classes={{ root: classes.stock }}>

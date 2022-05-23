@@ -34,6 +34,7 @@ export default function ListOfProducts({
     const [selectedColor, setSelectedColor] = useState(null)
     const [selectedVariant, setSelectedVariant] = useState(null)
     const [stock, setStock] = useState(null)
+    const [rating, setRating] = useState(0)
 
     /* This is a query to get the stock of the product. */
     const { loading, error, data } = useQuery(GET_DETAILS, {
@@ -46,6 +47,7 @@ export default function ListOfProducts({
         setStock(-1)
       } else if (data) {
         setStock(data.product.variants)
+        setRating(data.product.rating)
       }
     }, [error, data])
 
@@ -100,6 +102,7 @@ export default function ListOfProducts({
         product={product}
         hasStyles={hasStyles}
         stock={stock}
+        rating={rating}
       />
     )
   }

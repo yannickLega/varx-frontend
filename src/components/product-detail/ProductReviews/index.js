@@ -8,7 +8,8 @@ import { UserContext } from "../../../contexts"
 import ProductReview from "../ProductReview"
 
 import { Grid } from "@material-ui/core"
-import { Pagination, PaginationItem } from "@material-ui/lab"
+
+import { StyledPagination } from "../../../templates/ProductList"
 
 import ProductReviewsStyles from "./ProductReviewsStyles"
 
@@ -63,7 +64,7 @@ export default function ProductReviews({ product, edit, setEdit }) {
         ))}
       <Grid item container justifyContent="flex-end">
         <Grid item>
-          <Pagination
+          <StyledPagination
             classes={{ root: classes.pagination }}
             count={numPages}
             page={page}

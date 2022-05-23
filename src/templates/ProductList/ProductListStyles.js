@@ -20,13 +20,4 @@ export default makeStyles(theme => ({
       marginTop: "1rem",
     },
   },
-  "@global": {
-    ".MuiPaginationItem-root": {
-      fontFamily: "Montserrat",
-      color: theme.palette.primary.main,
-      "&.Mui-selected": {
-        color: theme.palette.common.white,
-      },
-    },
-  },
 }))

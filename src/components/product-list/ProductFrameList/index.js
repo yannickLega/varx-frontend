@@ -29,6 +29,7 @@ export default function ProductFrameList({
   setSelectedColor,
   hasStyles,
   stock,
+  rating
 }) {
   const classes = ProductFrameListStyles()
   /* This function returns the index of the variant that has the selected color.
@@ -110,7 +111,7 @@ If the selected color is not in the variant, it returns -1. */
             </Typography>
           </Grid>
           <Grid item>
-            <Rating number={3} />
+            <Rating number={rating} />
           </Grid>
           <Grid item>
             <Chip

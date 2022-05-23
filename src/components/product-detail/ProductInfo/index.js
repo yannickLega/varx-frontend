@@ -57,6 +57,7 @@ export default function ProductInfo({
   setSelectedVariant,
   stock,
   setEdit,
+  rating,
 }) {
   const classes = ProductInfoStyles()
   const { user } = useContext(UserContext)
@@ -187,7 +188,7 @@ the selected color and sets the selectedVariant to the index of that variant. */
                   {name.split(" ")[0]}
                 </Typography>
                 <Grid item>
-                  <Rating number={4} />
+                  <Rating number={rating} />
                 </Grid>
                 <Grid item>
                   <Button onClick={handleEdit}>

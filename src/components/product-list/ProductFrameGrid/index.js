@@ -44,6 +44,7 @@ export default function ProductFrameGrid({
   disableQuickView,
   small,
   stock,
+  rating,
 }) {
   const classes = ProductFrameGridStyles({ small })
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
@@ -123,6 +124,7 @@ the first image. If the variant has no images, it will use the first image of th
         hasStyles={hasStyles}
         stock={stock}
         imageIndex={imageIndex}
+        rating={rating}
       />
     </Grid>
   )

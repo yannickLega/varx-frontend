@@ -7,13 +7,4 @@ export default makeStyles(theme => ({
   pagination: {
     marginBottom: "3rem",
   },
-  "@global": {
-    ".MuiPaginationItem-root": {
-      fontFamily: "Montserrat",
-      color: theme.palette.primary.main,
-      "&.Mui-selected": {
-        color: theme.palette.common.white,
-      },
-    },
-  },
 }))

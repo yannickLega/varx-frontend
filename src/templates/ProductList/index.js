@@ -9,11 +9,29 @@ import {
 
 import { Grid, Fab } from "@material-ui/core"
 import { Pagination, PaginationItem } from "@material-ui/lab"
+import { styled } from "@material-ui/core/styles"
 
 import Layout from "../../components/ui/Layout"
 import DynamicToolbar from "../../components/product-list/DynamicToolbar"
 import ListOfProducts from "../../components/product-list/ListOfProducts"
 import ProductListStyles from "./ProductListStyles"
+
+export const StyledPagination = props => {
+  const StyledPaginationItem = styled(PaginationItem)(({ theme }) => ({
+    fontFamily: "Montserrat",
+    color: theme.palette.primary.main,
+    "&.Mui-selected": {
+      color: theme.palette.common.white,
+    },
+  }))
+
+  return (
+    <Pagination
+      {...props}
+      renderItem={item => <StyledPaginationItem {...item} />}
+    />
+  )
+}
 
 /**
  * This function renders the product list page
@@ -187,7 +205,7 @@ pushing the item to the filteredProducts array. */
           content={content}
           filterOptions={filterOptions}
         />
-        <Pagination
+        <StyledPagination
           count={numPages}
           page={page}
           onChange={(e, newPage) => setPage(newPage)}
