@@ -5,23 +5,36 @@ import clsx from "clsx"
 import Rating from "../../ui/Rating"
 import Fields from "../../auth/Fields"
 
-import { UserContext, FeedbackContext } from "../../../contexts"
+import { FeedbackContext } from "../../../contexts"
 import { setSnackbar } from "../../../contexts/actions"
 
 import { Grid, Typography, Button, CircularProgress } from "@material-ui/core"
 
 import ProductReviewStyles from "./ProductReviewStyles"
 
-export default function ProductReview({ product }) {
+export default function ProductReview({
+  product,
+  review,
+  setEdit,
+  reviews,
+  user,
+  setReviews,
+}) {
   const classes = ProductReviewStyles()
-  const { user } = useContext(UserContext)
+
   const { dispatchFeedback } = useContext(FeedbackContext)
+
+  const found = !review
+    ? reviews.find(review => review.user.username === user.username)
+    : null
 
   const ratingRef = useRef(null)
   const [tempRating, setTempRating] = useState(0)
-  const [rating, setRating] = useState(null)
+  const [rating, setRating] = useState(
+    review ? review.rating : found ? found.rating : null
+  )
 
-  const [values, setValues] = useState({ message: "" })
+  const [values, setValues] = useState({ message: found ? found.text : "" })
 
   const [loading, setLoading] = useState(null)
 
@@ -33,30 +46,53 @@ export default function ProductReview({ product }) {
     },
   }
 
-  const handleReview = () => {
-    setLoading("leave-review")
+  const handleReview = option => {
+    setLoading(option === "delete" ? "delete-review" : "leave-review")
 
-    axios
-      .post(
-        process.env.GATSBY_STRAPI_URL + "/reviews",
-        {
-          text: values.message,
-          product,
-          rating,
-        },
-        {
-          headers: { Authorization: `Bearer ${user.jwt}` },
-        }
-      )
+    const axiosFunction =
+      option === "delete" ? axios.delete : found ? axios.put : axios.post
+    const route =
+      found || option === "delete" ? `/reviews/${found.id}` : "/reviews"
+
+    const auth = { Authorization: `Bearer ${user.jwt}` }
+
+    axiosFunction(
+      process.env.GATSBY_STRAPI_URL + route,
+      {
+        text: values.message,
+        product,
+        rating,
+        headers: option === "delete" ? auth : undefined,
+      },
+      {
+        headers: auth,
+      }
+    )
       .then(response => {
         setLoading(null)
 
         dispatchFeedback(
           setSnackbar({
             status: "success",
-            message: "Product Reviewed Successfully",
+            message: `${
+              option === "delete" ? "Review Deleted" : "Product Reviewed"
+            } Successfully`,
           })
         )
+
+        let newReviews = [...reviews]
+        const reviewIndex = newReviews.indexOf(found)
+
+        if (option === "delete") {
+          newReviews = newReviews.filter(review => review !== found)
+        } else if (found) {
+          newReviews[reviewIndex] = response.data
+        } else {
+          newReviews = [response.data, ...newReviews]
+        }
+
+        setReviews(newReviews)
+        setEdit(false)
       })
       .catch(error => {
         setLoading(null)
@@ -65,26 +101,32 @@ export default function ProductReview({ product }) {
         dispatchFeedback(
           setSnackbar({
             status: "error",
-            message:
-              "There was a problem leaving your review, please try again",
+            message: `There was a problem ${
+              option === "delete" ? "removing" : "leaving"
+            } your review, please try again`,
           })
         )
       })
   }
 
+  const buttonDisabled = found
+    ? found.text === values.message && found.rating === rating
+    : !rating
+
   return (
-    <Grid item container direction="column">
+    <Grid item container direction="column" classes={{ root: classes.review }}>
       <Grid item container justifyContent="space-between">
         <Grid item>
           <Typography variant="h4" classes={{ root: classes.light }}>
-            {user.username}
+            {review ? review.user.username : user.username}
           </Typography>
         </Grid>
         <Grid
           item
-          classes={{ root: classes.rating }}
+          classes={{ root: clsx({ [classes.rating]: !review }) }}
           ref={ratingRef}
           onMouseMove={e => {
+            if (review) return
             const hoverRating =
               ((ratingRef.current.getBoundingClientRect().left - e.clientX) /
                 ratingRef.current.getBoundingClientRect().width) *
@@ -92,7 +134,7 @@ export default function ProductReview({ product }) {
 
             setTempRating(Math.round(hoverRating * 2) / 2)
           }}
-          onClick={() => setRating(tempRating)}
+          onClick={() => (review ? null : setRating(tempRating))}
           onMouseLeave={() => {
             if (tempRating > rating) {
               setTempRating(rating)
@@ -110,39 +152,68 @@ export default function ProductReview({ product }) {
           variant="h5"
           classes={{ root: clsx(classes.light, classes.date) }}
         >
-          {new Date().toLocaleDateString()}
+          {review
+            ? new Date(review.updatedAt).toLocaleDateString([], {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })
+            : new Date().toLocaleDateString()}
         </Typography>
       </Grid>
       <Grid item>
-        <Fields
-          values={values}
-          setValues={setValues}
-          fields={fields}
-          fullWidth
-          noError
-        />
+        {review ? (
+          <Typography variant="body1">{review.text}</Typography>
+        ) : (
+          <Fields
+            values={values}
+            setValues={setValues}
+            fields={fields}
+            fullWidth
+            noError
+          />
+        )}
       </Grid>
-      <Grid item container classes={{ root: classes.buttonContainer }}>
-        <Grid item>
-          {loading === "leave-review" ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              onClick={handleReview}
-              disabled={!rating}
-              variant="contained"
-              color="primary"
-            >
-              <span className={classes.reviewButtonText}>Leave Review</span>
+      {review ? null : (
+        <Grid item container classes={{ root: classes.buttonContainer }}>
+          <Grid item>
+            {loading === "leave-review" ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                onClick={handleReview}
+                disabled={buttonDisabled}
+                variant="contained"
+                color="primary"
+              >
+                <span className={classes.reviewButtonText}>
+                  {found ? "Edit" : "Leave"} Review
+                </span>
+              </Button>
+            )}
+          </Grid>
+          {found ? (
+            <Grid item>
+              {loading === "delete-review" ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  onClick={() => handleReview("delete")}
+                  variant="contained"
+                  classes={{ root: classes.delete }}
+                >
+                  <span className={classes.reviewButtonText}>Delete</span>
+                </Button>
+              )}
+            </Grid>
+          ) : null}
+          <Grid item>
+            <Button onClick={() => setEdit(false)}>
+              <span className={classes.cancelButtonText}>Cancel</span>
             </Button>
-          )}
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button>
-            <span className={classes.cancelButtonText}>Cancel</span>
-          </Button>
-        </Grid>
-      </Grid>
+      )}
     </Grid>
   )
 }

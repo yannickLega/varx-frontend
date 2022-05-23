@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles"
 
 export default makeStyles(theme => ({
+  review: {
+    marginBottom: "3rem",
+  },
   light: {
     color: theme.palette.primary.main,
   },
@@ -11,7 +14,7 @@ export default makeStyles(theme => ({
     cursor: "pointer",
   },
   buttonContainer: {
-    marginTop: "2rem",
+    marginTop: "1rem",
   },
   reviewButtonText: {
     color: "#fff",
@@ -22,6 +25,13 @@ export default makeStyles(theme => ({
     color: theme.palette.primary.main,
     fontFamily: "Montserrat",
     fontWeight: 600,
+  },
+  delete: {
+    backgroundColor: theme.palette.error.main,
+    marginLeft: "0.5rem",
+    "&:hover": {
+      backgroundColor: theme.palette.error.dark,
+    },
   },
   "@global": {
     ".MuiInput-underline:before, .MuiInput-underline:hover:not(.Mui-disabled):before":

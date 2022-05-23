@@ -23,7 +23,6 @@ export default makeStyles(theme => ({
   "@global": {
     ".MuiPaginationItem-root": {
       fontFamily: "Montserrat",
-
       color: theme.palette.primary.main,
       "&.Mui-selected": {
         color: theme.palette.common.white,

@@ -8,7 +8,7 @@ import {
 } from "../../components/product-list/Sort/SortFunctions"
 
 import { Grid, Fab } from "@material-ui/core"
-import { Pagination } from "@material-ui/lab"
+import { Pagination, PaginationItem } from "@material-ui/lab"
 
 import Layout from "../../components/ui/Layout"
 import DynamicToolbar from "../../components/product-list/DynamicToolbar"
@@ -32,7 +32,7 @@ export default function ProductList({
   const [layout, setLayout] = useState("grid")
   const [page, setPage] = useState(1)
   const [filterOptions, setFilterOptions] = useState(options)
-  
+
   /* This is a React Hook that sets the sortOptions state to an array of objects. Each object
 contains a label, an active property, and a function. The label is the name of the option, the
 active property is a boolean that is set to true if the option is selected, and the function is a

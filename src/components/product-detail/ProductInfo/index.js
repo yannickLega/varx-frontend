@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import clsx from "clsx"
+
+import { UserContext, FeedbackContext } from "../../../contexts"
+import { setSnackbar } from "../../../contexts/actions"
 
 import Rating from "../../ui/Rating"
 import Swatches from "../../product-list/Swatches"
@@ -53,8 +56,11 @@ export default function ProductInfo({
   selectedVariant,
   setSelectedVariant,
   stock,
+  setEdit,
 }) {
   const classes = ProductInfoStyles()
+  const { user } = useContext(UserContext)
+  const { dispatchFeedback } = useContext(FeedbackContext)
 
   const [selectedSize, setSelectedSize] = useState(
     variants[selectedVariant].size
@@ -112,6 +118,23 @@ the selected color and sets the selectedVariant to the index of that variant. */
   /* This function is returning a string that represents the stock status of the product. */
   const stockDisplay = getStockDisplay(stock, selectedVariant)
 
+  const handleEdit = () => {
+    if (user.username === "Guest") {
+      dispatchFeedback(
+        setSnackbar({
+          status: "error",
+          message: "you must be logged in to leave a review",
+        })
+      )
+      return
+    }
+
+    setEdit(true)
+
+    const reviewRef = document.getElementById("reviews")
+    reviewRef.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
     <Grid
       item
@@ -167,7 +190,7 @@ the selected color and sets the selectedVariant to the index of that variant. */
                   <Rating number={4} />
                 </Grid>
                 <Grid item>
-                  <Button>
+                  <Button onClick={handleEdit}>
                     <Typography
                       variant="body2"
                       classes={{ root: classes.reviewButton }}
